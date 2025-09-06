@@ -76,6 +76,7 @@ const ParticleCard: React.FC<{
       createParticleElement(Math.random() * width, Math.random() * height, glowColor)
     );
     particlesInitialized.current = true;
+    console.log('Particles initialized:', memoizedParticles.current.length);
   }, [particleCount, glowColor]);
 
   const clearAllParticles = useCallback(() => {
@@ -114,7 +115,9 @@ const ParticleCard: React.FC<{
         cardRef.current.appendChild(clone);
         particlesRef.current.push(clone);
 
-        gsap.fromTo(clone, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.7)' });
+        console.log('Creating particle:', index, clone);
+
+        gsap.fromTo(clone, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: 'back.out(1.7)' });
 
         gsap.to(clone, {
           x: (Math.random() - 0.5) * 80,
@@ -127,14 +130,14 @@ const ParticleCard: React.FC<{
         });
 
         gsap.to(clone, {
-          opacity: 0.6,
+          opacity: 0.8,
           scale: 1.2,
           duration: 1,
           ease: 'power2.inOut',
           repeat: -1,
           yoyo: true
         });
-      }, index * 50);
+      }, index * 30);
 
       timeoutsRef.current.push(timeoutId);
     });
@@ -147,6 +150,7 @@ const ParticleCard: React.FC<{
 
     const handleMouseEnter = () => {
       isHoveredRef.current = true;
+      console.log('Mouse entered, starting particles...');
       animateParticles();
 
       if (enableTilt) {
@@ -337,6 +341,8 @@ const MagicBento: React.FC<MagicBentoProps> = ({
     );
   }
 
+  console.log('MagicBento rendering with:', { isClient, isMobile, shouldDisableAnimations, enableStars });
+
   return (
     <>
       <style>
@@ -361,8 +367,8 @@ const MagicBento: React.FC<MagicBentoProps> = ({
             inset: 0;
             padding: 2px;
             background: radial-gradient(var(--glow-radius) circle at var(--glow-x) var(--glow-y),
-                rgba(${glowColor}, calc(var(--glow-intensity) * 0.6)) 0%,
-                rgba(${glowColor}, calc(var(--glow-intensity) * 0.3)) 30%,
+                rgba(${glowColor}, calc(var(--glow-intensity) * 0.8)) 0%,
+                rgba(${glowColor}, calc(var(--glow-intensity) * 0.4)) 30%,
                 transparent 60%);
             border-radius: inherit;
             mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -372,6 +378,7 @@ const MagicBento: React.FC<MagicBentoProps> = ({
             pointer-events: none;
             transition: opacity 0.3s ease;
             z-index: 1;
+            opacity: 0;
           }
           
           .magic-bento-card--border-glow:hover::after {
@@ -379,7 +386,7 @@ const MagicBento: React.FC<MagicBentoProps> = ({
           }
           
           .magic-bento-card--border-glow:hover {
-            box-shadow: 0 8px 30px rgba(100, 143, 224, 0.2), 0 0 40px rgba(${glowColor}, 0.15);
+            box-shadow: 0 8px 30px rgba(100, 143, 224, 0.3), 0 0 50px rgba(${glowColor}, 0.2);
           }
           
           .particle::before {

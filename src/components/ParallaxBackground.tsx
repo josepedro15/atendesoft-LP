@@ -15,15 +15,15 @@ const ParallaxBackground = () => {
   return (
     <div className="fixed inset-0 pointer-events-none">
       {/* DarkVeil background effect with site colors */}
-      <div className="absolute inset-0 opacity-30">
+      <div className="absolute inset-0 opacity-40">
         <DarkVeil
-          hueShift={220} // Blue hue to match primary color #648fe0
-          noiseIntensity={0.02}
-          scanlineIntensity={0.1}
-          speed={0.3}
-          scanlineFrequency={0.5}
+          hueShift={0} // Blue hue to match primary color #648fe0
+          noiseIntensity={0.05}
+          scanlineIntensity={0.2}
+          speed={0.5}
+          scanlineFrequency={3}
           warpAmount={0.1}
-          resolutionScale={0.5}
+          resolutionScale={1}
         />
       </div>
       

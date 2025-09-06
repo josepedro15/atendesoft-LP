@@ -1,6 +1,7 @@
 import { ArrowRight, MessageCircle, Play } from "lucide-react";
 import { events } from "@/lib/events";
 import BlurText from "./BlurText";
+import ParallaxBackground from "./ParallaxBackground";
 
 const Hero = () => {
   const handleWhatsAppClick = () => {
@@ -17,8 +18,11 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+      {/* Parallax Background with Circular Text */}
+      <ParallaxBackground />
+      
       {/* Background Orange S */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-[0.12] pointer-events-none">
+      <div className="absolute inset-0 flex items-center justify-center opacity-[0.12] pointer-events-none z-10">
         <div 
           className="text-[40rem] font-bold text-accent leading-none select-none"
           style={{ fontFamily: "Inter, system-ui" }}
@@ -27,11 +31,11 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 text-center relative z-10">
+      <div className="container mx-auto px-6 text-center relative z-20">
         {/* Main Headline */}
         <BlurText
           text="Automação Comercial, Apps e Dashboards com IA"
-          delay={80}
+          delay={200}
           animateBy="words"
           direction="top"
           className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight"
@@ -41,7 +45,7 @@ const Hero = () => {
         {/* Subtitle */}
         <BlurText
           text="Fluxos de vendas e atendimento no WhatsApp, aplicativos com LLMs/RAG e BI com IA para decisões em minutos."
-          delay={60}
+          delay={150}
           animateBy="words"
           direction="top"
           className="text-lg md:text-xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed"

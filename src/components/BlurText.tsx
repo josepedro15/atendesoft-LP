@@ -38,7 +38,7 @@ const BlurText = ({
   animationTo,
   easing = t => t,
   onAnimationComplete,
-  stepDuration = 0.2
+  stepDuration = 0.5
 }: BlurTextProps) => {
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
   const [inView, setInView] = useState(false);

@@ -9,7 +9,6 @@ import DashboardsBI from "@/components/DashboardsBI";
 import Ferramentas from "@/components/Ferramentas";
 import Demonstracao from "@/components/Demonstracao";
 import Cases from "@/components/Cases";
-import Planos from "@/components/Planos";
 import Manifesto from "@/components/Manifesto";
 import FAQ from "@/components/FAQ";
 import CTAFinal from "@/components/CTAFinal";
@@ -35,7 +34,6 @@ const Home = () => {
         <Ferramentas />
         <Demonstracao />
         <Cases />
-        <Planos />
         <Manifesto />
         <FAQ />
         <CTAFinal />

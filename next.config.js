@@ -18,7 +18,6 @@ const nextConfig = {
   
   // Otimizações de bundle
   experimental: {
-    optimizeCss: true,
     optimizePackageImports: ['lucide-react', 'motion/react'],
   },
   

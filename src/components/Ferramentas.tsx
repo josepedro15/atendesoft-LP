@@ -3,7 +3,6 @@ import { ExternalLink } from "lucide-react";
 import { events } from "@/lib/events";
 import ferramentasData from "@/content/ferramentas.json";
 import MagicBento from "./MagicBento";
-import RollingGallery from "./RollingGallery";
 
 const Ferramentas = () => {
   const [hoveredTool, setHoveredTool] = useState<string | null>(null);
@@ -37,11 +36,6 @@ const Ferramentas = () => {
               {categoria}
             </span>
           ))}
-        </div>
-
-        {/* Rolling Gallery */}
-        <div className="mb-16">
-          <RollingGallery autoplay={true} pauseOnHover={true} />
         </div>
 
         {/* Tools Grid */}

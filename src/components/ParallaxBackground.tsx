@@ -13,68 +13,7 @@ const ParallaxBackground = () => {
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden">
-      {/* Multiple circular texts with different parallax speeds */}
-      <motion.div
-        className="absolute top-1/4 left-1/4"
-        style={{
-          y: scrollY * 0.2,
-          x: scrollY * 0.1,
-        }}
-      >
-        <CircularText
-          text="The age of AI isn't ahead of us — we are living it."
-          spinDuration={30}
-          onHover="speedUp"
-          className="opacity-40"
-        />
-      </motion.div>
-
-      <motion.div
-        className="absolute top-1/3 right-1/4"
-        style={{
-          y: scrollY * -0.15,
-          x: scrollY * -0.05,
-        }}
-      >
-        <CircularText
-          text="The age of AI isn't ahead of us — we are living it."
-          spinDuration={25}
-          onHover="slowDown"
-          className="opacity-30 scale-75"
-        />
-      </motion.div>
-
-      <motion.div
-        className="absolute bottom-1/4 left-1/3"
-        style={{
-          y: scrollY * 0.3,
-          x: scrollY * 0.08,
-        }}
-      >
-        <CircularText
-          text="The age of AI isn't ahead of us — we are living it."
-          spinDuration={35}
-          onHover="goBonkers"
-          className="opacity-25 scale-50"
-        />
-      </motion.div>
-
-      <motion.div
-        className="absolute top-2/3 right-1/3"
-        style={{
-          y: scrollY * -0.25,
-          x: scrollY * -0.12,
-        }}
-      >
-        <CircularText
-          text="The age of AI isn't ahead of us — we are living it."
-          spinDuration={28}
-          onHover="pause"
-          className="opacity-35 scale-90"
-        />
-      </motion.div>
-
-      {/* Additional smaller elements for depth */}
+      {/* Single large circular text centered */}
       <motion.div
         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         style={{
@@ -83,10 +22,10 @@ const ParallaxBackground = () => {
         }}
       >
         <CircularText
-          text="AI*FUTURE*NOW*"
-          spinDuration={40}
+          text="The age of AI isn't ahead of us — we are living it."
+          spinDuration={25}
           onHover="speedUp"
-          className="opacity-20 scale-60"
+          className="opacity-60 scale-150"
         />
       </motion.div>
     </div>

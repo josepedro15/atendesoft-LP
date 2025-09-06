@@ -1,7 +1,14 @@
-import { useEffect } from 'react';
-import { motion, useAnimation, useMotionValue } from 'motion/react';
+import React, { useEffect } from 'react';
+import { motion, useAnimation, useMotionValue, MotionValue, Transition } from 'motion/react';
 
-const getRotationTransition = (duration: number, from: number, loop = true) => ({
+interface CircularTextProps {
+  text: string;
+  spinDuration?: number;
+  onHover?: 'slowDown' | 'speedUp' | 'pause' | 'goBonkers';
+  className?: string;
+}
+
+const getRotationTransition = (duration: number, from: number, loop: boolean = true) => ({
   from,
   to: from + 360,
   ease: 'linear' as const,
@@ -19,17 +26,15 @@ const getTransition = (duration: number, from: number) => ({
   }
 });
 
-interface CircularTextProps {
-  text: string;
-  spinDuration?: number;
-  onHover?: 'speedUp' | 'slowDown' | 'pause' | 'goBonkers';
-  className?: string;
-}
-
-const CircularText = ({ text, spinDuration = 20, onHover = 'speedUp', className = '' }: CircularTextProps) => {
+const CircularText: React.FC<CircularTextProps> = ({
+  text,
+  spinDuration = 20,
+  onHover = 'speedUp',
+  className = ''
+}) => {
   const letters = Array.from(text);
   const controls = useAnimation();
-  const rotation = useMotionValue(0);
+  const rotation: MotionValue<number> = useMotionValue(0);
 
   useEffect(() => {
     const start = rotation.get();
@@ -38,13 +43,14 @@ const CircularText = ({ text, spinDuration = 20, onHover = 'speedUp', className 
       scale: 1,
       transition: getTransition(spinDuration, start)
     });
-  }, [spinDuration, text, onHover, controls, rotation]);
+  }, [spinDuration, text, onHover, controls]);
 
   const handleHoverStart = () => {
     const start = rotation.get();
+
     if (!onHover) return;
 
-    let transitionConfig: any;
+    let transitionConfig: ReturnType<typeof getTransition> | Transition;
     let scaleVal = 1;
 
     switch (onHover) {
@@ -56,10 +62,9 @@ const CircularText = ({ text, spinDuration = 20, onHover = 'speedUp', className 
         break;
       case 'pause':
         transitionConfig = {
-          rotate: { type: 'spring' as const, damping: 20, stiffness: 300 },
-          scale: { type: 'spring' as const, damping: 20, stiffness: 300 }
+          rotate: { type: 'spring', damping: 20, stiffness: 300 },
+          scale: { type: 'spring', damping: 20, stiffness: 300 }
         };
-        scaleVal = 1;
         break;
       case 'goBonkers':
         transitionConfig = getTransition(spinDuration / 20, start);
@@ -87,25 +92,8 @@ const CircularText = ({ text, spinDuration = 20, onHover = 'speedUp', className 
 
   return (
     <motion.div
-      className={`circular-text ${className}`}
-      style={{ 
-        rotate: rotation,
-        position: 'relative',
-        display: 'inline-block',
-        width: '300000px',
-        height: '300000px',
-        borderRadius: '50%',
-        fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
-        fontWeight: 600,
-        fontSize: '50px',
-        letterSpacing: '0.5em',
-        textTransform: 'uppercase',
-        color: 'rgba(0, 0, 0, 0.4)',
-        userSelect: 'none',
-        pointerEvents: 'none',
-        overflow: 'visible',
-        zIndex: 1
-      }}
+      className={`m-0 mx-auto rounded-full w-[650px] h-[650px] relative font-black text-black text-center cursor-pointer origin-center ${className}`}
+      style={{ rotate: rotation }}
       initial={{ rotate: 0 }}
       animate={controls}
       onMouseEnter={handleHoverStart}
@@ -119,25 +107,16 @@ const CircularText = ({ text, spinDuration = 20, onHover = 'speedUp', className 
         const transform = `rotateZ(${rotationDeg}deg) translate3d(${x}px, ${y}px, 0)`;
 
         return (
-          <span 
-            key={i} 
-            style={{ 
-              transform, 
-              WebkitTransform: transform,
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transformOrigin: '0 0',
-              display: 'block',
-              whiteSpace: 'nowrap',
-              willChange: 'transform'
-            }}
+          <span
+            key={i}
+            className="absolute inline-block inset-0 text-4xl transition-all duration-500 ease-[cubic-bezier(0,0,0,1)] blur-[1px] opacity-60"
+            style={{ transform, WebkitTransform: transform }}
           >
             {letter}
           </span>
         );
-        })}
-      </motion.div>
+      })}
+    </motion.div>
   );
 };
 

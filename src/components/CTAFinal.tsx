@@ -8,7 +8,7 @@ const CTAFinal = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-primary via-primary-glow to-accent relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-br from-primary via-primary to-accent relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_white_1px,_transparent_1px)] bg-[length:40px_40px]"></div>

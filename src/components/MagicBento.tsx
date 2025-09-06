@@ -288,8 +288,10 @@ const ParticleCard: React.FC<{
 
 const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const checkMobile = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
 
     checkMobile();
@@ -298,7 +300,7 @@ const useMobileDetection = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  return isMobile;
+  return isMobile || !isClient;
 };
 
 const MagicBento: React.FC<MagicBentoProps> = ({
@@ -315,8 +317,22 @@ const MagicBento: React.FC<MagicBentoProps> = ({
   clickEffect = true,
   enableMagnetism = true
 }) => {
+  const [isClient, setIsClient] = useState(false);
   const isMobile = useMobileDetection();
   const shouldDisableAnimations = disableAnimations || isMobile;
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Durante a hidratação, renderiza apenas o conteúdo básico
+  if (!isClient) {
+    return (
+      <div className={className}>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <>

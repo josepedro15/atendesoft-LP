@@ -3,6 +3,7 @@ import { events } from "@/lib/events";
 import BlurText from "./BlurText";
 import ParallaxBackground from "./ParallaxBackground";
 import MagicBento from "./MagicBento";
+import ShinyText from "./ShinyText";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 
@@ -39,15 +40,12 @@ const Hero = () => {
           y: scrollY * 0.3,
         }}
       >
-        {/* Main Headline */}
-        <BlurText
-          text="Automação Comercial, Apps e Dashboards com IA"
-          delay={200}
-          animateBy="words"
-          direction="top"
-          className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight"
-          onAnimationComplete={() => console.log('Hero animation completed!')}
-        />
+                {/* Main Headline */}
+                <ShinyText
+                  text="Automação Comercial, Apps e Dashboards com IA"
+                  speed={3}
+                  className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight"
+                />
 
         {/* Subtitle */}
         <BlurText

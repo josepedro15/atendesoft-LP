@@ -3,6 +3,7 @@ import { ExternalLink } from "lucide-react";
 import { events } from "@/lib/events";
 import ferramentasData from "@/content/ferramentas.json";
 import MagicBento from "./MagicBento";
+import ShinyText from "./ShinyText";
 
 const Ferramentas = () => {
   const [hoveredTool, setHoveredTool] = useState<string | null>(null);
@@ -18,9 +19,11 @@ const Ferramentas = () => {
     <section id="ferramentas" className="py-20 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Ferramentas & Integrações
-          </h2>
+          <ShinyText
+            text="Ferramentas & Integrações"
+            speed={4}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6"
+          />
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Ecossistema completo de tecnologias para potencializar seus resultados
           </p>
@@ -62,9 +65,11 @@ const Ferramentas = () => {
                   </span>
                 </div>
                 
-                <h3 className="font-semibold text-foreground text-sm mb-2">
-                  {ferramenta.nome}
-                </h3>
+                <ShinyText
+                  text={ferramenta.nome}
+                  speed={6}
+                  className="font-semibold text-foreground text-sm mb-2"
+                />
                 
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-muted-foreground">{ferramenta.categoria}</span>
@@ -86,9 +91,11 @@ const Ferramentas = () => {
         {/* Integration CTA */}
         <div className="text-center mt-16">
           <MagicBento className="glass-card p-8 max-w-3xl mx-auto" enableStars={true} enableTilt={true} clickEffect={true}>
-            <h3 className="text-xl font-bold text-foreground mb-4">
-              Precisa de uma integração específica?
-            </h3>
+            <ShinyText
+              text="Precisa de uma integração específica?"
+              speed={5}
+              className="text-xl font-bold text-foreground mb-4"
+            />
             <p className="text-muted-foreground mb-6">
               Trabalhamos com APIs customizadas e integrações sob medida para seu negócio
             </p>

@@ -3,6 +3,7 @@ import { ChevronDown } from "lucide-react";
 import { events } from "@/lib/events";
 import faqData from "@/content/faq.json";
 import MagicBento from "./MagicBento";
+import ShinyText from "./ShinyText";
 
 const FAQ = () => {
   const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
@@ -19,9 +20,11 @@ const FAQ = () => {
     <section id="faq" className="py-20 bg-background">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Perguntas Frequentes
-          </h2>
+          <ShinyText
+            text="Perguntas Frequentes"
+            speed={4}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6"
+          />
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Tire suas dúvidas sobre nossas soluções de automação e IA
           </p>
@@ -43,9 +46,11 @@ const FAQ = () => {
                   className="w-full text-left p-6 flex items-center justify-between hover:bg-muted/30 transition-colors focus-ring"
                   onClick={() => toggleItem(item.id, item.pergunta)}
                 >
-                  <span className="font-semibold text-foreground pr-4">
-                    {item.pergunta}
-                  </span>
+                  <ShinyText
+                    text={item.pergunta}
+                    speed={6}
+                    className="font-semibold text-foreground pr-4"
+                  />
                   <ChevronDown 
                     className={`w-5 h-5 text-muted-foreground transition-transform duration-200 flex-shrink-0 ${
                       openItems[item.id] ? 'transform rotate-180' : ''
@@ -75,9 +80,11 @@ const FAQ = () => {
         {/* Still have questions CTA */}
         <div className="text-center mt-16">
           <MagicBento className="glass-card p-8 max-w-2xl mx-auto" enableStars={true} enableTilt={true} clickEffect={true}>
-            <h3 className="text-xl font-bold text-foreground mb-4">
-              Ainda tem dúvidas?
-            </h3>
+            <ShinyText
+              text="Ainda tem dúvidas?"
+              speed={5}
+              className="text-xl font-bold text-foreground mb-4"
+            />
             <p className="text-muted-foreground mb-6">
               Nossa equipe está pronta para esclarecer qualquer questão
             </p>

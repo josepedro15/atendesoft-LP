@@ -2,6 +2,7 @@ import { Check, MessageCircle, Star } from "lucide-react";
 import { events } from "@/lib/events";
 import planosData from "@/content/planos.json";
 import MagicBento from "./MagicBento";
+import ShinyText from "./ShinyText";
 
 const Planos = () => {
   const handlePlanClick = (plano: any) => {
@@ -15,9 +16,11 @@ const Planos = () => {
     <section id="planos" className="py-20 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Planos e Investimento
-          </h2>
+          <ShinyText
+            text="Planos e Investimento"
+            speed={4}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6"
+          />
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Soluções flexíveis que crescem junto com seu negócio
           </p>
@@ -48,7 +51,11 @@ const Planos = () => {
 
               {/* Plan Header */}
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-foreground mb-2">{plano.nome}</h3>
+                <ShinyText
+                  text={plano.nome}
+                  speed={5}
+                  className="text-2xl font-bold text-foreground mb-2"
+                />
                 <p className="text-muted-foreground text-sm mb-4">{plano.descricao}</p>
                 <div className="text-3xl font-bold text-foreground">{plano.preco}</div>
               </div>
@@ -80,9 +87,11 @@ const Planos = () => {
         {/* Custom Solutions CTA */}
         <div className="text-center mt-16">
           <MagicBento className="glass-card p-8 max-w-2xl mx-auto" enableStars={true} enableTilt={true} clickEffect={true}>
-            <h3 className="text-xl font-bold text-foreground mb-4">
-              Precisa de algo sob medida?
-            </h3>
+            <ShinyText
+              text="Precisa de algo sob medida?"
+              speed={5}
+              className="text-xl font-bold text-foreground mb-4"
+            />
             <p className="text-muted-foreground mb-6">
               Criamos soluções 100% personalizadas para necessidades específicas
             </p>

@@ -1,6 +1,7 @@
 import { TrendingUp, BarChart3, PieChart, Activity } from "lucide-react";
 import dashboardsData from "@/content/dashboards.json";
 import MagicBento from "./MagicBento";
+import ShinyText from "./ShinyText";
 
 const iconMap = {
   "vendas-previsao": TrendingUp,
@@ -14,9 +15,11 @@ const DashboardsBI = () => {
     <section className="py-20 bg-background">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Dashboards Inteligentes
-          </h2>
+          <ShinyText
+            text="Dashboards Inteligentes"
+            speed={4}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6"
+          />
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Business Intelligence com IA para insights acionáveis e decisões baseadas em dados
           </p>
@@ -41,7 +44,11 @@ const DashboardsBI = () => {
                     <Icon className="w-6 h-6 text-accent" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-foreground">{dashboard.titulo}</h3>
+                    <ShinyText
+                      text={dashboard.titulo}
+                      speed={5}
+                      className="text-xl font-bold text-foreground"
+                    />
                   </div>
                 </div>
                 
@@ -79,9 +86,11 @@ const DashboardsBI = () => {
         {/* CTA Section */}
         <div className="text-center mt-16">
           <MagicBento className="glass-card p-8 max-w-2xl mx-auto" enableStars={true} enableTilt={true} clickEffect={true}>
-            <h3 className="text-xl font-bold text-foreground mb-4">
-              Veja seus dados tomarem vida
-            </h3>
+            <ShinyText
+              text="Veja seus dados tomarem vida"
+              speed={5}
+              className="text-xl font-bold text-foreground mb-4"
+            />
             <p className="text-muted-foreground mb-6">
               Transforme planilhas complexas em insights visuais e acionáveis
             </p>

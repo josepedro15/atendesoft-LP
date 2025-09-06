@@ -1,5 +1,6 @@
 import { MessageCircle, ArrowRight } from "lucide-react";
 import { events } from "@/lib/events";
+import ShinyText from "./ShinyText";
 
 const CTAFinal = () => {
   const handleWhatsAppClick = () => {
@@ -16,12 +17,11 @@ const CTAFinal = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-4xl mx-auto text-center text-white">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
-            Pronto para vender com{" "}
-            <span className="bg-gradient-to-r from-white to-accent-foreground bg-clip-text text-transparent">
-              Inteligência Artificial?
-            </span>
-          </h2>
+          <ShinyText
+            text="Pronto para vender com Inteligência Artificial?"
+            speed={3}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight"
+          />
           
           <p className="text-xl md:text-2xl mb-12 opacity-90 leading-relaxed">
             Comece sua transformação digital hoje mesmo. 

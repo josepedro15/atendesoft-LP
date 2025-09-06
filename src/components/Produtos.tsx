@@ -2,6 +2,7 @@ import { MessageCircle, ArrowRight } from "lucide-react";
 import { events } from "@/lib/events";
 import produtosData from "@/content/produtos.json";
 import SimpleMagicBento from "./SimpleMagicBento";
+import ShinyText from "./ShinyText";
 
 const Produtos = () => {
   const handleProductCTA = (produto: any) => {
@@ -15,9 +16,11 @@ const Produtos = () => {
     <section id="produtos" className="py-20 bg-gradient-to-b from-muted/30 to-background">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Nossos Produtos
-          </h2>
+          <ShinyText
+            text="Nossos Produtos"
+            speed={4}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6"
+          />
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Soluções de IA sob medida para cada necessidade do seu negócio
           </p>
@@ -35,9 +38,11 @@ const Produtos = () => {
                 {/* Product Info */}
                 <SimpleMagicBento className="flex-1 space-y-6 glass-card p-8" enableStars={true} enableTilt={true} clickEffect={true} enableMagnetism={true}>
                   <div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-                      {produto.titulo}
-                    </h3>
+                    <ShinyText
+                      text={produto.titulo}
+                      speed={5}
+                      className="text-2xl md:text-3xl font-bold text-foreground mb-4"
+                    />
                     <p className="text-lg text-muted-foreground leading-relaxed">
                       {produto.descricao}
                     </p>
@@ -70,7 +75,11 @@ const Produtos = () => {
                       <div className="w-20 h-20 bg-gradient-to-br from-primary to-accent rounded-2xl mx-auto flex items-center justify-center">
                         <MessageCircle className="w-10 h-10 text-white" />
                       </div>
-                      <h4 className="font-semibold text-foreground">{produto.titulo}</h4>
+                      <ShinyText
+                        text={produto.titulo}
+                        speed={6}
+                        className="font-semibold text-foreground"
+                      />
                       <div className="space-y-2">
                         {produto.features.slice(0, 3).map((feature, idx) => (
                           <div key={idx} className="text-sm text-muted-foreground px-3 py-1 bg-muted/50 rounded-full">

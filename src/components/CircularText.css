@@ -6,8 +6,8 @@
   border-radius: 50%;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-weight: 600;
-  font-size: 480px;
-  letter-spacing: 0.3em;
+  font-size: 120px;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(0, 0, 0, 0.7);
   user-select: none;
@@ -29,7 +29,7 @@
   .circular-text {
     width: 9000px;
     height: 9000px;
-    font-size: 360px;
+    font-size: 90px;
   }
 }
 
@@ -37,6 +37,6 @@
   .circular-text {
     width: 7000px;
     height: 7000px;
-    font-size: 280px;
+    font-size: 70px;
   }
 }

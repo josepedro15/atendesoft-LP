@@ -27,7 +27,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-visible">
       {/* Parallax Background with Circular Text */}
       <ParallaxBackground />
       

@@ -1,5 +1,6 @@
 import { ArrowRight, MessageCircle, Play } from "lucide-react";
 import { events } from "@/lib/events";
+import BlurText from "./BlurText";
 
 const Hero = () => {
   const handleWhatsAppClick = () => {
@@ -28,18 +29,23 @@ const Hero = () => {
 
       <div className="container mx-auto px-6 text-center relative z-10">
         {/* Main Headline */}
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight">
-          Automação Comercial, Apps e
-          <span className="bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
-            {" "}Dashboards com IA
-          </span>
-        </h1>
+        <BlurText
+          text="Automação Comercial, Apps e Dashboards com IA"
+          delay={150}
+          animateBy="words"
+          direction="top"
+          className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight"
+          onAnimationComplete={() => console.log('Hero animation completed!')}
+        />
 
         {/* Subtitle */}
-        <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed">
-          Fluxos de vendas e atendimento no WhatsApp, aplicativos com LLMs/RAG e BI com IA 
-          para decisões em <span className="font-semibold text-foreground">minutos</span>.
-        </p>
+        <BlurText
+          text="Fluxos de vendas e atendimento no WhatsApp, aplicativos com LLMs/RAG e BI com IA para decisões em minutos."
+          delay={100}
+          animateBy="words"
+          direction="top"
+          className="text-lg md:text-xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed"
+        />
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">

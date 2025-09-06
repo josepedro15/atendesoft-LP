@@ -1,15 +1,16 @@
-import ShinyText from "./ShinyText";
 
 const Manifesto = () => {
   return (
     <section className="py-20 bg-gradient-to-b from-muted/30 to-background">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <ShinyText
-            text="Acreditamos que a Inteligência Artificial deve ser acessível e transformar negócios de todos os tamanhos"
-            speed={4}
-            className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-12 leading-relaxed"
-          />
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-12 leading-relaxed">
+            Acreditamos que a{" "}
+            <span className="font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Inteligência Artificial
+            </span>{" "}
+            deve ser acessível e transformar negócios de todos os tamanhos
+          </h2>
           
           <div className="space-y-8 text-lg text-muted-foreground leading-relaxed">
             <p>

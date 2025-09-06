@@ -1,6 +1,5 @@
 import { Brain, MessageCircle, BarChart3 } from "lucide-react";
 import beneficiosData from "@/content/beneficios.json";
-import ShinyText from "./ShinyText";
 
 const iconMap = {
   MessageCircle,
@@ -13,11 +12,12 @@ const Beneficios = () => {
     <section className="py-20 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <ShinyText
-            text="Transforme seu negócio com Inteligência Artificial"
-            speed={4}
-            className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6"
-          />
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
+            Transforme seu negócio com
+            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              {" "}Inteligência Artificial
+            </span>
+          </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Soluções completas e personalizadas que revolucionam seus processos comerciais
           </p>

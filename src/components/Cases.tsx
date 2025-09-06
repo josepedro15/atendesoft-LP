@@ -1,7 +1,6 @@
 import { TrendingUp, Users, DollarSign, Clock } from "lucide-react";
 import casesData from "@/content/cases.json";
 import MagicBento from "./MagicBento";
-import ShinyText from "./ShinyText";
 
 const getIcon = (tipo: string) => {
   switch (tipo) {
@@ -21,11 +20,9 @@ const Cases = () => {
     <section id="cases" className="py-20 bg-background">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <ShinyText
-            text="Casos de Sucesso"
-            speed={4}
-            className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6"
-          />
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
+            Casos de Sucesso
+          </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Resultados reais de clientes que transformaram seus negócios com nossas soluções
           </p>

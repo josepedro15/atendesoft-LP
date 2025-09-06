@@ -3,7 +3,6 @@ import { events } from "@/lib/events";
 import BlurText from "./BlurText";
 import ParallaxBackground from "./ParallaxBackground";
 import MagicBento from "./MagicBento";
-import ShinyText from "./ShinyText";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 
@@ -41,11 +40,9 @@ const Hero = () => {
         }}
       >
                 {/* Main Headline */}
-                <ShinyText
-                  text="Automação Comercial, Apps e Dashboards com IA"
-                  speed={3}
-                  className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight"
-                />
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight">
+                  Automação Comercial, Apps e Dashboards com IA
+                </h1>
 
         {/* Subtitle */}
         <BlurText

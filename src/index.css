@@ -138,20 +138,20 @@ All colors MUST be HSL.
 }
 
 @layer components {
-  /* Apple-inspired Glass Card */
-  .glass-card {
-    @apply bg-white/70 backdrop-blur-3xl border border-white/50 rounded-2xl;
-    box-shadow: 
-      0 20px 60px rgba(0, 0, 0, 0.2),
-      0 8px 20px rgba(0, 0, 0, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(40px) saturate(250%) brightness(1.2);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+          /* Apple-inspired Glass Card */
+          .glass-card {
+            @apply bg-white/60 backdrop-blur-3xl border border-white/50 rounded-2xl;
+            box-shadow: 
+              0 20px 60px rgba(0, 0, 0, 0.2),
+              0 8px 20px rgba(0, 0, 0, 0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.8),
+              inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(40px) saturate(250%) brightness(1.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          }
 
   .glass-card:hover {
-    @apply bg-white/80 border-white/60;
+    @apply bg-white/70 border-white/60;
     box-shadow: 
       0 25px 80px rgba(0, 0, 0, 0.25),
       0 12px 30px rgba(0, 0, 0, 0.2),
@@ -197,7 +197,7 @@ All colors MUST be HSL.
 
   /* Timeline Bubble - Base styles only, MagicBento will handle effects */
   .timeline-bubble {
-    @apply bg-white/70 backdrop-blur-3xl border border-white/50 rounded-2xl p-6;
+    @apply bg-white/60 backdrop-blur-3xl border border-white/50 rounded-2xl p-6;
     box-shadow: 
       0 20px 60px rgba(0, 0, 0, 0.2),
       0 8px 20px rgba(0, 0, 0, 0.15),

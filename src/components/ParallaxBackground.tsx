@@ -25,7 +25,7 @@ const ParallaxBackground = () => {
           text="The age of AI isn't ahead of us — we are living it."
           spinDuration={30}
           onHover="speedUp"
-          className="opacity-20"
+          className="opacity-40"
         />
       </motion.div>
 
@@ -40,7 +40,7 @@ const ParallaxBackground = () => {
           text="The age of AI isn't ahead of us — we are living it."
           spinDuration={25}
           onHover="slowDown"
-          className="opacity-15 scale-75"
+          className="opacity-30 scale-75"
         />
       </motion.div>
 
@@ -55,7 +55,7 @@ const ParallaxBackground = () => {
           text="The age of AI isn't ahead of us — we are living it."
           spinDuration={35}
           onHover="goBonkers"
-          className="opacity-10 scale-50"
+          className="opacity-25 scale-50"
         />
       </motion.div>
 
@@ -70,7 +70,7 @@ const ParallaxBackground = () => {
           text="The age of AI isn't ahead of us — we are living it."
           spinDuration={28}
           onHover="pause"
-          className="opacity-12 scale-90"
+          className="opacity-35 scale-90"
         />
       </motion.div>
 
@@ -86,7 +86,7 @@ const ParallaxBackground = () => {
           text="AI*FUTURE*NOW*"
           spinDuration={40}
           onHover="speedUp"
-          className="opacity-8 scale-60"
+          className="opacity-20 scale-60"
         />
       </motion.div>
     </div>

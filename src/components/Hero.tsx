@@ -21,15 +21,6 @@ const Hero = () => {
       {/* Parallax Background with Circular Text */}
       <ParallaxBackground />
       
-      {/* Background Orange S */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-[0.12] pointer-events-none z-10">
-        <div 
-          className="text-[40rem] font-bold text-accent leading-none select-none"
-          style={{ fontFamily: "Inter, system-ui" }}
-        >
-          S
-        </div>
-      </div>
 
       <div className="container mx-auto px-6 text-center relative z-20">
         {/* Main Headline */}

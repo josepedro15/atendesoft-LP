@@ -42,7 +42,6 @@ const CircularText = ({ text, spinDuration = 20, onHover = 'speedUp', className 
 
   const handleHoverStart = () => {
     const start = rotation.get();
-    console.log('CircularText mounted with text:', text);
     if (!onHover) return;
 
     let transitionConfig: any;
@@ -89,7 +88,24 @@ const CircularText = ({ text, spinDuration = 20, onHover = 'speedUp', className 
   return (
     <motion.div
       className={`circular-text ${className}`}
-      style={{ rotate: rotation }}
+      style={{ 
+        rotate: rotation,
+        position: 'relative',
+        display: 'inline-block',
+        width: '300000px',
+        height: '300000px',
+        borderRadius: '50%',
+        fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
+        fontWeight: 600,
+        fontSize: '50px',
+        letterSpacing: '0.5em',
+        textTransform: 'uppercase',
+        color: 'rgba(0, 0, 0, 0.4)',
+        userSelect: 'none',
+        pointerEvents: 'none',
+        overflow: 'visible',
+        zIndex: 1
+      }}
       initial={{ rotate: 0 }}
       animate={controls}
       onMouseEnter={handleHoverStart}
@@ -103,12 +119,25 @@ const CircularText = ({ text, spinDuration = 20, onHover = 'speedUp', className 
         const transform = `rotateZ(${rotationDeg}deg) translate3d(${x}px, ${y}px, 0)`;
 
         return (
-          <span key={i} style={{ transform, WebkitTransform: transform }}>
+          <span 
+            key={i} 
+            style={{ 
+              transform, 
+              WebkitTransform: transform,
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transformOrigin: '0 0',
+              display: 'block',
+              whiteSpace: 'nowrap',
+              willChange: 'transform'
+            }}
+          >
             {letter}
           </span>
         );
-      })}
-    </motion.div>
+        })}
+      </motion.div>
   );
 };
 

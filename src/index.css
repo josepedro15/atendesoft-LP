@@ -7,6 +7,16 @@ All colors MUST be HSL.
 */
 
 @layer base {
+  * {
+    overflow: visible !important;
+  }
+  
+  html, body {
+    overflow: visible !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+  }
+  
   :root {
     /* Apple-inspired AtendeSoft Design System */
     --background: 0 0% 96.1%; /* #F5F5F5 off-white */

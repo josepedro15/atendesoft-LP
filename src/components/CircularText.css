@@ -1,15 +1,15 @@
 .circular-text {
   position: relative;
   display: inline-block;
-  width: 800px;
-  height: 800px;
+  width: 1200px;
+  height: 1200px;
   border-radius: 50%;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-weight: 600;
-  font-size: 32px;
-  letter-spacing: 0.25em;
+  font-size: 48px;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(0, 0, 0, 0.7);
   user-select: none;
   pointer-events: none;
 }
@@ -27,16 +27,16 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .circular-text {
-    width: 600px;
-    height: 600px;
-    font-size: 28px;
+    width: 900px;
+    height: 900px;
+    font-size: 36px;
   }
 }
 
 @media (max-width: 480px) {
   .circular-text {
-    width: 500px;
-    height: 500px;
-    font-size: 24px;
+    width: 700px;
+    height: 700px;
+    font-size: 28px;
   }
 }

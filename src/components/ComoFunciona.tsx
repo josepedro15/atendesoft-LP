@@ -39,7 +39,14 @@ const ComoFunciona = () => {
                   style={{ animationDelay: `${index * 200}ms` }}
                 >
                   {/* Timeline Bubble */}
-                  <MagicBento className="timeline-bubble flex-1 max-w-md" enableStars={true} enableTilt={true} clickEffect={true}>
+                  <MagicBento 
+                    className="timeline-bubble flex-1 max-w-md" 
+                    enableStars={true} 
+                    enableTilt={true} 
+                    clickEffect={true}
+                    enableMagnetism={true}
+                    enableBorderGlow={true}
+                  >
                     <div className="flex items-center mb-4">
                       <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center mr-4">
                         <Icon className="w-6 h-6 text-white" />

@@ -341,7 +341,7 @@ const MagicBento: React.FC<MagicBentoProps> = ({
     );
   }
 
-  console.log('MagicBento rendering with:', { isClient, isMobile, shouldDisableAnimations, enableStars });
+  console.log('MagicBento rendering with:', { isClient, isMobile, shouldDisableAnimations, enableStars, className });
 
   return (
     <>

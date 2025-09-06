@@ -13,28 +13,17 @@ const Ferramentas = () => {
   return (
     <section id="ferramentas" className="py-20 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16 relative">
-          <MagicBento 
-            className="absolute inset-0 bg-white/50 backdrop-blur-xl border border-white/50 rounded-3xl -m-8 p-8 shadow-2xl"
-            enableStars={true}
-            enableTilt={true}
-            clickEffect={true}
-            enableMagnetism={true}
-            enableBorderGlow={true}
-          >
-            <div className="relative z-10">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-              Ferramentas & Integrações
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Ecossistema completo de tecnologias para potencializar seus resultados
-            </p>
-            </div>
-          </MagicBento>
+        <div className="text-center mb-8">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+            Ferramentas & Integrações
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            Ecossistema completo de tecnologias para potencializar seus resultados
+          </p>
         </div>
 
         {/* Categories */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        <div className="flex flex-wrap justify-center gap-4 mb-8">
           {categorias.map((categoria) => (
             <span 
               key={categoria}

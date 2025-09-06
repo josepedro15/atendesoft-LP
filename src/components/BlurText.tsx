@@ -43,6 +43,11 @@ const BlurText = ({
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
   const [inView, setInView] = useState(false);
   const ref = useRef<HTMLParagraphElement>(null);
+  
+  // Otimização para mobile - reduzir animações
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+  const optimizedDelay = isMobile ? delay * 0.5 : delay; // Delay menor no mobile
+  const optimizedStepDuration = isMobile ? stepDuration * 0.7 : stepDuration; // Animação mais rápida no mobile
 
   useEffect(() => {
     if (!ref.current) return;
@@ -84,7 +89,7 @@ const BlurText = ({
   const toSnapshots = animationTo ?? defaultTo;
 
   const stepCount = toSnapshots.length + 1;
-  const totalDuration = stepDuration * (stepCount - 1);
+  const totalDuration = optimizedStepDuration * (stepCount - 1);
   const times = Array.from({ length: stepCount }, (_, i) => (stepCount === 1 ? 0 : i / (stepCount - 1)));
 
   return (
@@ -95,7 +100,7 @@ const BlurText = ({
         const spanTransition: any = {
           duration: totalDuration,
           times,
-          delay: (index * delay) / 1000,
+          delay: (index * optimizedDelay) / 1000,
           ease: easing
         };
 

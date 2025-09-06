@@ -17,6 +17,36 @@ All colors MUST be HSL.
     overflow-y: visible !important;
   }
   
+  /* Otimizações de performance para mobile */
+  @media (max-width: 768px) {
+    * {
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+    
+    /* Reduzir animações em dispositivos móveis */
+    .glass-card {
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+    }
+    
+    /* Otimizar transições */
+    * {
+      transition-duration: 0.2s !important;
+    }
+  }
+  
+  /* Otimizações para dispositivos de baixo desempenho */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
   :root {
     /* Apple-inspired AtendeSoft Design System */
     --background: 0 0% 98%; /* #f9f9f9 */

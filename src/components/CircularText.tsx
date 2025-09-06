@@ -35,15 +35,19 @@ const CircularText: React.FC<CircularTextProps> = ({
   const letters = Array.from(text);
   const controls = useAnimation();
   const rotation: MotionValue<number> = useMotionValue(0);
+  
+  // Otimização para mobile - reduzir animações
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+  const optimizedSpinDuration = isMobile ? spinDuration * 2 : spinDuration; // Mais lento no mobile
 
   useEffect(() => {
     const start = rotation.get();
     controls.start({
       rotate: start + 360,
       scale: 1,
-      transition: getTransition(spinDuration, start)
+      transition: getTransition(optimizedSpinDuration, start)
     });
-  }, [spinDuration, text, onHover, controls]);
+  }, [optimizedSpinDuration, text, onHover, controls]);
 
   const handleHoverStart = () => {
     const start = rotation.get();

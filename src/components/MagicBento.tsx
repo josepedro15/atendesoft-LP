@@ -20,6 +20,17 @@ const DEFAULT_PARTICLE_COUNT = 8;
 const DEFAULT_SPOTLIGHT_RADIUS = 200;
 const DEFAULT_GLOW_COLOR = '100, 143, 224'; // #648fe0 em RGB
 const MOBILE_BREAKPOINT = 768;
+const MOBILE_PARTICLE_COUNT = 3; // Reduzido para mobile
+
+// Função para detectar mobile e otimizar performance
+const isMobile = () => {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth <= MOBILE_BREAKPOINT;
+};
+
+const getOptimizedParticleCount = (defaultCount: number) => {
+  return isMobile() ? MOBILE_PARTICLE_COUNT : defaultCount;
+};
 
 const createParticleElement = (x: number, y: number, color: string = DEFAULT_GLOW_COLOR): HTMLDivElement => {
   const el = document.createElement('div');

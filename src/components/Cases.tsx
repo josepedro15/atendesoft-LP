@@ -47,7 +47,6 @@ const Cases = () => {
               <MagicBento 
                 key={caso.id}
                 className="glass-card p-6 hover:shadow-lg transition-all duration-300 group"
-                style={{ animationDelay: `${index * 100}ms` }}
                 enableStars={true}
                 enableTilt={true}
                 clickEffect={true}

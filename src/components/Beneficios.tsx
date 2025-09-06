@@ -40,7 +40,6 @@ const Beneficios = () => {
               <div 
                 key={beneficio.id}
                 className="glass-card p-8 hover:shadow-lg transition-all duration-300 group"
-                style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-center mb-6">
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mr-4 group-hover:bg-primary/20 transition-colors">

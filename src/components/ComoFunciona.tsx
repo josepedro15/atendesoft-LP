@@ -47,7 +47,6 @@ const ComoFunciona = () => {
                 <div 
                   key={passo.id}
                   className={`flex items-center ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8`}
-                  style={{ animationDelay: `${index * 200}ms` }}
                 >
                   {/* Timeline Bubble */}
                   <MagicBento 

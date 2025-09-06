@@ -51,7 +51,6 @@ const Ferramentas = () => {
             <MagicBento 
               key={ferramenta.nome}
               className="glass-card p-6 hover:shadow-lg transition-all duration-300 group relative"
-              style={{ animationDelay: `${index * 50}ms` }}
               enableStars={true}
               enableTilt={false}
               clickEffect={false}

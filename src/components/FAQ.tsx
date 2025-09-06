@@ -44,7 +44,6 @@ const FAQ = () => {
               <MagicBento 
                 key={item.id}
                 className="glass-card overflow-hidden"
-                style={{ animationDelay: `${index * 100}ms` }}
                 enableStars={true}
                 enableTilt={false}
                 clickEffect={false}

@@ -41,7 +41,6 @@ const DashboardsBI = () => {
               <MagicBento 
                 key={dashboard.id}
                 className="glass-card p-8 hover:shadow-lg transition-all duration-300 group"
-                style={{ animationDelay: `${index * 150}ms` }}
                 enableStars={true}
                 enableTilt={true}
                 clickEffect={true}

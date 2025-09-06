@@ -107,39 +107,36 @@ const ParticleCard: React.FC<{
       initializeParticles();
     }
 
+    // Create particles immediately without delay
     memoizedParticles.current.forEach((particle, index) => {
-      const timeoutId = setTimeout(() => {
-        if (!isHoveredRef.current || !cardRef.current) return;
+      if (!isHoveredRef.current || !cardRef.current) return;
 
-        const clone = particle.cloneNode(true) as HTMLDivElement;
-        cardRef.current.appendChild(clone);
-        particlesRef.current.push(clone);
+      const clone = particle.cloneNode(true) as HTMLDivElement;
+      cardRef.current.appendChild(clone);
+      particlesRef.current.push(clone);
 
-        console.log('Creating particle:', index, clone);
+      console.log('Creating particle:', index, clone);
 
-        gsap.fromTo(clone, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: 'back.out(1.7)' });
+      gsap.fromTo(clone, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.7)' });
 
-        gsap.to(clone, {
-          x: (Math.random() - 0.5) * 80,
-          y: (Math.random() - 0.5) * 80,
-          rotation: Math.random() * 360,
-          duration: 1.5 + Math.random() * 1.5,
-          ease: 'none',
-          repeat: -1,
-          yoyo: true
-        });
+      gsap.to(clone, {
+        x: (Math.random() - 0.5) * 100,
+        y: (Math.random() - 0.5) * 100,
+        rotation: Math.random() * 360,
+        duration: 2 + Math.random() * 2,
+        ease: 'none',
+        repeat: -1,
+        yoyo: true
+      });
 
-        gsap.to(clone, {
-          opacity: 0.8,
-          scale: 1.2,
-          duration: 1,
-          ease: 'power2.inOut',
-          repeat: -1,
-          yoyo: true
-        });
-      }, index * 30);
-
-      timeoutsRef.current.push(timeoutId);
+      gsap.to(clone, {
+        opacity: 0.6,
+        scale: 1.3,
+        duration: 1.5,
+        ease: 'power2.inOut',
+        repeat: -1,
+        yoyo: true
+      });
     });
   }, [initializeParticles]);
 
@@ -342,6 +339,15 @@ const MagicBento: React.FC<MagicBentoProps> = ({
   }
 
   console.log('MagicBento rendering with:', { isClient, isMobile, shouldDisableAnimations, enableStars, className });
+
+  // Se animações estão desabilitadas, renderiza apenas o glass effect
+  if (shouldDisableAnimations) {
+    return (
+      <div className={`glass-card ${className}`}>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <>

@@ -1,7 +1,7 @@
 import { MessageCircle, ArrowRight } from "lucide-react";
 import { events } from "@/lib/events";
 import produtosData from "@/content/produtos.json";
-import MagicBento from "./MagicBento";
+import SimpleMagicBento from "./SimpleMagicBento";
 
 const Produtos = () => {
   const handleProductCTA = (produto: any) => {
@@ -33,7 +33,7 @@ const Produtos = () => {
                 className={`flex flex-col lg:flex-row items-center gap-12 ${!isEven ? 'lg:flex-row-reverse' : ''}`}
               >
                 {/* Product Info */}
-                <MagicBento className="flex-1 space-y-6 glass-card p-8" enableStars={true} enableTilt={true} clickEffect={true} enableMagnetism={true}>
+                <SimpleMagicBento className="flex-1 space-y-6 glass-card p-8" enableStars={true} enableTilt={true} clickEffect={true} enableMagnetism={true}>
                   <div>
                     <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
                       {produto.titulo}
@@ -61,11 +61,11 @@ const Produtos = () => {
                     <MessageCircle size={18} />
                     <span>Quero saber mais</span>
                   </button>
-                </MagicBento>
+                </SimpleMagicBento>
 
                 {/* Product Visual */}
                 <div className="flex-1 max-w-lg">
-                  <MagicBento className="glass-card p-8 aspect-square flex items-center justify-center" enableStars={true} enableTilt={true} clickEffect={true} enableMagnetism={true} enableBorderGlow={true}>
+                  <SimpleMagicBento className="glass-card p-8 aspect-square flex items-center justify-center" enableStars={true} enableTilt={true} clickEffect={true} enableMagnetism={true} enableBorderGlow={true}>
                     <div className="text-center space-y-4">
                       <div className="w-20 h-20 bg-gradient-to-br from-primary to-accent rounded-2xl mx-auto flex items-center justify-center">
                         <MessageCircle className="w-10 h-10 text-white" />
@@ -79,7 +79,7 @@ const Produtos = () => {
                         ))}
                       </div>
                     </div>
-                  </MagicBento>
+                  </SimpleMagicBento>
                 </div>
               </div>
             );

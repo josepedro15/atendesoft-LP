@@ -13,21 +13,15 @@ const ParallaxBackground = () => {
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden">
-      {/* Single large circular text centered */}
-      <motion.div
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-        style={{
-          y: scrollY * 0.1,
-          x: scrollY * 0.05,
-        }}
-      >
+      {/* Single large circular text fixed in position */}
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <CircularText
           text="The age of AI isn't ahead of us — we are living it."
           spinDuration={25}
           onHover="speedUp"
           className="opacity-60 scale-150"
         />
-      </motion.div>
+      </div>
     </div>
   );
 };

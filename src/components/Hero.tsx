@@ -2,8 +2,18 @@ import { ArrowRight, MessageCircle, Play } from "lucide-react";
 import { events } from "@/lib/events";
 import BlurText from "./BlurText";
 import ParallaxBackground from "./ParallaxBackground";
+import { useEffect, useState } from "react";
+import { motion } from "motion/react";
 
 const Hero = () => {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const handleWhatsAppClick = () => {
     events.heroCtaClick("primary");
     events.ctaWhatsappClick("hero");
@@ -22,7 +32,12 @@ const Hero = () => {
       <ParallaxBackground />
       
 
-      <div className="container mx-auto px-6 text-center relative z-20">
+      <motion.div 
+        className="container mx-auto px-6 text-center relative z-20"
+        style={{
+          y: scrollY * 0.3,
+        }}
+      >
         {/* Main Headline */}
         <BlurText
           text="Automação Comercial, Apps e Dashboards com IA"
@@ -86,7 +101,7 @@ const Hero = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

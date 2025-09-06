@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import CircularText from './CircularText';
+import DarkVeil from './DarkVeil';
 
 const ParallaxBackground = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -13,6 +14,19 @@ const ParallaxBackground = () => {
 
   return (
     <div className="fixed inset-0 pointer-events-none">
+      {/* DarkVeil background effect with site colors */}
+      <div className="absolute inset-0 opacity-30">
+        <DarkVeil
+          hueShift={220} // Blue hue to match primary color #648fe0
+          noiseIntensity={0.02}
+          scanlineIntensity={0.1}
+          speed={0.3}
+          scanlineFrequency={0.5}
+          warpAmount={0.1}
+          resolutionScale={0.5}
+        />
+      </div>
+      
       {/* Single large circular text fixed in position */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <CircularText

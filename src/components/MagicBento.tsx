@@ -26,13 +26,13 @@ const createParticleElement = (x: number, y: number, color: string = DEFAULT_GLO
   el.className = 'particle';
   el.style.cssText = `
     position: absolute;
-    width: 3px;
-    height: 3px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background: rgba(${color}, 0.8);
-    box-shadow: 0 0 8px rgba(${color}, 0.6);
+    background: rgba(${color}, 1);
+    box-shadow: 0 0 12px rgba(${color}, 0.8), 0 0 24px rgba(${color}, 0.4);
     pointer-events: none;
-    z-index: 100;
+    z-index: 1000;
     left: ${x}px;
     top: ${y}px;
   `;
@@ -100,6 +100,8 @@ const ParticleCard: React.FC<{
   const animateParticles = useCallback(() => {
     if (!cardRef.current || !isHoveredRef.current) return;
 
+    console.log('Animating particles...', { cardRef: !!cardRef.current, isHovered: isHoveredRef.current });
+
     if (!particlesInitialized.current) {
       initializeParticles();
     }
@@ -115,23 +117,24 @@ const ParticleCard: React.FC<{
         gsap.fromTo(clone, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.7)' });
 
         gsap.to(clone, {
-          x: (Math.random() - 0.5) * 60,
-          y: (Math.random() - 0.5) * 60,
+          x: (Math.random() - 0.5) * 80,
+          y: (Math.random() - 0.5) * 80,
           rotation: Math.random() * 360,
-          duration: 2 + Math.random() * 2,
+          duration: 1.5 + Math.random() * 1.5,
           ease: 'none',
           repeat: -1,
           yoyo: true
         });
 
         gsap.to(clone, {
-          opacity: 0.3,
-          duration: 1.5,
+          opacity: 0.6,
+          scale: 1.2,
+          duration: 1,
           ease: 'power2.inOut',
           repeat: -1,
           yoyo: true
         });
-      }, index * 150);
+      }, index * 50);
 
       timeoutsRef.current.push(timeoutId);
     });
@@ -300,7 +303,7 @@ const useMobileDetection = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  return isMobile || !isClient;
+  return isMobile;
 };
 
 const MagicBento: React.FC<MagicBentoProps> = ({

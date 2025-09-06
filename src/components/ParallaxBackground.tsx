@@ -19,7 +19,7 @@ const ParallaxBackground = () => {
           text="The age of AI isn't ahead of us — we are living it."
           spinDuration={25}
           onHover="speedUp"
-          className="opacity-60 scale-150"
+          className="opacity-60"
         />
       </div>
     </div>

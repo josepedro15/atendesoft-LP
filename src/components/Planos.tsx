@@ -1,6 +1,7 @@
 import { Check, MessageCircle, Star } from "lucide-react";
 import { events } from "@/lib/events";
 import planosData from "@/content/planos.json";
+import MagicBento from "./MagicBento";
 
 const Planos = () => {
   const handlePlanClick = (plano: any) => {
@@ -24,12 +25,16 @@ const Planos = () => {
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {planosData.map((plano, index) => (
-            <div 
+            <MagicBento 
               key={plano.id}
               className={`glass-card p-8 hover:shadow-lg transition-all duration-300 relative ${
                 plano.popular ? 'ring-2 ring-primary/20 scale-105' : ''
               }`}
               style={{ animationDelay: `${index * 150}ms` }}
+              enableStars={true}
+              enableTilt={true}
+              clickEffect={true}
+              enableMagnetism={true}
             >
               {/* Popular Badge */}
               {plano.popular && (
@@ -68,13 +73,13 @@ const Planos = () => {
                 <MessageCircle size={18} />
                 <span>Escolher Plano</span>
               </button>
-            </div>
+            </MagicBento>
           ))}
         </div>
 
         {/* Custom Solutions CTA */}
         <div className="text-center mt-16">
-          <div className="glass-card p-8 max-w-2xl mx-auto">
+          <MagicBento className="glass-card p-8 max-w-2xl mx-auto" enableStars={true} enableTilt={true} clickEffect={true}>
             <h3 className="text-xl font-bold text-foreground mb-4">
               Precisa de algo sob medida?
             </h3>
@@ -87,7 +92,7 @@ const Planos = () => {
             >
               Solicitar Orçamento Personalizado
             </button>
-          </div>
+          </MagicBento>
         </div>
       </div>
     </section>

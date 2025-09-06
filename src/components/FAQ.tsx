@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { events } from "@/lib/events";
 import faqData from "@/content/faq.json";
+import MagicBento from "./MagicBento";
 
 const FAQ = () => {
   const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
@@ -29,10 +30,14 @@ const FAQ = () => {
         <div className="max-w-3xl mx-auto">
           <div className="space-y-4">
             {faqData.map((item, index) => (
-              <div 
+              <MagicBento 
                 key={item.id}
                 className="glass-card overflow-hidden"
                 style={{ animationDelay: `${index * 100}ms` }}
+                enableStars={true}
+                enableTilt={false}
+                clickEffect={false}
+                enableMagnetism={false}
               >
                 <button
                   className="w-full text-left p-6 flex items-center justify-between hover:bg-muted/30 transition-colors focus-ring"
@@ -62,14 +67,14 @@ const FAQ = () => {
                     </p>
                   </div>
                 </div>
-              </div>
+              </MagicBento>
             ))}
           </div>
         </div>
 
         {/* Still have questions CTA */}
         <div className="text-center mt-16">
-          <div className="glass-card p-8 max-w-2xl mx-auto">
+          <MagicBento className="glass-card p-8 max-w-2xl mx-auto" enableStars={true} enableTilt={true} clickEffect={true}>
             <h3 className="text-xl font-bold text-foreground mb-4">
               Ainda tem dúvidas?
             </h3>
@@ -82,7 +87,7 @@ const FAQ = () => {
             >
               Falar com Especialista
             </button>
-          </div>
+          </MagicBento>
         </div>
       </div>
     </section>

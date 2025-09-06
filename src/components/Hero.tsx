@@ -2,6 +2,7 @@ import { ArrowRight, MessageCircle, Play } from "lucide-react";
 import { events } from "@/lib/events";
 import BlurText from "./BlurText";
 import ParallaxBackground from "./ParallaxBackground";
+import MagicBento from "./MagicBento";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 
@@ -84,21 +85,21 @@ const Hero = () => {
           </p>
           <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
             {/* Trust badge placeholders - in production these would be actual logos */}
-            <div className="trust-badge px-4 py-2 bg-muted rounded-lg">
-              <span className="font-semibold text-muted-foreground">n8n</span>
-            </div>
-            <div className="trust-badge px-4 py-2 bg-muted rounded-lg">
-              <span className="font-semibold text-muted-foreground">Evolution API</span>
-            </div>
-            <div className="trust-badge px-4 py-2 bg-muted rounded-lg">
-              <span className="font-semibold text-muted-foreground">OpenAI</span>
-            </div>
-            <div className="trust-badge px-4 py-2 bg-muted rounded-lg">
-              <span className="font-semibold text-muted-foreground">Supabase</span>
-            </div>
-            <div className="trust-badge px-4 py-2 bg-muted rounded-lg">
-              <span className="font-semibold text-muted-foreground">RD Station</span>
-            </div>
+                    <MagicBento className="trust-badge glass-card px-4 py-2 rounded-lg" enableStars={true} enableTilt={true} clickEffect={true}>
+                      <span className="font-semibold text-muted-foreground">n8n</span>
+                    </MagicBento>
+                    <MagicBento className="trust-badge glass-card px-4 py-2 rounded-lg" enableStars={true} enableTilt={true} clickEffect={true}>
+                      <span className="font-semibold text-muted-foreground">Evolution API</span>
+                    </MagicBento>
+                    <MagicBento className="trust-badge glass-card px-4 py-2 rounded-lg" enableStars={true} enableTilt={true} clickEffect={true}>
+                      <span className="font-semibold text-muted-foreground">OpenAI</span>
+                    </MagicBento>
+                    <MagicBento className="trust-badge glass-card px-4 py-2 rounded-lg" enableStars={true} enableTilt={true} clickEffect={true}>
+                      <span className="font-semibold text-muted-foreground">Supabase</span>
+                    </MagicBento>
+                    <MagicBento className="trust-badge glass-card px-4 py-2 rounded-lg" enableStars={true} enableTilt={true} clickEffect={true}>
+                      <span className="font-semibold text-muted-foreground">RD Station</span>
+                    </MagicBento>
           </div>
         </div>
       </motion.div>

@@ -25,21 +25,9 @@ const Navbar = () => {
   };
 
   return (
-    <nav 
-      className={`transition-all duration-300 ${
-        isScrolled ? "navbar-glass shadow-lg" : "bg-transparent"
-      }`} 
-      style={{ 
-        position: 'fixed', 
-        top: 0, 
-        left: 0, 
-        right: 0, 
-        width: '100%', 
-        zIndex: 50,
-        transform: 'none',
-        willChange: 'auto'
-      }}
-    >
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+      isScrolled ? "navbar-glass shadow-lg" : "bg-transparent"
+    }`}>
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}

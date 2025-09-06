@@ -140,25 +140,25 @@ All colors MUST be HSL.
 @layer components {
   /* Apple-inspired Glass Card */
   .glass-card {
-    @apply bg-white/50 backdrop-blur-2xl border border-white/40 rounded-2xl;
+    @apply bg-white/70 backdrop-blur-3xl border border-white/50 rounded-2xl;
     box-shadow: 
-      0 12px 40px rgba(0, 0, 0, 0.15),
-      0 2px 8px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(30px) saturate(200%) brightness(1.1);
+      0 20px 60px rgba(0, 0, 0, 0.2),
+      0 8px 20px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(40px) saturate(250%) brightness(1.2);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .glass-card:hover {
-    @apply bg-white/60 border-white/50;
+    @apply bg-white/80 border-white/60;
     box-shadow: 
-      0 16px 50px rgba(0, 0, 0, 0.2),
-      0 4px 12px rgba(0, 0, 0, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.7),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(35px) saturate(220%) brightness(1.15);
-    transform: translateY(-3px);
+      0 25px 80px rgba(0, 0, 0, 0.25),
+      0 12px 30px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(50px) saturate(280%) brightness(1.25);
+    transform: translateY(-5px);
   }
 
   /* Translucent Navbar */
@@ -197,8 +197,25 @@ All colors MUST be HSL.
 
   /* Timeline Bubble */
   .timeline-bubble {
-    @apply bg-white/60 backdrop-blur-md border border-white/30 rounded-2xl p-6;
-    box-shadow: var(--shadow-card);
+    @apply bg-white/70 backdrop-blur-3xl border border-white/50 rounded-2xl p-6;
+    box-shadow: 
+      0 20px 60px rgba(0, 0, 0, 0.2),
+      0 8px 20px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(40px) saturate(250%) brightness(1.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .timeline-bubble:hover {
+    @apply bg-white/80 border-white/60;
+    box-shadow: 
+      0 25px 80px rgba(0, 0, 0, 0.25),
+      0 12px 30px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(50px) saturate(280%) brightness(1.25);
+    transform: translateY(-3px);
   }
 
   /* Accordion Animation */
@@ -213,30 +230,4 @@ All colors MUST be HSL.
     box-shadow: var(--shadow-focus);
   }
 
-  /* Navbar Fixed Position */
-  nav {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 50 !important;
-    transform: none !important;
-    will-change: auto !important;
-    overflow: visible !important;
-  }
-
-  /* Override any parent transforms that might affect navbar */
-  nav {
-    transform: translate3d(0, 0, 0) !important;
-  }
-
-  /* Prevent any parent from affecting navbar position */
-  body, html {
-    overflow-x: hidden !important;
-  }
-
-  /* Ensure no transforms affect navbar */
-  * {
-    transform-style: preserve-3d !important;
-  }
 }

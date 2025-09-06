@@ -1,6 +1,7 @@
 import { MessageCircle, ArrowRight } from "lucide-react";
 import { events } from "@/lib/events";
 import produtosData from "@/content/produtos.json";
+import MagicBento from "./MagicBento";
 
 const Produtos = () => {
   const handleProductCTA = (produto: any) => {
@@ -64,7 +65,7 @@ const Produtos = () => {
 
                 {/* Product Visual */}
                 <div className="flex-1 max-w-lg">
-                  <div className="glass-card p-8 aspect-square flex items-center justify-center">
+                  <MagicBento className="glass-card p-8 aspect-square flex items-center justify-center" enableStars={true} enableTilt={true} clickEffect={true}>
                     <div className="text-center space-y-4">
                       <div className="w-20 h-20 bg-gradient-to-br from-primary to-accent rounded-2xl mx-auto flex items-center justify-center">
                         <MessageCircle className="w-10 h-10 text-white" />
@@ -78,7 +79,7 @@ const Produtos = () => {
                         ))}
                       </div>
                     </div>
-                  </div>
+                  </MagicBento>
                 </div>
               </div>
             );

@@ -32,7 +32,7 @@ const CTAFinal = () => {
           <div className="mb-12">
             <button 
               onClick={handleWhatsAppClick}
-              className="bg-white text-primary hover:bg-white/95 font-bold text-lg md:text-xl px-12 py-6 rounded-2xl flex items-center space-x-4 mx-auto transition-all duration-300 hover:scale-105 focus-ring shadow-2xl"
+              className="glass-card text-primary hover:bg-white/95 font-bold text-lg md:text-xl px-12 py-6 rounded-2xl flex items-center space-x-4 mx-auto transition-all duration-300 hover:scale-105 focus-ring shadow-2xl"
             >
               <MessageCircle size={24} />
               <span>Começar Agora no WhatsApp</span>

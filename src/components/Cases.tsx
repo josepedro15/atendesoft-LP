@@ -1,5 +1,6 @@
 import { TrendingUp, Users, DollarSign, Clock } from "lucide-react";
 import casesData from "@/content/cases.json";
+import MagicBento from "./MagicBento";
 
 const getIcon = (tipo: string) => {
   switch (tipo) {
@@ -32,10 +33,14 @@ const Cases = () => {
             const Icon = getIcon(caso.tipo);
             
             return (
-              <div 
+              <MagicBento 
                 key={caso.id}
                 className="glass-card p-6 hover:shadow-lg transition-all duration-300 group"
                 style={{ animationDelay: `${index * 100}ms` }}
+                enableStars={true}
+                enableTilt={true}
+                clickEffect={true}
+                enableMagnetism={true}
               >
                 {/* Header */}
                 <div className="flex items-center justify-between mb-4">
@@ -77,14 +82,14 @@ const Cases = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </MagicBento>
             );
           })}
         </div>
 
         {/* CTA Section */}
         <div className="text-center mt-16">
-          <div className="glass-card p-8 max-w-3xl mx-auto">
+          <MagicBento className="glass-card p-8 max-w-3xl mx-auto" enableStars={true} enableTilt={true} clickEffect={true}>
             <h3 className="text-xl font-bold text-foreground mb-4">
               Quer ser o próximo case de sucesso?
             </h3>
@@ -105,7 +110,7 @@ const Cases = () => {
                 Ver Mais Cases
               </button>
             </div>
-          </div>
+          </MagicBento>
         </div>
       </div>
     </section>

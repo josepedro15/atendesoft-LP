@@ -2,6 +2,7 @@ import { Check, MessageCircle, Star } from "lucide-react";
 import { events } from "@/lib/events";
 import planosData from "@/content/planos.json";
 import MagicBento from "./MagicBento";
+import ShapeBlur from "./ShapeBlur";
 
 const Planos = () => {
   const handlePlanClick = (plano: any) => {
@@ -64,15 +65,26 @@ const Planos = () => {
               </div>
 
               {/* CTA Button */}
-              <button 
-                onClick={() => handlePlanClick(plano)}
-                className={`w-full flex items-center justify-center space-x-2 focus-ring ${
-                  plano.popular ? 'btn-primary' : 'btn-secondary'
-                }`}
-              >
-                <MessageCircle size={18} />
-                <span>Escolher Plano</span>
-              </button>
+              <div className="relative">
+                <ShapeBlur 
+                  className="absolute inset-0 pointer-events-none"
+                  variation={0}
+                  shapeSize={1.2}
+                  roundness={0.4}
+                  borderSize={0.05}
+                  circleSize={0.3}
+                  circleEdge={0.5}
+                />
+                <button 
+                  onClick={() => handlePlanClick(plano)}
+                  className={`w-full flex items-center justify-center space-x-2 focus-ring relative z-10 ${
+                    plano.popular ? 'btn-primary' : 'btn-secondary'
+                  }`}
+                >
+                  <MessageCircle size={18} />
+                  <span>Escolher Plano</span>
+                </button>
+              </div>
             </MagicBento>
           ))}
         </div>
@@ -86,12 +98,23 @@ const Planos = () => {
             <p className="text-muted-foreground mb-6">
               Criamos soluções 100% personalizadas para necessidades específicas
             </p>
-            <button 
-              onClick={() => window.open("https://wa.me/5511999999999?text=Preciso%20de%20uma%20solução%20customizada", "_blank")}
-              className="btn-primary focus-ring"
-            >
-              Solicitar Orçamento Personalizado
-            </button>
+            <div className="relative">
+              <ShapeBlur 
+                className="absolute inset-0 pointer-events-none"
+                variation={0}
+                shapeSize={1.2}
+                roundness={0.4}
+                borderSize={0.05}
+                circleSize={0.3}
+                circleEdge={0.5}
+              />
+              <button 
+                onClick={() => window.open("https://wa.me/5511999999999?text=Preciso%20de%20uma%20solução%20customizada", "_blank")}
+                className="btn-primary focus-ring relative z-10"
+              >
+                Solicitar Orçamento Personalizado
+              </button>
+            </div>
           </MagicBento>
         </div>
       </div>

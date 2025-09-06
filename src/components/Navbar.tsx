@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { MessageCircle } from "lucide-react";
 import { events } from "@/lib/events";
 import ShinyText from "./ShinyText";
+import ShapeBlur from "./ShapeBlur";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -90,13 +91,24 @@ const Navbar = () => {
           </div>
 
           {/* WhatsApp CTA */}
-          <button 
-            onClick={handleWhatsAppClick}
-            className="btn-whatsapp flex items-center space-x-2 focus-ring"
-          >
-            <MessageCircle size={18} />
-            <span className="hidden sm:inline">Falar no WhatsApp</span>
-          </button>
+          <div className="relative">
+            <ShapeBlur 
+              className="absolute inset-0 pointer-events-none"
+              variation={0}
+              shapeSize={1.2}
+              roundness={0.4}
+              borderSize={0.05}
+              circleSize={0.3}
+              circleEdge={0.5}
+            />
+            <button 
+              onClick={handleWhatsAppClick}
+              className="btn-whatsapp flex items-center space-x-2 focus-ring relative z-10"
+            >
+              <MessageCircle size={18} />
+              <span className="hidden sm:inline">Falar no WhatsApp</span>
+            </button>
+          </div>
         </div>
       </div>
     </nav>

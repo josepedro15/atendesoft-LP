@@ -3,6 +3,7 @@ import { ExternalLink } from "lucide-react";
 import { events } from "@/lib/events";
 import ferramentasData from "@/content/ferramentas.json";
 import MagicBento from "./MagicBento";
+import ShapeBlur from "./ShapeBlur";
 
 const Ferramentas = () => {
   const [hoveredTool, setHoveredTool] = useState<string | null>(null);
@@ -93,18 +94,40 @@ const Ferramentas = () => {
               Trabalhamos com APIs customizadas e integrações sob medida para seu negócio
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
-                onClick={() => window.open("https://wa.me/5511999999999?text=Preciso%20de%20uma%20integração%20customizada", "_blank")}
-                className="btn-primary focus-ring"
-              >
-                Solicitar Integração
-              </button>
-              <button 
-                onClick={() => window.open("https://wa.me/5511999999999?text=Quero%20ver%20todas%20as%20integrações%20disponíveis", "_blank")}
-                className="btn-secondary focus-ring"
-              >
-                Ver Todas as Integrações
-              </button>
+              <div className="relative">
+                <ShapeBlur 
+                  className="absolute inset-0 pointer-events-none"
+                  variation={0}
+                  shapeSize={1.2}
+                  roundness={0.4}
+                  borderSize={0.05}
+                  circleSize={0.3}
+                  circleEdge={0.5}
+                />
+                <button 
+                  onClick={() => window.open("https://wa.me/5511999999999?text=Preciso%20de%20uma%20integração%20customizada", "_blank")}
+                  className="btn-primary focus-ring relative z-10"
+                >
+                  Solicitar Integração
+                </button>
+              </div>
+              <div className="relative">
+                <ShapeBlur 
+                  className="absolute inset-0 pointer-events-none"
+                  variation={0}
+                  shapeSize={1.2}
+                  roundness={0.4}
+                  borderSize={0.05}
+                  circleSize={0.3}
+                  circleEdge={0.5}
+                />
+                <button 
+                  onClick={() => window.open("https://wa.me/5511999999999?text=Quero%20ver%20todas%20as%20integrações%20disponíveis", "_blank")}
+                  className="btn-secondary focus-ring relative z-10"
+                >
+                  Ver Todas as Integrações
+                </button>
+              </div>
             </div>
           </MagicBento>
         </div>

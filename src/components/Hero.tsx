@@ -31,7 +31,7 @@ const Hero = () => {
         {/* Main Headline */}
         <BlurText
           text="Automação Comercial, Apps e Dashboards com IA"
-          delay={150}
+          delay={80}
           animateBy="words"
           direction="top"
           className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight"
@@ -41,7 +41,7 @@ const Hero = () => {
         {/* Subtitle */}
         <BlurText
           text="Fluxos de vendas e atendimento no WhatsApp, aplicativos com LLMs/RAG e BI com IA para decisões em minutos."
-          delay={100}
+          delay={60}
           animateBy="words"
           direction="top"
           className="text-lg md:text-xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed"

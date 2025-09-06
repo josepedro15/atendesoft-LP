@@ -1,5 +1,6 @@
 import { MessageCircle, ArrowRight } from "lucide-react";
 import { events } from "@/lib/events";
+import CurvedLoop from "./CurvedLoop";
 
 const CTAFinal = () => {
   const handleWhatsAppClick = () => {
@@ -8,62 +9,18 @@ const CTAFinal = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-primary via-primary to-accent relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_white_1px,_transparent_1px)] bg-[length:40px_40px]"></div>
-      </div>
+    <section className="py-20 bg-foreground relative overflow-hidden">
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-4xl mx-auto text-center text-white">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
-            Pronto para vender com{" "}
-            <span className="bg-gradient-to-r from-white to-accent-foreground bg-clip-text text-transparent">
-              Inteligência Artificial?
-            </span>
-          </h2>
-          
-          <p className="text-xl md:text-2xl mb-12 opacity-90 leading-relaxed">
-            Comece sua transformação digital hoje mesmo. 
-            Nossa equipe está esperando para criar a solução perfeita para seu negócio.
-          </p>
-
-          {/* Main CTA */}
-          <div className="mb-12">
-            <button 
-              onClick={handleWhatsAppClick}
-              className="glass-card text-primary hover:bg-white/95 font-bold text-lg md:text-xl px-12 py-6 rounded-2xl flex items-center space-x-4 mx-auto transition-all duration-300 hover:scale-105 focus-ring shadow-2xl"
-            >
-              <MessageCircle size={24} />
-              <span>Começar Agora no WhatsApp</span>
-              <ArrowRight size={24} />
-            </button>
-          </div>
-
-          {/* Benefits List */}
-          <div className="grid md:grid-cols-3 gap-6 text-white/80">
-            <div className="flex items-center space-x-3">
-              <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-sm">✓</span>
-              </div>
-              <span>Consultoria gratuita de 30 minutos</span>
-            </div>
-            
-            <div className="flex items-center space-x-3">
-              <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-sm">✓</span>
-              </div>
-              <span>Análise completa do seu processo</span>
-            </div>
-            
-            <div className="flex items-center space-x-3">
-              <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-sm">✓</span>
-              </div>
-              <span>Proposta personalizada</span>
-            </div>
-          </div>
-        </div>
+      {/* CurvedLoop Animation */}
+      <div className="relative z-10 overflow-hidden">
+        <CurvedLoop 
+          marqueeText="The future isn't tomorrow — it's AI today."
+          speed={1}
+          curveAmount={300}
+          direction="left"
+          interactive={true}
+          className="text-white"
+        />
       </div>
 
       {/* Decorative elements */}

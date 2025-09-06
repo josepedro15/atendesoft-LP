@@ -40,9 +40,14 @@ const Hero = () => {
         }}
       >
                 {/* Main Headline */}
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight">
-                  Automação Comercial, Apps e Dashboards com IA
-                </h1>
+                <BlurText
+                  text="Automação Comercial, Apps e Dashboards com IA"
+                  delay={100}
+                  animateBy="words"
+                  direction="top"
+                  className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight"
+                  stepDuration={0.3}
+                />
 
         {/* Subtitle */}
         <BlurText

@@ -14,13 +14,24 @@ const Produtos = () => {
   return (
     <section id="produtos" className="py-20 bg-gradient-to-b from-muted/30 to-background">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Nossos Produtos
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Soluções de IA sob medida para cada necessidade do seu negócio
-          </p>
+        <div className="text-center mb-16 relative">
+          <MagicBento 
+            className="absolute inset-0 bg-white/50 backdrop-blur-xl border border-white/50 rounded-3xl -m-8 p-8 shadow-2xl"
+            enableStars={true}
+            enableTilt={true}
+            clickEffect={true}
+            enableMagnetism={true}
+            enableBorderGlow={true}
+          >
+            <div className="relative z-10">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
+              Nossos Produtos
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Soluções de IA sob medida para cada necessidade do seu negócio
+            </p>
+            </div>
+          </MagicBento>
         </div>
 
         <div className="space-y-12">

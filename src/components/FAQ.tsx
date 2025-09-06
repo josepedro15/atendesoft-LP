@@ -18,13 +18,24 @@ const FAQ = () => {
   return (
     <section id="faq" className="py-20 bg-background">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Perguntas Frequentes
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Tire suas dúvidas sobre nossas soluções de automação e IA
-          </p>
+        <div className="text-center mb-16 relative">
+          <MagicBento 
+            className="absolute inset-0 bg-white/50 backdrop-blur-xl border border-white/50 rounded-3xl -m-8 p-8 shadow-2xl"
+            enableStars={true}
+            enableTilt={true}
+            clickEffect={true}
+            enableMagnetism={true}
+            enableBorderGlow={true}
+          >
+            <div className="relative z-10">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
+                Perguntas Frequentes
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Tire suas dúvidas sobre nossas soluções de automação e IA
+              </p>
+            </div>
+          </MagicBento>
         </div>
 
         <div className="max-w-3xl mx-auto">
@@ -53,20 +64,15 @@ const FAQ = () => {
                   />
                 </button>
                 
-                <div 
-                  className={`accordion-content ${
-                    openItems[item.id] ? 'h-auto' : 'h-0'
-                  }`}
-                  style={{
-                    height: openItems[item.id] ? 'auto' : '0',
-                  }}
-                >
-                  <div className="px-6 pb-6">
-                    <p className="text-muted-foreground leading-relaxed">
-                      {item.resposta}
-                    </p>
+                {openItems[item.id] && (
+                  <div className="accordion-content">
+                    <div className="px-6 pb-6">
+                      <p className="text-muted-foreground leading-relaxed">
+                        {item.resposta}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
               </MagicBento>
             ))}
           </div>

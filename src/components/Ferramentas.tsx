@@ -7,23 +7,30 @@ import MagicBento from "./MagicBento";
 const Ferramentas = () => {
   const [hoveredTool, setHoveredTool] = useState<string | null>(null);
 
-  const handleToolClick = (ferramenta: any) => {
-    events.toolTipOpen(ferramenta.nome.toLowerCase());
-    window.open(ferramenta.link, "_blank");
-  };
 
   const categorias = [...new Set(ferramentasData.map(f => f.categoria))];
 
   return (
     <section id="ferramentas" className="py-20 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Ferramentas & Integrações
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Ecossistema completo de tecnologias para potencializar seus resultados
-          </p>
+        <div className="text-center mb-16 relative">
+          <MagicBento 
+            className="absolute inset-0 bg-white/50 backdrop-blur-xl border border-white/50 rounded-3xl -m-8 p-8 shadow-2xl"
+            enableStars={true}
+            enableTilt={true}
+            clickEffect={true}
+            enableMagnetism={true}
+            enableBorderGlow={true}
+          >
+            <div className="relative z-10">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
+              Ferramentas & Integrações
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Ecossistema completo de tecnologias para potencializar seus resultados
+            </p>
+            </div>
+          </MagicBento>
         </div>
 
         {/* Categories */}
@@ -43,17 +50,16 @@ const Ferramentas = () => {
           {ferramentasData.map((ferramenta, index) => (
             <MagicBento 
               key={ferramenta.nome}
-              className="glass-card p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group relative"
+              className="glass-card p-6 hover:shadow-lg transition-all duration-300 group relative"
               style={{ animationDelay: `${index * 50}ms` }}
               enableStars={true}
-              enableTilt={true}
-              clickEffect={true}
-              enableMagnetism={true}
+              enableTilt={false}
+              clickEffect={false}
+              enableMagnetism={false}
             >
               <div
                 onMouseEnter={() => setHoveredTool(ferramenta.nome)}
                 onMouseLeave={() => setHoveredTool(null)}
-                onClick={() => handleToolClick(ferramenta)}
               >
                 {/* Tool Logo Placeholder */}
                 <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
@@ -68,7 +74,6 @@ const Ferramentas = () => {
                 
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-muted-foreground">{ferramenta.categoria}</span>
-                  <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
 
                 {/* Tooltip */}

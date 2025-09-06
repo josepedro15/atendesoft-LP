@@ -14,21 +14,21 @@ const Footer = () => {
               </div>
               <span className="text-2xl font-bold">AtendeSoft</span>
             </div>
-            <p className="text-background/80 leading-relaxed mb-6 max-w-md">
+            <p className="text-background leading-relaxed mb-6 max-w-md">
               Transformamos negócios com automações inteligentes, aplicativos com IA 
               e dashboards que geram insights acionáveis.
             </p>
             <div className="flex items-center space-x-4">
               <button 
                 onClick={() => window.open("https://wa.me/5511999999999", "_blank")}
-                className="flex items-center space-x-2 text-background/80 hover:text-background transition-colors"
+                className="flex items-center space-x-2 text-background hover:text-background transition-colors"
               >
                 <MessageCircle size={18} />
                 <span>WhatsApp</span>
               </button>
               <a 
                 href="mailto:contato@attendesoft.com"
-                className="flex items-center space-x-2 text-background/80 hover:text-background transition-colors"
+                className="flex items-center space-x-2 text-background hover:text-background transition-colors"
               >
                 <Mail size={18} />
                 <span>Email</span>
@@ -39,7 +39,7 @@ const Footer = () => {
           {/* Links */}
           <div>
             <h4 className="font-semibold text-background mb-4">Navegação</h4>
-            <ul className="space-y-3 text-background/80">
+            <ul className="space-y-3 text-background">
               <li>
                 <button 
                   onClick={() => document.getElementById('como-funciona')?.scrollIntoView({ behavior: 'smooth' })}
@@ -78,7 +78,7 @@ const Footer = () => {
           {/* Legal & Contact */}
           <div>
             <h4 className="font-semibold text-background mb-4">Informações</h4>
-            <ul className="space-y-3 text-background/80">
+            <ul className="space-y-3 text-background">
               <li>
                 <Link href="/privacidade" className="hover:text-background transition-colors">
                   Política de Privacidade
@@ -98,8 +98,8 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-background/20 mt-12 pt-8 text-center">
-          <p className="text-background/60 text-sm">
+        <div className="border-t border-background mt-12 pt-8 text-center">
+          <p className="text-background text-sm">
             © {new Date().getFullYear()} AtendeSoft. Todos os direitos reservados.
           </p>
         </div>

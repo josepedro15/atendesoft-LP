@@ -1,5 +1,6 @@
 import { Brain, MessageCircle, BarChart3 } from "lucide-react";
 import beneficiosData from "@/content/beneficios.json";
+import MagicBento from "./MagicBento";
 
 const iconMap = {
   MessageCircle,
@@ -9,18 +10,26 @@ const iconMap = {
 
 const Beneficios = () => {
   return (
-    <section className="py-20 bg-gradient-to-b from-background to-muted/30">
+    <section className="py-20 bg-background">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Transforme seu negócio com
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              {" "}Inteligência Artificial
-            </span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Soluções completas e personalizadas que revolucionam seus processos comerciais
-          </p>
+        <div className="text-center mb-16 relative">
+          <MagicBento 
+            className="absolute inset-0 bg-white/50 backdrop-blur-xl border border-white/50 rounded-3xl -m-8 p-8 shadow-2xl"
+            enableStars={true}
+            enableTilt={true}
+            clickEffect={true}
+            enableMagnetism={true}
+            enableBorderGlow={true}
+          >
+            <div className="relative z-10">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-6">
+                Transforme seu negócio com{" "}Inteligência Artificial
+              </h2>
+              <p className="text-lg text-primary max-w-3xl mx-auto leading-relaxed">
+                Soluções completas e personalizadas que revolucionam seus processos comerciais
+              </p>
+            </div>
+          </MagicBento>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

@@ -106,7 +106,7 @@ const Ferramentas = () => {
                 />
                 <button 
                   onClick={() => window.open("https://wa.me/5511999999999?text=Preciso%20de%20uma%20integração%20customizada", "_blank")}
-                  className="btn-primary focus-ring relative z-10"
+                  className="btn-primary focus-ring relative z-20"
                 >
                   Solicitar Integração
                 </button>
@@ -123,7 +123,7 @@ const Ferramentas = () => {
                 />
                 <button 
                   onClick={() => window.open("https://wa.me/5511999999999?text=Quero%20ver%20todas%20as%20integrações%20disponíveis", "_blank")}
-                  className="btn-secondary focus-ring relative z-10"
+                  className="btn-secondary focus-ring relative z-20"
                 >
                   Ver Todas as Integrações
                 </button>

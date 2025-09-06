@@ -125,7 +125,16 @@ const ShapeBlur: FC<ShapeBlurProps> = ({
     <canvas 
       ref={canvasRef} 
       className={`absolute inset-0 pointer-events-none ${className}`}
-      style={{ zIndex: 1 }}
+      style={{ 
+        zIndex: 10,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100%',
+        height: '100%'
+      }}
     />
   );
 };

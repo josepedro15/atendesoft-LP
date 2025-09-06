@@ -56,7 +56,7 @@ const Hero = () => {
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-          <div className="relative">
+          <div className="relative" style={{ overflow: 'visible' }}>
             <ShapeBlur 
               className="absolute inset-0 pointer-events-none"
               variation={0}
@@ -68,14 +68,14 @@ const Hero = () => {
             />
             <button 
               onClick={handleWhatsAppClick}
-              className="btn-whatsapp flex items-center space-x-3 text-lg px-8 py-4 focus-ring relative z-10"
+              className="btn-whatsapp flex items-center space-x-3 text-lg px-8 py-4 focus-ring relative z-20"
             >
               <MessageCircle size={20} />
               <span>Falar no WhatsApp</span>
             </button>
           </div>
           
-          <div className="relative">
+          <div className="relative" style={{ overflow: 'visible' }}>
             <ShapeBlur 
               className="absolute inset-0 pointer-events-none"
               variation={0}
@@ -87,7 +87,7 @@ const Hero = () => {
             />
             <button 
               onClick={handleScrollToDemo}
-              className="btn-secondary flex items-center space-x-3 text-lg px-8 py-4 focus-ring relative z-10"
+              className="btn-secondary flex items-center space-x-3 text-lg px-8 py-4 focus-ring relative z-20"
             >
               <Play size={20} />
               <span>Ver como funciona</span>

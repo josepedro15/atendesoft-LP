@@ -97,7 +97,7 @@ const Navbar = () => {
             />
             <button 
               onClick={handleWhatsAppClick}
-              className="btn-whatsapp flex items-center space-x-2 focus-ring relative z-10"
+              className="btn-whatsapp flex items-center space-x-2 focus-ring relative z-20"
             >
               <MessageCircle size={18} />
               <span className="hidden sm:inline">Falar no WhatsApp</span>

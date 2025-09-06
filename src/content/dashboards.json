@@ -1,0 +1,50 @@
+[
+  {
+    "id": "vendas-previsao",
+    "titulo": "Vendas & Previsão",
+    "descricao": "Acompanhe suas vendas e tenha previsões precisas com IA",
+    "kpis": [
+      "Vendas realizadas vs. projetadas",
+      "Taxa de conversão por canal",
+      "Previsão de vendas próximos 30/60/90 dias",
+      "ROI por campanha e fonte de tráfego",
+      "Ciclo de vida do cliente (CLV)"
+    ]
+  },
+  {
+    "id": "marketing-performance",
+    "titulo": "Marketing & Performance",
+    "descricao": "Otimize suas campanhas com insights acionáveis de IA",
+    "kpis": [
+      "Custo de aquisição por cliente (CAC)",
+      "Retorno sobre investimento em ads",
+      "Engajamento por canal e conteúdo",
+      "Funil de conversão otimizado",
+      "Segmentação inteligente de audiências"
+    ]
+  },
+  {
+    "id": "operacional-eficiencia",
+    "titulo": "Operacional & Eficiência",
+    "descricao": "Monitore processos e identifique gargalos automaticamente",
+    "kpis": [
+      "Tempo médio de resposta ao cliente",
+      "Eficiência operacional por setor",
+      "Identificação de gargalos em tempo real",
+      "Produtividade da equipe",
+      "Satisfação do cliente (NPS automatizado)"
+    ]
+  },
+  {
+    "id": "financeiro-fluxo",
+    "titulo": "Financeiro & Fluxo de Caixa",
+    "descricao": "Controle financeiro inteligente com projeções automáticas",
+    "kpis": [
+      "Fluxo de caixa projetado com IA",
+      "Contas a receber vs. inadimplência",
+      "Análise de rentabilidade por produto/serviço",
+      "Gestão de estoque inteligente",
+      "Indicadores de saúde financeira"
+    ]
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "starter",
+    "nome": "Starter",
+    "descricao": "Ideal para pequenos negócios que querem começar com automação",
+    "preco": "Sob consulta",
+    "features": [
+      "Automação básica WhatsApp",
+      "Até 1.000 conversas/mês",
+      "Dashboard básico com 5 KPIs",
+      "Integração com 2 ferramentas",
+      "Suporte por email"
+    ],
+    "popular": false,
+    "cta_texto": "Quero começar com automação"
+  },
+  {
+    "id": "growth",
+    "nome": "Growth",
+    "descricao": "Para empresas em crescimento que precisam de mais recursos",
+    "preco": "Sob consulta",
+    "features": [
+      "Automação avançada WhatsApp",
+      "Até 5.000 conversas/mês",
+      "IA personalizada para seu negócio",
+      "Dashboard completo com análises preditivas",
+      "Integração ilimitada",
+      "Suporte prioritário",
+      "Treinamento da equipe"
+    ],
+    "popular": true,
+    "cta_texto": "Quero escalar meu negócio"
+  },
+  {
+    "id": "enterprise",
+    "nome": "Enterprise",
+    "descricao": "Solução completa para grandes empresas e multiple unidades",
+    "preco": "Sob consulta",
+    "features": [
+      "Solução customizada completa",
+      "Conversas ilimitadas",
+      "IA avançada com machine learning",
+      "Múltiplos dashboards personalizados",
+      "API própria e integrações customizadas",
+      "Suporte 24/7 dedicado",
+      "Consultoria estratégica contínua",
+      "SLA garantido"
+    ],
+    "popular": false,
+    "cta_texto": "Quero uma solução enterprise"
+  }
+]

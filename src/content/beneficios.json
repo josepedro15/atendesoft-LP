@@ -1,0 +1,38 @@
+[
+  {
+    "id": "automacao-whatsapp",
+    "titulo": "Automação no WhatsApp",
+    "descricao": "Fluxos inteligentes de vendas e atendimento que convertem 24/7",
+    "icone": "MessageCircle",
+    "beneficios": [
+      "Qualificação automática de leads",
+      "Respostas instantâneas com IA",
+      "Integração com CRM e ferramentas de vendas",
+      "Métricas de conversão em tempo real"
+    ]
+  },
+  {
+    "id": "apps-ia",
+    "titulo": "Aplicativos com IA",
+    "descricao": "Soluções personalizadas com LLMs e RAG para seu negócio",
+    "icone": "Brain",
+    "beneficios": [
+      "Chatbots especializados por setor",
+      "Análise de documentos com IA",
+      "Assistentes virtuais personalizados",
+      "Integração com bases de conhecimento"
+    ]
+  },
+  {
+    "id": "dashboards-bi",
+    "titulo": "Dashboards com BI",
+    "descricao": "Inteligência de negócios e análises preditivas com IA",
+    "icone": "BarChart3",
+    "beneficios": [
+      "Análises preditivas automatizadas",
+      "KPIs em tempo real",
+      "Insights acionáveis por IA",
+      "Relatórios automáticos personalizados"
+    ]
+  }
+]

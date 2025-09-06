@@ -1,0 +1,42 @@
+[
+  {
+    "id": "o-que-e-attendesoft",
+    "pergunta": "O que é a AtendeSoft?",
+    "resposta": "A AtendeSoft é uma empresa especializada em automações comerciais com inteligência artificial. Desenvolvemos soluções personalizadas incluindo automações para WhatsApp, aplicativos com IA e dashboards inteligentes para otimizar processos de vendas e atendimento."
+  },
+  {
+    "id": "como-funciona-ia",
+    "pergunta": "Como funciona a IA nas automações?",
+    "resposta": "Utilizamos modelos de linguagem avançados (LLMs) como GPT-4 e Claude, combinados com técnicas de RAG (Retrieval-Augmented Generation) para criar assistentes que entendem o contexto do seu negócio. A IA é treinada com seus dados específicos para oferecer respostas precisas e personalizadas."
+  },
+  {
+    "id": "integracao-sistemas",
+    "pergunta": "Posso integrar com meus sistemas atuais?",
+    "resposta": "Sim! Trabalhamos com mais de 50 integrações diferentes, incluindo CRMs (HubSpot, RD Station, Pipedrive), ERPs, planilhas do Google, bancos de dados e APIs customizadas. Nossa arquitetura foi desenvolvida para se adaptar à sua infraestrutura atual."
+  },
+  {
+    "id": "tempo-implementacao",
+    "pergunta": "Quanto tempo leva para implementar?",
+    "resposta": "O tempo varia conforme a complexidade: automações simples ficam prontas em 1-2 semanas, projetos médios entre 2-4 semanas e soluções enterprise entre 4-8 semanas. Seguimos metodologia ágil com entregas incrementais para você ver resultados rapidamente."
+  },
+  {
+    "id": "suporte-manutencao",
+    "pergunta": "Vocês oferecem suporte e manutenção?",
+    "resposta": "Sim! Todos os planos incluem suporte contínuo, atualizações de segurança, otimizações de performance e ajustes conforme seu negócio evolui. Oferecemos diferentes níveis de SLA dependendo do plano escolhido."
+  },
+  {
+    "id": "seguranca-dados",
+    "pergunta": "Como é garantida a segurança dos dados?",
+    "resposta": "Seguimos as melhores práticas de segurança: criptografia end-to-end, compliance com LGPD, hospedagem em servidores certificados, backups automáticos e auditoria de acessos. Seus dados ficam protegidos e você mantém total controle sobre eles."
+  },
+  {
+    "id": "preco-investimento",
+    "pergunta": "Qual o investimento necessário?",
+    "resposta": "Os valores são personalizados conforme suas necessidades específicas. Oferecemos desde soluções para pequenos negócios até enterprise. Agende uma consulta gratuita para receber uma proposta adequada ao seu orçamento e objetivos."
+  },
+  {
+    "id": "resultados-tempo",
+    "pergunta": "Em quanto tempo vejo resultados?",
+    "resposta": "A maioria dos clientes observa melhorias nas primeiras 2 semanas após a implementação. Resultados típicos incluem: aumento de 40-200% na taxa de conversão, redução de 60% no tempo de resposta e 70% de economia em custos operacionais."
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "titulo": "Análise do Negócio",
+    "descricao": "Mapeamos seus processos e identificamos oportunidades de automação com IA",
+    "icone": "Search",
+    "tempo": "1-2 dias"
+  },
+  {
+    "id": 2,
+    "titulo": "Estratégia Personalizada",
+    "descricao": "Desenvolvemos uma estratégia sob medida com tecnologias de IA adequadas",
+    "icone": "Target",
+    "tempo": "2-3 dias"
+  },
+  {
+    "id": 3,
+    "titulo": "Desenvolvimento Ágil",
+    "descricao": "Criamos suas automações, apps e dashboards usando metodologia ágil",
+    "icone": "Code",
+    "tempo": "1-4 semanas"
+  },
+  {
+    "id": 4,
+    "titulo": "Testes e Ajustes",
+    "descricao": "Testamos tudo em ambiente controlado e ajustamos conforme necessário",
+    "icone": "TestTube",
+    "tempo": "3-5 dias"
+  },
+  {
+    "id": 5,
+    "titulo": "Go Live e Suporte",
+    "descricao": "Colocamos tudo no ar e oferecemos suporte contínuo e otimizações",
+    "icone": "Rocket",
+    "tempo": "Contínuo"
+  }
+]

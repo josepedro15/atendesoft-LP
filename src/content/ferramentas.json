@@ -1,0 +1,86 @@
+[
+  {
+    "nome": "n8n",
+    "categoria": "Automação",
+    "descricao": "Automação de workflows e integrações",
+    "logo": "/logos/n8n.svg",
+    "link": "https://n8n.io"
+  },
+  {
+    "nome": "Evolution API",
+    "categoria": "WhatsApp",
+    "descricao": "API robusta para WhatsApp Business",
+    "logo": "/logos/evolution.svg",
+    "link": "https://evolution-api.com"
+  },
+  {
+    "nome": "OpenAI",
+    "categoria": "IA",
+    "descricao": "Modelos de linguagem avançados",
+    "logo": "/logos/openai.svg",
+    "link": "https://openai.com"
+  },
+  {
+    "nome": "Supabase",
+    "categoria": "Banco de Dados",
+    "descricao": "Backend como serviço",
+    "logo": "/logos/supabase.svg",
+    "link": "https://supabase.com"
+  },
+  {
+    "nome": "RD Station",
+    "categoria": "CRM",
+    "descricao": "Marketing e automação de vendas",
+    "logo": "/logos/rdstation.svg",
+    "link": "https://rdstation.com"
+  },
+  {
+    "nome": "Anthropic",
+    "categoria": "IA",
+    "descricao": "Claude AI para conversas avançadas",
+    "logo": "/logos/anthropic.svg",
+    "link": "https://anthropic.com"
+  },
+  {
+    "nome": "Zapier",
+    "categoria": "Automação",
+    "descricao": "Conecta apps e automatiza workflows",
+    "logo": "/logos/zapier.svg",
+    "link": "https://zapier.com"
+  },
+  {
+    "nome": "HubSpot",
+    "categoria": "CRM",
+    "descricao": "Plataforma completa de vendas e marketing",
+    "logo": "/logos/hubspot.svg",
+    "link": "https://hubspot.com"
+  },
+  {
+    "nome": "Typebot",
+    "categoria": "Chatbot",
+    "descricao": "Constructor de chatbots visuais",
+    "logo": "/logos/typebot.svg",
+    "link": "https://typebot.io"
+  },
+  {
+    "nome": "Make",
+    "categoria": "Automação",
+    "descricao": "Automação visual de processos",
+    "logo": "/logos/make.svg",
+    "link": "https://make.com"
+  },
+  {
+    "nome": "Pinecone",
+    "categoria": "IA",
+    "descricao": "Banco de dados vetorial para IA",
+    "logo": "/logos/pinecone.svg",
+    "link": "https://pinecone.io"
+  },
+  {
+    "nome": "Langchain",
+    "categoria": "IA",
+    "descricao": "Framework para aplicações com LLM",
+    "logo": "/logos/langchain.svg",
+    "link": "https://langchain.com"
+  }
+]

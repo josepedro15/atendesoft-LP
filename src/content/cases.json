@@ -1,0 +1,46 @@
+[
+  {
+    "id": "ecommerce-moda",
+    "setor": "E-commerce de Moda",
+    "cliente": "Loja Premium",
+    "problema": "Baixa conversão no WhatsApp e atendimento manual limitado",
+    "solucao": "Automação completa com IA para qualificação e follow-up personalizado",
+    "resultado_antes": "2.3% conversão",
+    "resultado_depois": "8.7% conversão",
+    "aumento": "+278%",
+    "tipo": "percentual"
+  },
+  {
+    "id": "consultoria-juridica",
+    "setor": "Consultoria Jurídica",
+    "cliente": "Escritório Advocacia",
+    "problema": "Dificuldade para agendar consultas e qualificar clientes",
+    "solucao": "Chatbot especializado em direito com agendamento inteligente",
+    "resultado_antes": "45 consultas/mês",
+    "resultado_depois": "127 consultas/mês",
+    "aumento": "+182%",
+    "tipo": "numerico"
+  },
+  {
+    "id": "imobiliaria",
+    "setor": "Imobiliária",
+    "cliente": "Rede Imobiliária",
+    "problema": "Gestão manual de leads e falta de insights sobre vendas",
+    "solucao": "Dashboard BI + automação WhatsApp com CRM integrado",
+    "resultado_antes": "R$ 2.1M vendas/mês",
+    "resultado_depois": "R$ 4.8M vendas/mês",
+    "aumento": "+129%",
+    "tipo": "monetario"
+  },
+  {
+    "id": "clinica-estetica",
+    "setor": "Clínica de Estética",
+    "cliente": "Clínica Bem-Estar",
+    "problema": "Alto índice de no-show e agendamentos duplicados",
+    "solucao": "Sistema inteligente de agendamento com lembretes automáticos",
+    "resultado_antes": "78% comparecimento",
+    "resultado_depois": "94% comparecimento",
+    "aumento": "+20%",
+    "tipo": "percentual"
+  }
+]

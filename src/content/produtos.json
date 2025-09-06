@@ -1,0 +1,41 @@
+[
+  {
+    "id": "whatsapp-vendas",
+    "titulo": "WhatsApp Vendas IA",
+    "descricao": "Automação completa do funil de vendas no WhatsApp com inteligência artificial",
+    "features": [
+      "Qualificação automática de leads",
+      "Follow-up inteligente personalizado",
+      "Integração com CRM e ferramentas",
+      "Analytics de conversão em tempo real",
+      "Chatbot com processamento de linguagem natural"
+    ],
+    "cta_texto": "Quero automatizar minhas vendas no WhatsApp"
+  },
+  {
+    "id": "assistente-ia",
+    "titulo": "Assistente IA Personalizado",
+    "descricao": "Aplicativo sob medida com IA treinada especificamente para seu negócio",
+    "features": [
+      "IA treinada com seus dados e processos",
+      "Interface web e mobile responsiva",
+      "Integração com sistemas existentes",
+      "Base de conhecimento inteligente",
+      "Análise de sentimento e intenções"
+    ],
+    "cta_texto": "Quero um assistente IA para meu negócio"
+  },
+  {
+    "id": "dashboard-inteligente",
+    "titulo": "Dashboard BI com IA",
+    "descricao": "Business Intelligence avançado com análises preditivas e insights automatizados",
+    "features": [
+      "Análises preditivas com machine learning",
+      "Alertas inteligentes e automáticos",
+      "Visualizações interativas e dinâmicas",
+      "Relatórios automatizados personalizados",
+      "Integração com múltiplas fontes de dados"
+    ],
+    "cta_texto": "Quero um dashboard inteligente"
+  }
+]

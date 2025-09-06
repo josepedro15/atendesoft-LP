@@ -136,28 +136,14 @@ All colors MUST be HSL.
     font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 
-  /* Todos os textos fora dos cards em azul */
-  h1, h2, h3, h4, h5, h6, p, span, div, a, li, td, th {
+  /* Apenas títulos de seções principais em azul */
+  section > div > h1, section > div > h2, section > div > h3 {
     color: hsl(220 60% 65%) !important; /* Primary blue #648fe0 */
   }
 
-  /* Exceções - textos dentro dos cards mantêm cor original */
-  .glass-card h1, .glass-card h2, .glass-card h3, .glass-card h4, .glass-card h5, .glass-card h6,
-  .glass-card p, .glass-card span, .glass-card div, .glass-card a, .glass-card li,
-  .timeline-bubble h1, .timeline-bubble h2, .timeline-bubble h3, .timeline-bubble h4, .timeline-bubble h5, .timeline-bubble h6,
-  .timeline-bubble p, .timeline-bubble span, .timeline-bubble div, .timeline-bubble a, .timeline-bubble li {
-    color: inherit !important;
-  }
-
-  /* Navbar mantém cor original */
-  nav h1, nav h2, nav h3, nav h4, nav h5, nav h6,
-  nav p, nav span, nav div, nav a, nav li {
-    color: inherit !important;
-  }
-
-  /* Botões mantêm cor original */
-  button, .btn-primary, .btn-secondary, .btn-whatsapp {
-    color: inherit !important;
+  /* Textos de descrição das seções em azul */
+  section > div > p {
+    color: hsl(220 60% 65%) !important; /* Primary blue #648fe0 */
   }
 }
 

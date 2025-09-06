@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { events } from "@/lib/events";
 import ferramentasData from "@/content/ferramentas.json";
+import MagicBento from "./MagicBento";
 
 const Ferramentas = () => {
   const [hoveredTool, setHoveredTool] = useState<string | null>(null);
@@ -40,44 +41,51 @@ const Ferramentas = () => {
         {/* Tools Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {ferramentasData.map((ferramenta, index) => (
-            <div 
+            <MagicBento 
               key={ferramenta.nome}
               className="glass-card p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group relative"
               style={{ animationDelay: `${index * 50}ms` }}
-              onMouseEnter={() => setHoveredTool(ferramenta.nome)}
-              onMouseLeave={() => setHoveredTool(null)}
-              onClick={() => handleToolClick(ferramenta)}
+              enableStars={true}
+              enableTilt={true}
+              clickEffect={true}
+              enableMagnetism={true}
             >
-              {/* Tool Logo Placeholder */}
-              <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
-                <span className="text-lg font-bold text-muted-foreground group-hover:text-primary">
-                  {ferramenta.nome.charAt(0)}
-                </span>
-              </div>
-              
-              <h3 className="font-semibold text-foreground text-sm mb-2">
-                {ferramenta.nome}
-              </h3>
-              
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-muted-foreground">{ferramenta.categoria}</span>
-                <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
-
-              {/* Tooltip */}
-              {hoveredTool === ferramenta.nome && (
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 p-3 bg-foreground text-background text-xs rounded-lg shadow-lg z-10 whitespace-nowrap">
-                  {ferramenta.descricao}
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-foreground"></div>
+              <div
+                onMouseEnter={() => setHoveredTool(ferramenta.nome)}
+                onMouseLeave={() => setHoveredTool(null)}
+                onClick={() => handleToolClick(ferramenta)}
+              >
+                {/* Tool Logo Placeholder */}
+                <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+                  <span className="text-lg font-bold text-muted-foreground group-hover:text-primary">
+                    {ferramenta.nome.charAt(0)}
+                  </span>
                 </div>
-              )}
-            </div>
+                
+                <h3 className="font-semibold text-foreground text-sm mb-2">
+                  {ferramenta.nome}
+                </h3>
+                
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-muted-foreground">{ferramenta.categoria}</span>
+                  <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+
+                {/* Tooltip */}
+                {hoveredTool === ferramenta.nome && (
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 p-3 bg-foreground text-background text-xs rounded-lg shadow-lg z-10 whitespace-nowrap">
+                    {ferramenta.descricao}
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-foreground"></div>
+                  </div>
+                )}
+              </div>
+            </MagicBento>
           ))}
         </div>
 
         {/* Integration CTA */}
         <div className="text-center mt-16">
-          <div className="glass-card p-8 max-w-3xl mx-auto">
+          <MagicBento className="glass-card p-8 max-w-3xl mx-auto" enableStars={true} enableTilt={true} clickEffect={true}>
             <h3 className="text-xl font-bold text-foreground mb-4">
               Precisa de uma integração específica?
             </h3>
@@ -98,7 +106,7 @@ const Ferramentas = () => {
                 Ver Todas as Integrações
               </button>
             </div>
-          </div>
+          </MagicBento>
         </div>
       </div>
     </section>

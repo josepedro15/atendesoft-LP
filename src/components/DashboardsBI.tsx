@@ -1,5 +1,6 @@
 import { TrendingUp, BarChart3, PieChart, Activity } from "lucide-react";
 import dashboardsData from "@/content/dashboards.json";
+import MagicBento from "./MagicBento";
 
 const iconMap = {
   "vendas-previsao": TrendingUp,
@@ -26,10 +27,14 @@ const DashboardsBI = () => {
             const Icon = iconMap[dashboard.id as keyof typeof iconMap] || BarChart3;
             
             return (
-              <div 
+              <MagicBento 
                 key={dashboard.id}
                 className="glass-card p-8 hover:shadow-lg transition-all duration-300 group"
                 style={{ animationDelay: `${index * 150}ms` }}
+                enableStars={true}
+                enableTilt={true}
+                clickEffect={true}
+                enableMagnetism={true}
               >
                 <div className="flex items-center mb-6">
                   <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center mr-4 group-hover:bg-accent/20 transition-colors">
@@ -66,14 +71,14 @@ const DashboardsBI = () => {
                     <span className="text-success font-semibold">Tempo Real</span>
                   </div>
                 </div>
-              </div>
+              </MagicBento>
             );
           })}
         </div>
 
         {/* CTA Section */}
         <div className="text-center mt-16">
-          <div className="glass-card p-8 max-w-2xl mx-auto">
+          <MagicBento className="glass-card p-8 max-w-2xl mx-auto" enableStars={true} enableTilt={true} clickEffect={true}>
             <h3 className="text-xl font-bold text-foreground mb-4">
               Veja seus dados tomarem vida
             </h3>
@@ -86,7 +91,7 @@ const DashboardsBI = () => {
             >
               Ver Demo dos Dashboards
             </button>
-          </div>
+          </MagicBento>
         </div>
       </div>
     </section>

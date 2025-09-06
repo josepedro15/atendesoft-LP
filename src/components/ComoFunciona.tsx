@@ -1,5 +1,6 @@
 import { Search, Target, Code, TestTube, Rocket } from "lucide-react";
 import passosData from "@/content/passos.json";
+import MagicBento from "./MagicBento";
 
 const iconMap = {
   Search,
@@ -38,7 +39,7 @@ const ComoFunciona = () => {
                   style={{ animationDelay: `${index * 200}ms` }}
                 >
                   {/* Timeline Bubble */}
-                  <div className="timeline-bubble flex-1 max-w-md">
+                  <MagicBento className="timeline-bubble flex-1 max-w-md" enableStars={true} enableTilt={true} clickEffect={true}>
                     <div className="flex items-center mb-4">
                       <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center mr-4">
                         <Icon className="w-6 h-6 text-white" />
@@ -54,7 +55,7 @@ const ComoFunciona = () => {
                       </div>
                     </div>
                     <p className="text-muted-foreground leading-relaxed">{passo.descricao}</p>
-                  </div>
+                  </MagicBento>
 
                   {/* Timeline Dot */}
                   <div className="hidden md:flex w-4 h-4 bg-primary rounded-full border-4 border-background shadow-lg flex-shrink-0 z-10"></div>

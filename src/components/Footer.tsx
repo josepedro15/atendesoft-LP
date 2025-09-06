@@ -1,4 +1,5 @@
 import { MessageCircle, Mail, MapPin } from "lucide-react";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -79,9 +80,9 @@ const Footer = () => {
             <h4 className="font-semibold text-background mb-4">Informações</h4>
             <ul className="space-y-3 text-background/80">
               <li>
-                <a href="/privacidade" className="hover:text-background transition-colors">
+                <Link href="/privacidade" className="hover:text-background transition-colors">
                   Política de Privacidade
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="mailto:contato@attendesoft.com" className="hover:text-background transition-colors">

@@ -72,4 +72,6 @@ export const useScrollTracking = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }
+  
+  return () => {}; // Return empty cleanup function if window is not available
 };

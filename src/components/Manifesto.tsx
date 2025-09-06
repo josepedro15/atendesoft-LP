@@ -33,7 +33,7 @@ const Manifesto = () => {
 
           <div className="mt-12 glass-card p-8 max-w-2xl mx-auto">
             <p className="text-xl font-semibold text-foreground mb-4">
-              "A melhor IA é aquela que você nem percebe que está lá"
+              &quot;A melhor IA é aquela que você nem percebe que está lá&quot;
             </p>
             <p className="text-muted-foreground">
               — Equipe AtendeSoft

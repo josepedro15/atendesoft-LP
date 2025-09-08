@@ -286,7 +286,13 @@ export default function LinksPage() {
           </div>
           
           {/* Curved Loop Animation */}
-          <div style={{ marginBottom: '40px' }}>
+          <div style={{ 
+            marginBottom: '40px',
+            backgroundColor: '#000000',
+            borderRadius: '16px',
+            padding: '20px',
+            overflow: 'hidden'
+          }}>
             <CurvedLoop 
               marqueeText="O FUTURO NÃO É AMANHÃ — É IA HOJE."
               speed={1.5}

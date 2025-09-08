@@ -49,21 +49,26 @@ export default function LinksPage() {
                 }}
               />
             </div>
-            <h1 style={{
-              fontSize: '28px',
-              fontWeight: 'bold',
-              color: '#262626',
-              marginBottom: '8px'
+            <div style={{ 
+              backgroundColor: '#000000',
+              borderRadius: '12px',
+              padding: '20px',
+              overflow: 'hidden',
+              height: '120px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto',
+              maxWidth: '400px'
             }}>
-              AtendeSoft
-            </h1>
-            <p style={{
-              color: '#666',
-              fontSize: '16px',
-              lineHeight: '1.5'
-            }}>
-              Automação Comercial, Apps e Dashboards com IA
-            </p>
+              <CurvedLoop 
+                marqueeText="HOJE. O FUTURO NÃO É AMANHÃ —"
+                speed={1.5}
+                curveAmount={200}
+                direction="left"
+                interactive={true}
+              />
+            </div>
           </div>
           
           {/* Links */}
@@ -285,48 +290,6 @@ export default function LinksPage() {
             </a>
           </div>
           
-          {/* Curved Loop Animation Card */}
-          <div style={{
-            display: 'block',
-            padding: '20px',
-            background: 'white',
-            borderRadius: '16px',
-            marginBottom: '16px',
-            textDecoration: 'none',
-            color: '#262626',
-            boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-            transition: 'all 0.3s ease',
-            border: '2px solid #000000',
-            transform: 'translateY(0)',
-            cursor: 'pointer'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-          }}>
-            <div style={{ 
-              backgroundColor: '#000000',
-              borderRadius: '12px',
-              padding: '20px',
-              overflow: 'hidden',
-              height: '120px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <CurvedLoop 
-                marqueeText="O FUTURO NÃO É AMANHÃ — É IA HOJE."
-                speed={1.5}
-                curveAmount={200}
-                direction="left"
-                interactive={true}
-              />
-            </div>
-          </div>
           
           {/* Footer */}
           <div style={{ textAlign: 'center', color: '#999', fontSize: '12px' }}>

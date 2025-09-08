@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import CurvedLoop from '../src/components/CurvedLoop';
 
 export default function LinksPage() {
   return (
@@ -34,22 +35,19 @@ export default function LinksPage() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+              boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+              overflow: 'hidden'
             }}>
-              <div style={{
-                width: '60px',
-                height: '60px',
-                background: '#648fe0',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontSize: '24px',
-                fontWeight: 'bold'
-              }}>
-                A
-              </div>
+              <img
+                src="/LOGO HOME.svg"
+                alt="AtendeSoft"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  padding: '8px'
+                }}
+              />
             </div>
             <h1 style={{
               fontSize: '28px',
@@ -73,13 +71,14 @@ export default function LinksPage() {
             <Link href="/" style={{
               display: 'block',
               padding: '20px',
-              background: '#648fe0',
+              background: 'white',
               borderRadius: '16px',
               marginBottom: '16px',
               textDecoration: 'none',
-              color: 'white',
+              color: '#262626',
               boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              border: '2px solid #648fe0'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <div style={{ fontSize: '24px', width: '40px', textAlign: 'center' }}>🌐</div>
@@ -87,7 +86,7 @@ export default function LinksPage() {
                   <div style={{ fontSize: '18px', fontWeight: '600', marginBottom: '4px' }}>
                     Ver Site Completo
                   </div>
-                  <div style={{ fontSize: '14px', opacity: 0.9 }}>
+                  <div style={{ fontSize: '14px', opacity: 0.7 }}>
                     Conheça todas as nossas soluções
                   </div>
                 </div>
@@ -97,13 +96,14 @@ export default function LinksPage() {
             <a href="https://wa.me/5531994959512?text=Olá!%20Vim%20pelo%20Instagram%20e%20quero%20saber%20mais%20sobre%20as%20soluções%20da%20AtendeSoft" target="_blank" style={{
               display: 'block',
               padding: '20px',
-              background: '#79cb75',
+              background: 'white',
               borderRadius: '16px',
               marginBottom: '16px',
               textDecoration: 'none',
-              color: 'white',
+              color: '#262626',
               boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              border: '2px solid #79cb75'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <div style={{ fontSize: '24px', width: '40px', textAlign: 'center' }}>💬</div>
@@ -111,7 +111,7 @@ export default function LinksPage() {
                   <div style={{ fontSize: '18px', fontWeight: '600', marginBottom: '4px' }}>
                     Falar no WhatsApp
                   </div>
-                  <div style={{ fontSize: '14px', opacity: 0.9 }}>
+                  <div style={{ fontSize: '14px', opacity: 0.7 }}>
                     Converse com nossos especialistas
                   </div>
                 </div>
@@ -122,13 +122,14 @@ export default function LinksPage() {
             <Link href="/#produtos" style={{
               display: 'block',
               padding: '20px',
-              background: '#648fe0',
+              background: 'white',
               borderRadius: '16px',
               marginBottom: '16px',
               textDecoration: 'none',
-              color: 'white',
+              color: '#262626',
               boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              border: '2px solid #648fe0'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <div style={{ fontSize: '24px', width: '40px', textAlign: 'center' }}>📦</div>
@@ -136,7 +137,7 @@ export default function LinksPage() {
                   <div style={{ fontSize: '18px', fontWeight: '600', marginBottom: '4px' }}>
                     Ver Produtos
                   </div>
-                  <div style={{ fontSize: '14px', opacity: 0.9 }}>
+                  <div style={{ fontSize: '14px', opacity: 0.7 }}>
                     Conheça nossas soluções em IA
                   </div>
                 </div>
@@ -152,7 +153,8 @@ export default function LinksPage() {
               textDecoration: 'none',
               color: '#262626',
               boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              border: '2px solid #f59e0b'
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <div style={{ fontSize: '24px', width: '40px', textAlign: 'center' }}>▶️</div>
@@ -160,7 +162,7 @@ export default function LinksPage() {
                   <div style={{ fontSize: '18px', fontWeight: '600', marginBottom: '4px' }}>
                     Agendar Demo
                   </div>
-                  <div style={{ fontSize: '14px', opacity: 0.9 }}>
+                  <div style={{ fontSize: '14px', opacity: 0.7 }}>
                     Veja nossa solução em ação
                   </div>
                 </div>
@@ -202,6 +204,11 @@ export default function LinksPage() {
             }}>
               📷
             </a>
+          </div>
+          
+          {/* Curved Loop Animation */}
+          <div style={{ marginBottom: '40px' }}>
+            <CurvedLoop />
           </div>
           
           {/* Footer */}

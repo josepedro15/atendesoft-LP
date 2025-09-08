@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import CTAFinal from '../src/components/CTAFinal';
+import CurvedLoop from '../src/components/CurvedLoop';
 
 export default function LinksPage() {
   return (
@@ -42,7 +42,7 @@ export default function LinksPage() {
                 src="/LOGO HOME.svg"
                 alt="AtendeSoft"
                 style={{
-                  width: '100%',
+                  width: '100%',da 
                   height: '100%',
                   objectFit: 'contain',
                   padding: '8px'
@@ -285,13 +285,47 @@ export default function LinksPage() {
             </a>
           </div>
           
-          {/* CTA Final Component */}
-          <div style={{ 
-            marginBottom: '40px',
+          {/* Curved Loop Animation Card */}
+          <div style={{
+            display: 'block',
+            padding: '20px',
+            background: 'white',
             borderRadius: '16px',
-            overflow: 'hidden'
+            marginBottom: '16px',
+            textDecoration: 'none',
+            color: '#262626',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+            transition: 'all 0.3s ease',
+            border: '2px solid #000000',
+            transform: 'translateY(0)',
+            cursor: 'pointer'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
           }}>
-            <CTAFinal />
+            <div style={{ 
+              backgroundColor: '#000000',
+              borderRadius: '12px',
+              padding: '20px',
+              overflow: 'hidden',
+              height: '120px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <CurvedLoop 
+                marqueeText="O FUTURO NÃO É AMANHÃ — É IA HOJE."
+                speed={1.5}
+                curveAmount={200}
+                direction="left"
+                interactive={true}
+              />
+            </div>
           </div>
           
           {/* Footer */}

@@ -14,7 +14,7 @@ const CTAFinal = () => {
       {/* CurvedLoop Animation */}
       <div className="relative z-10 overflow-hidden">
         <CurvedLoop 
-          marqueeText="The future isn't tomorrow — it's AI today."
+          marqueeText="O futuro não é amanhã — é IA hoje."
           speed={1}
           curveAmount={300}
           direction="left"

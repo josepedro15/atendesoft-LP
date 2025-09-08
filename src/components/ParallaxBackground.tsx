@@ -16,7 +16,7 @@ const ParallaxBackground = () => {
       {/* Single large circular text fixed in position */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <CircularText
-          text="THE AGE OF AI ISN'T AHEAD OF US — WE ARE LIVING IT."
+          text="A ERA DA IA NÃO ESTÁ À NOSSA FRENTE — ESTAMOS VIVENDO ELA."
           spinDuration={50}
           onHover="speedUp"
           className=""

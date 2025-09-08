@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 
 export default function LinksPage() {
   return (
@@ -69,7 +70,7 @@ export default function LinksPage() {
           
           {/* Links */}
           <div style={{ marginBottom: '40px' }}>
-            <a href="/" style={{
+            <Link href="/" style={{
               display: 'block',
               padding: '20px',
               background: '#648fe0',
@@ -91,7 +92,7 @@ export default function LinksPage() {
                   </div>
                 </div>
               </div>
-            </a>
+            </Link>
             
             <a href="https://wa.me/5531994959512?text=Olá!%20Vim%20pelo%20Instagram%20e%20quero%20saber%20mais%20sobre%20as%20soluções%20da%20AtendeSoft" target="_blank" style={{
               display: 'block',
@@ -118,7 +119,7 @@ export default function LinksPage() {
               </div>
             </a>
             
-            <a href="/#produtos" style={{
+            <Link href="/#produtos" style={{
               display: 'block',
               padding: '20px',
               background: '#648fe0',
@@ -140,9 +141,9 @@ export default function LinksPage() {
                   </div>
                 </div>
               </div>
-            </a>
+            </Link>
             
-            <a href="/#demonstracao" style={{
+            <Link href="/#demonstracao" style={{
               display: 'block',
               padding: '20px',
               background: 'white',
@@ -164,7 +165,7 @@ export default function LinksPage() {
                   </div>
                 </div>
               </div>
-            </a>
+            </Link>
           </div>
           
           {/* Social Links */}

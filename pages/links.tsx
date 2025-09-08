@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import CurvedLoop from '../src/components/CurvedLoop';
+import CTAFinal from '../src/components/CTAFinal';
 
 export default function LinksPage() {
   return (
@@ -285,21 +285,13 @@ export default function LinksPage() {
             </a>
           </div>
           
-          {/* Curved Loop Animation */}
+          {/* CTA Final Component */}
           <div style={{ 
             marginBottom: '40px',
-            backgroundColor: '#000000',
             borderRadius: '16px',
-            padding: '20px',
             overflow: 'hidden'
           }}>
-            <CurvedLoop 
-              marqueeText="O FUTURO NÃO É AMANHÃ — É IA HOJE."
-              speed={1.5}
-              curveAmount={200}
-              direction="left"
-              interactive={true}
-            />
+            <CTAFinal />
           </div>
           
           {/* Footer */}

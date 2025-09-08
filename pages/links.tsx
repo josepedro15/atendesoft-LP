@@ -62,7 +62,7 @@ export default function LinksPage() {
               maxWidth: '400px'
             }}>
               <CurvedLoop 
-                marqueeText="HOJE. O FUTURO NÃO É AMANHÃ —"
+                marqueeText="O futuro não é amanhã - É com IA hoje."
                 speed={1.5}
                 curveAmount={200}
                 direction="left"

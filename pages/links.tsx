@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import CurvedLoop from '../src/components/CurvedLoop';
+import CircularGallery from '../src/components/CircularGallery';
 
 export default function LinksPage() {
   return (
@@ -285,20 +285,30 @@ export default function LinksPage() {
             </a>
           </div>
           
-          {/* Curved Loop Animation */}
+          {/* Circular Gallery Animation */}
           <div style={{ 
             marginBottom: '40px',
             backgroundColor: '#000000',
             borderRadius: '16px',
             padding: '20px',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            height: '400px'
           }}>
-            <CurvedLoop 
-              marqueeText="O FUTURO NÃO É AMANHÃ — É IA HOJE."
-              speed={1.5}
-              curveAmount={200}
-              direction="left"
-              interactive={true}
+            <CircularGallery 
+              items={[
+                { icon: '🌐', text: 'Ver Site Completo', backgroundColor: '#648fe0', iconColor: '#ffffff' },
+                { icon: '💬', text: 'WhatsApp', backgroundColor: '#79cb75', iconColor: '#ffffff' },
+                { icon: '📦', text: 'Ver Produtos', backgroundColor: '#648fe0', iconColor: '#ffffff' },
+                { icon: '▶️', text: 'Agendar Demo', backgroundColor: '#f59e0b', iconColor: '#ffffff' },
+                { icon: '💼', text: 'LinkedIn', backgroundColor: '#0077b5', iconColor: '#ffffff' },
+                { icon: '📷', text: 'Instagram', backgroundColor: '#e4405f', iconColor: '#ffffff' }
+              ]}
+              bend={3}
+              textColor="#ffffff"
+              borderRadius={0.05}
+              font="bold 30px Figtree"
+              scrollSpeed={2}
+              scrollEase={0.02}
             />
           </div>
           

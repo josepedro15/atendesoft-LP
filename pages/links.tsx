@@ -78,7 +78,17 @@ export default function LinksPage() {
               color: '#262626',
               boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
               transition: 'all 0.3s ease',
-              border: '2px solid #648fe0'
+              border: '2px solid #648fe0',
+              transform: 'translateY(0)',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <div style={{ fontSize: '24px', width: '40px', textAlign: 'center' }}>🌐</div>
@@ -103,7 +113,17 @@ export default function LinksPage() {
               color: '#262626',
               boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
               transition: 'all 0.3s ease',
-              border: '2px solid #79cb75'
+              border: '2px solid #79cb75',
+              transform: 'translateY(0)',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <div style={{ fontSize: '24px', width: '40px', textAlign: 'center' }}>💬</div>
@@ -129,7 +149,17 @@ export default function LinksPage() {
               color: '#262626',
               boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
               transition: 'all 0.3s ease',
-              border: '2px solid #648fe0'
+              border: '2px solid #648fe0',
+              transform: 'translateY(0)',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <div style={{ fontSize: '24px', width: '40px', textAlign: 'center' }}>📦</div>
@@ -154,7 +184,17 @@ export default function LinksPage() {
               color: '#262626',
               boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
               transition: 'all 0.3s ease',
-              border: '2px solid #f59e0b'
+              border: '2px solid #f59e0b',
+              transform: 'translateY(0)',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <div style={{ fontSize: '24px', width: '40px', textAlign: 'center' }}>▶️</div>
@@ -171,38 +211,77 @@ export default function LinksPage() {
           </div>
           
           {/* Social Links */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '40px' }}>
+          <div style={{ marginBottom: '40px' }}>
             <a href="https://linkedin.com/company/atendesoft" target="_blank" style={{
-              width: '50px',
-              height: '50px',
+              display: 'block',
+              padding: '20px',
               background: 'white',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              borderRadius: '16px',
+              marginBottom: '16px',
               textDecoration: 'none',
-              color: '#666',
-              fontSize: '20px',
+              color: '#262626',
               boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              border: '2px solid #0077b5',
+              transform: 'translateY(0)',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
             }}>
-              💼
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div style={{ fontSize: '24px', width: '40px', textAlign: 'center' }}>💼</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: '18px', fontWeight: '600', marginBottom: '4px' }}>
+                    LinkedIn
+                  </div>
+                  <div style={{ fontSize: '14px', opacity: 0.7 }}>
+                    Conecte-se conosco profissionalmente
+                  </div>
+                </div>
+                <div style={{ fontSize: '16px', opacity: 0.7 }}>↗</div>
+              </div>
             </a>
+            
             <a href="https://instagram.com/atendesoft" target="_blank" style={{
-              width: '50px',
-              height: '50px',
+              display: 'block',
+              padding: '20px',
               background: 'white',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              borderRadius: '16px',
+              marginBottom: '16px',
               textDecoration: 'none',
-              color: '#666',
-              fontSize: '20px',
+              color: '#262626',
               boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              border: '2px solid #e4405f',
+              transform: 'translateY(0)',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
             }}>
-              📷
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div style={{ fontSize: '24px', width: '40px', textAlign: 'center' }}>📷</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: '18px', fontWeight: '600', marginBottom: '4px' }}>
+                    Instagram
+                  </div>
+                  <div style={{ fontSize: '14px', opacity: 0.7 }}>
+                    Siga-nos para novidades e dicas
+                  </div>
+                </div>
+                <div style={{ fontSize: '16px', opacity: 0.7 }}>↗</div>
+              </div>
             </a>
           </div>
           

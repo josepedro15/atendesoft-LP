@@ -287,7 +287,13 @@ export default function LinksPage() {
           
           {/* Curved Loop Animation */}
           <div style={{ marginBottom: '40px' }}>
-            <CurvedLoop />
+            <CurvedLoop 
+              marqueeText="A ERA DA IA NÃO ESTÁ À NOSSA FRENTE — ESTAMOS VIVENDO ELA."
+              speed={1.5}
+              curveAmount={200}
+              direction="left"
+              interactive={true}
+            />
           </div>
           
           {/* Footer */}

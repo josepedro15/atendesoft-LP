@@ -15,7 +15,6 @@ interface SocialLinksProps {
 
 const SocialLinks = ({ social }: SocialLinksProps) => {
   const handleClick = (id: string, url: string) => {
-    events.linktreeClick(id, 'social');
     window.open(url, "_blank");
   };
 

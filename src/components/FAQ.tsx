@@ -76,7 +76,7 @@ const FAQ = () => {
               Nossa equipe está pronta para esclarecer qualquer questão
             </p>
             <button 
-              onClick={() => window.open("https://wa.me/5511999999999?text=Tenho%20algumas%20dúvidas%20sobre%20as%20soluções", "_blank")}
+              onClick={() => window.open("https://wa.me/5531994959512?text=Tenho%20algumas%20dúvidas%20sobre%20as%20soluções", "_blank")}
               className="btn-whatsapp focus-ring"
             >
               Falar com Especialista

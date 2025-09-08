@@ -85,7 +85,7 @@ const DashboardsBI = () => {
               Transforme planilhas complexas em insights visuais e acionáveis
             </p>
             <button 
-              onClick={() => window.open("https://wa.me/5511999999999?text=Quero%20ver%20uma%20demo%20dos%20dashboards%20com%20IA", "_blank")}
+              onClick={() => window.open("https://wa.me/5531994959512?text=Quero%20ver%20uma%20demo%20dos%20dashboards%20com%20IA", "_blank")}
               className="btn-primary focus-ring"
             >
               Ver Demo dos Dashboards

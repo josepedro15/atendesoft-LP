@@ -5,7 +5,7 @@ import CurvedLoop from "./CurvedLoop";
 const CTAFinal = () => {
   const handleWhatsAppClick = () => {
     events.ctaWhatsappClick("final-cta");
-    window.open("https://wa.me/5511999999999?text=Estou%20pronto%20para%20vender%20com%20IA!", "_blank");
+    window.open("https://wa.me/5531994959512?text=Estou%20pronto%20para%20vender%20com%20IA!", "_blank");
   };
 
   return (

@@ -87,13 +87,13 @@ const Ferramentas = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
-                onClick={() => window.open("https://wa.me/5511999999999?text=Preciso%20de%20uma%20integração%20customizada", "_blank")}
+                onClick={() => window.open("https://wa.me/5531994959512?text=Preciso%20de%20uma%20integração%20customizada", "_blank")}
                 className="btn-primary focus-ring"
               >
                 Solicitar Integração
               </button>
               <button 
-                onClick={() => window.open("https://wa.me/5511999999999?text=Quero%20ver%20todas%20as%20integrações%20disponíveis", "_blank")}
+                onClick={() => window.open("https://wa.me/5531994959512?text=Quero%20ver%20todas%20as%20integrações%20disponíveis", "_blank")}
                 className="btn-secondary focus-ring"
               >
                 Ver Todas as Integrações

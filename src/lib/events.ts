@@ -52,6 +52,14 @@ export const events = {
   
   heroCtaClick: (type: 'primary' | 'secondary') => {
     trackEvent('hero_cta_click', { type });
+  },
+  
+  linktreeView: () => {
+    trackEvent('linktree_view');
+  },
+  
+  linktreeClick: (linkId: string, category: string) => {
+    trackEvent('linktree_click', { link_id: linkId, category });
   }
 };
 

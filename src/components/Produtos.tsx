@@ -8,7 +8,7 @@ const Produtos = () => {
     events.productCtaClick(produto.id);
     events.ctaWhatsappClick(`produto-${produto.id}`);
     const message = encodeURIComponent(produto.cta_texto);
-    window.open(`https://wa.me/5511999999999?text=${message}`, "_blank");
+    window.open(`https://wa.me/5531994959512?text=${message}`, "_blank");
   };
 
   return (

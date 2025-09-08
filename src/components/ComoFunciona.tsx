@@ -84,7 +84,7 @@ const ComoFunciona = () => {
               Agende uma conversa gratuita e descubra como a IA pode revolucionar seu negócio
             </p>
             <button 
-              onClick={() => window.open("https://wa.me/5511999999999?text=Quero%20conhecer%20o%20processo%20de%20implementação", "_blank")}
+              onClick={() => window.open("https://wa.me/5531994959512?text=Quero%20conhecer%20o%20processo%20de%20implementação", "_blank")}
               className="btn-primary focus-ring"
             >
               Agendar Consultoria Gratuita

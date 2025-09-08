@@ -21,7 +21,7 @@ const Navbar = () => {
 
   const handleWhatsAppClick = () => {
     events.ctaWhatsappClick("navbar");
-    window.open("https://wa.me/5511999999999?text=Quero%20uma%20demo%20com%20IA%20da%20AtendeSoft", "_blank");
+    window.open("https://wa.me/5531994959512?text=Quero%20uma%20demo%20com%20IA%20da%20AtendeSoft", "_blank");
   };
 
   return (

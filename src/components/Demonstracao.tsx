@@ -10,7 +10,7 @@ const Demonstracao = () => {
 
   const handleLiveDemo = () => {
     events.ctaWhatsappClick("live-demo");
-    window.open("https://wa.me/5511999999999?text=Quero%20ver%20o%20fluxo%20ao%20vivo", "_blank");
+    window.open("https://wa.me/5531994959512?text=Quero%20ver%20o%20fluxo%20ao%20vivo", "_blank");
   };
 
   return (

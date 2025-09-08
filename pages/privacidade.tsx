@@ -101,7 +101,7 @@ const Privacidade = () => {
                 </p>
                 <div className="space-y-2 text-muted-foreground">
                   <p><strong>E-mail:</strong> privacidade@attendesoft.com</p>
-                  <p><strong>WhatsApp:</strong> (11) 99999-9999</p>
+                  <p><strong>WhatsApp:</strong> (31) 99495-9512</p>
                   <p><strong>Endereço:</strong> São Paulo, SP - Brasil</p>
                 </div>
               </section>

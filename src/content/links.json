@@ -1,0 +1,65 @@
+{
+  "profile": {
+    "name": "AtendeSoft",
+    "description": "Automação Comercial, Apps e Dashboards com IA",
+    "avatar": "/LOGO HOME.svg"
+  },
+  "links": [
+    {
+      "id": "site-completo",
+      "title": "Ver Site Completo",
+      "description": "Conheça todas as nossas soluções",
+      "url": "/",
+      "icon": "Globe",
+      "color": "primary",
+      "isExternal": false,
+      "category": "primary"
+    },
+    {
+      "id": "whatsapp",
+      "title": "Falar no WhatsApp",
+      "description": "Converse com nossos especialistas",
+      "url": "https://wa.me/5531994959512?text=Olá!%20Vim%20pelo%20Instagram%20e%20quero%20saber%20mais%20sobre%20as%20soluções%20da%20AtendeSoft",
+      "icon": "MessageCircle",
+      "color": "success",
+      "isExternal": true,
+      "category": "primary"
+    },
+    {
+      "id": "produtos",
+      "title": "Ver Produtos",
+      "description": "Conheça nossas soluções em IA",
+      "url": "/#produtos",
+      "icon": "Package",
+      "color": "primary",
+      "isExternal": false,
+      "category": "primary"
+    },
+    {
+      "id": "demo",
+      "title": "Agendar Demo",
+      "description": "Veja nossa solução em ação",
+      "url": "/#demonstracao",
+      "icon": "Play",
+      "color": "accent",
+      "isExternal": false,
+      "category": "primary"
+    }
+  ],
+  "social": [
+    {
+      "id": "linkedin",
+      "title": "LinkedIn",
+      "url": "https://linkedin.com/company/atendesoft",
+      "icon": "Linkedin",
+      "color": "primary"
+    },
+    {
+      "id": "instagram",
+      "title": "Instagram",
+      "url": "https://instagram.com/atendesoft",
+      "icon": "Instagram",
+      "color": "accent"
+    }
+  ]
+}

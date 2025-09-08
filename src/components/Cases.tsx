@@ -97,13 +97,13 @@ const Cases = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
-                onClick={() => window.open("https://wa.me/5511999999999?text=Quero%20ser%20um%20case%20de%20sucesso%20da%20AtendeSoft", "_blank")}
+                onClick={() => window.open("https://wa.me/5531994959512?text=Quero%20ser%20um%20case%20de%20sucesso%20da%20AtendeSoft", "_blank")}
                 className="btn-primary focus-ring"
               >
                 Contar Meu Desafio
               </button>
               <button 
-                onClick={() => window.open("https://wa.me/5511999999999?text=Quero%20ver%20mais%20cases%20de%20sucesso", "_blank")}
+                onClick={() => window.open("https://wa.me/5531994959512?text=Quero%20ver%20mais%20cases%20de%20sucesso", "_blank")}
                 className="btn-secondary focus-ring"
               >
                 Ver Mais Cases

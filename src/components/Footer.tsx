@@ -20,7 +20,7 @@ const Footer = () => {
             </p>
             <div className="flex items-center space-x-4">
               <button 
-                onClick={() => window.open("https://wa.me/5511999999999", "_blank")}
+                onClick={() => window.open("https://wa.me/5531994959512", "_blank")}
                 className="flex items-center space-x-2 text-background hover:text-background transition-colors"
               >
                 <MessageCircle size={18} />

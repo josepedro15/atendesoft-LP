@@ -1,10 +1,11 @@
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, BarChart3, Clock, Lightbulb, FileText, TrendingUp, Activity, AlertTriangle, MessageSquare } from "lucide-react";
+import { CheckCircle2, BarChart3, Clock, Lightbulb, FileText, TrendingUp, Activity, AlertTriangle, MessageCircle, Play, ArrowRight } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
 import { motion } from "motion/react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import MagicBento from "@/components/MagicBento";
+import { events } from "@/lib/events";
 
 // --------------------
 // Mock data (exemplo)
@@ -45,159 +46,312 @@ const casosUso = [
 ];
 
 export default function DashboardsBIPage() {
+  const handleWhatsAppClick = () => {
+    events.ctaWhatsappClick("dashboards-page");
+    window.open("https://wa.me/5531994959512?text=Quero%20ver%20uma%20demo%20dos%20dashboards%20com%20IA", "_blank");
+  };
+
+  const handleDemoClick = () => {
+    events.heroCtaClick("demo");
+    const element = document.getElementById("demo-section");
+    element?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-slate-50">
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      
       {/* HERO */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-10">
-        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-          <Badge className="mb-3">Dashboards com BI</Badge>
-          <h1 className="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900">
-            Transforme dados em decisões com Dashboards Inteligentes
+      <section className="relative min-h-screen flex items-center justify-center pt-20">
+        <motion.div 
+          className="container mx-auto px-6 text-center relative z-20"
+          initial={{ opacity: 0, y: 8 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.4 }}
+        >
+          <div className="inline-flex items-center px-4 py-2 bg-primary/10 rounded-full text-primary text-sm font-medium mb-6">
+            <BarChart3 className="w-4 h-4 mr-2" />
+            Dashboards com BI
+          </div>
+          
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight">
+            Transforme dados em decisões com{" "}
+            <span className="text-primary">Dashboards Inteligentes</span>
           </h1>
-          <p className="mt-4 text-slate-600 text-lg max-w-2xl">
+          
+          <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed">
             Análises preditivas e insights em tempo real para impulsionar seu negócio. Tudo em uma única visão clara e acionável.
           </p>
-          <div className="mt-6 flex gap-3">
-            <Button size="lg" className="rounded-2xl">Quero meu Dashboard</Button>
-            <Button size="lg" variant="outline" className="rounded-2xl"><MessageSquare className="mr-2 h-4 w-4"/>Falar no WhatsApp</Button>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <button 
+              onClick={handleDemoClick}
+              className="btn-primary flex items-center space-x-3 text-lg px-8 py-4"
+            >
+              <Play size={20} />
+              <span>Ver Demonstração</span>
+              <ArrowRight size={18} />
+            </button>
+            
+            <button 
+              onClick={handleWhatsAppClick}
+              className="btn-whatsapp flex items-center space-x-3 text-lg px-8 py-4"
+            >
+              <MessageCircle size={20} />
+              <span>Falar no WhatsApp</span>
+            </button>
           </div>
         </motion.div>
       </section>
 
       {/* DEMO */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.05 }}>
-          <Card className="rounded-2xl shadow-sm">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xl">Visão Geral (Exemplo)</CardTitle>
-              <p className="text-sm text-slate-500">KPIs chave, vendas por mês e previsão automática</p>
-            </CardHeader>
-            <CardContent>
+      <section id="demo-section" className="py-20 bg-background">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">
+              Veja seus dados tomarem vida
+            </h2>
+            <p className="text-lg text-primary max-w-3xl mx-auto leading-relaxed">
+              KPIs em tempo real, análises preditivas e insights acionáveis em uma única visão
+            </p>
+          </div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.6 }}
+          >
+            <MagicBento 
+              className="glass-card p-8" 
+              enableStars={true} 
+              enableTilt={true} 
+              clickEffect={true}
+            >
+              <div className="mb-8">
+                <h3 className="text-2xl font-bold text-foreground mb-2">Visão Geral (Exemplo)</h3>
+                <p className="text-muted-foreground">KPIs chave, vendas por mês e previsão automática</p>
+              </div>
+
               {/* KPIs */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                 {kpis.map((k) => (
-                  <Card key={k.label} className="rounded-xl">
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-sm text-slate-500">{k.label}</p>
-                          <p className="mt-1 text-2xl font-semibold">{k.value}</p>
-                          <p className="mt-1 text-xs text-emerald-600">{k.delta}</p>
-                        </div>
-                        <k.icon className="h-6 w-6 text-slate-400" />
+                  <div key={k.label} className="glass-card p-6 rounded-xl">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-muted-foreground">{k.label}</p>
+                        <p className="mt-1 text-2xl font-bold text-foreground">{k.value}</p>
+                        <p className="mt-1 text-xs text-success font-semibold">{k.delta}</p>
                       </div>
-                    </CardContent>
-                  </Card>
+                      <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                        <k.icon className="h-6 w-6 text-primary" />
+                      </div>
+                    </div>
+                  </div>
                 ))}
               </div>
 
               {/* CHART */}
-              <div className="h-80 w-full">
+              <div className="h-80 w-full mb-8">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={serieMensal} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
                     <defs>
                       <linearGradient id="vendas" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="currentColor" stopOpacity={0.25} />
-                        <stop offset="80%" stopColor="currentColor" stopOpacity={0} />
+                        <stop offset="0%" stopColor="hsl(220 60% 65%)" stopOpacity={0.3} />
+                        <stop offset="80%" stopColor="hsl(220 60% 65%)" stopOpacity={0} />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="mes" />
-                    <YAxis />
-                    <Tooltip formatter={(v: number) => `R$ ${v.toLocaleString("pt-BR")}`} />
-                    <Area type="monotone" dataKey="vendas" name="Vendas" strokeWidth={2} fill="url(#vendas)" />
-                    <Line type="monotone" dataKey="previsto" name="Previsto (IA)" strokeWidth={2} dot={false} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(0 0% 90%)" />
+                    <XAxis dataKey="mes" stroke="hsl(0 0% 45%)" />
+                    <YAxis stroke="hsl(0 0% 45%)" />
+                    <Tooltip 
+                      formatter={(v: number) => `R$ ${v.toLocaleString("pt-BR")}`}
+                      contentStyle={{
+                        backgroundColor: 'hsl(0 0% 100%)',
+                        border: '1px solid hsl(0 0% 90%)',
+                        borderRadius: '12px',
+                        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.1)'
+                      }}
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="vendas" 
+                      name="Vendas" 
+                      stroke="hsl(220 60% 65%)" 
+                      strokeWidth={3}
+                      fill="url(#vendas)" 
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="previsto" 
+                      name="Previsto (IA)" 
+                      stroke="hsl(120 45% 65%)" 
+                      strokeWidth={3} 
+                      dot={false} 
+                      strokeDasharray="5 5"
+                    />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
 
               {/* INSIGHTS */}
-              <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="rounded-xl border-emerald-200">
-                  <CardContent className="p-4">
-                    <div className="flex items-start gap-3">
-                      <CheckCircle2 className="h-5 w-5 text-emerald-600 mt-0.5"/>
-                      <div>
-                        <p className="font-medium">Insight de IA</p>
-                        <p className="text-sm text-slate-600">Campanhas do canal <strong>Orgânico</strong> superaram a previsão em 6%. Replique criativos de maior CTR.</p>
-                      </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="glass-card p-6 rounded-xl border-l-4 border-success">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-success/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <CheckCircle2 className="h-5 w-5 text-success"/>
                     </div>
-                  </CardContent>
-                </Card>
-                <Card className="rounded-xl">
-                  <CardContent className="p-4">
-                    <div className="flex items-start gap-3">
-                      <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5"/>
-                      <div>
-                        <p className="font-medium">Alerta</p>
-                        <p className="text-sm text-slate-600">Queda de conversão na etapa de pagamento (‑12%). Revise taxa e frete para o Sul.</p>
-                      </div>
+                    <div>
+                      <p className="font-semibold text-foreground mb-2">Insight de IA</p>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        Campanhas do canal <strong>Orgânico</strong> superaram a previsão em 6%. Replique criativos de maior CTR.
+                      </p>
                     </div>
-                  </CardContent>
-                </Card>
-                <Card className="rounded-xl">
-                  <CardContent className="p-4">
-                    <div className="flex items-start gap-3">
-                      <Lightbulb className="h-5 w-5 text-indigo-600 mt-0.5"/>
-                      <div>
-                        <p className="font-medium">Próxima melhor ação</p>
-                        <p className="text-sm text-slate-600">Agende reposição de estoque do SKU #X12 para 7 dias. Probabilidade de ruptura: 78%.</p>
-                      </div>
+                  </div>
+                </div>
+                
+                <div className="glass-card p-6 rounded-xl border-l-4 border-destructive">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-destructive/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <AlertTriangle className="h-5 w-5 text-destructive"/>
                     </div>
-                  </CardContent>
-                </Card>
+                    <div>
+                      <p className="font-semibold text-foreground mb-2">Alerta</p>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        Queda de conversão na etapa de pagamento (‑12%). Revise taxa e frete para o Sul.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="glass-card p-6 rounded-xl border-l-4 border-primary">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <Lightbulb className="h-5 w-5 text-primary"/>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-foreground mb-2">Próxima melhor ação</p>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        Agende reposição de estoque do SKU #X12 para 7 dias. Probabilidade de ruptura: 78%.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+            </MagicBento>
+          </motion.div>
+        </div>
       </section>
 
       {/* BENEFÍCIOS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {beneficios.map((b) => (
-            <Card key={b.title} className="rounded-2xl">
-              <CardContent className="p-5">
-                <b.icon className="h-6 w-6 text-slate-500" />
-                <h3 className="mt-3 font-semibold">{b.title}</h3>
-                <p className="mt-1 text-sm text-slate-600">{b.desc}</p>
-              </CardContent>
-            </Card>
-          ))}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">
+              Por que escolher nossos Dashboards?
+            </h2>
+            <p className="text-lg text-primary max-w-3xl mx-auto leading-relaxed">
+              Tecnologia de ponta para transformar seus dados em vantagem competitiva
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {beneficios.map((b, index) => (
+              <MagicBento 
+                key={b.title}
+                className="glass-card p-8 hover:shadow-lg transition-all duration-300 group"
+                enableStars={true}
+                enableTilt={true}
+                clickEffect={true}
+                enableMagnetism={true}
+              >
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mr-4 group-hover:bg-primary/20 transition-colors">
+                    <b.icon className="w-6 h-6 text-primary" />
+                  </div>
+                </div>
+                
+                <h3 className="text-xl font-bold text-foreground mb-4">{b.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{b.desc}</p>
+              </MagicBento>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* CASOS DE USO */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
-        <div className="mb-6">
-          <h2 className="text-2xl font-semibold">Na prática, como funciona?</h2>
-          <p className="text-slate-600">Exemplos de aplicação que ajudam o cliente a se enxergar usando a solução.</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {casosUso.map((c) => (
-            <Card key={c.titulo} className="rounded-2xl">
-              <CardHeader>
-                <CardTitle>{c.titulo}</CardTitle>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <ul className="space-y-2 text-sm text-slate-700">
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">
+              Na prática, como funciona?
+            </h2>
+            <p className="text-lg text-primary max-w-3xl mx-auto leading-relaxed">
+              Exemplos de aplicação que ajudam o cliente a se enxergar usando a solução
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            {casosUso.map((c) => (
+              <MagicBento 
+                key={c.titulo}
+                className="glass-card p-8 hover:shadow-lg transition-all duration-300 group"
+                enableStars={true}
+                enableTilt={true}
+                clickEffect={true}
+                enableMagnetism={true}
+              >
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-foreground mb-4">{c.titulo}</h3>
+                </div>
+                
+                <ul className="space-y-4">
                   {c.pontos.map((p) => (
-                    <li key={p} className="flex items-start gap-2">
-                      <CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-600" />
-                      <span>{p}</span>
+                    <li key={p} className="flex items-start space-x-3">
+                      <div className="w-5 h-5 rounded-full bg-success/20 flex items-center justify-center mt-0.5 flex-shrink-0">
+                        <CheckCircle2 className="w-3 h-3 text-success" />
+                      </div>
+                      <span className="text-sm text-muted-foreground leading-relaxed">{p}</span>
                     </li>
                   ))}
                 </ul>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+              </MagicBento>
+            ))}
+          </div>
 
-        <div className="mt-10 flex flex-wrap items-center gap-3">
-          <Button size="lg" className="rounded-2xl">Ver demonstração completa</Button>
-          <Button size="lg" variant="outline" className="rounded-2xl">Agendar diagnóstico gratuito</Button>
+          {/* CTA Section */}
+          <div className="text-center">
+            <MagicBento 
+              className="glass-card p-8 max-w-2xl mx-auto" 
+              enableStars={true} 
+              enableTilt={true} 
+              clickEffect={true}
+            >
+              <h3 className="text-2xl font-bold text-foreground mb-4">
+                Pronto para transformar seus dados?
+              </h3>
+              <p className="text-muted-foreground mb-8 leading-relaxed">
+                Veja como nossos dashboards podem revolucionar a tomada de decisões no seu negócio
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button 
+                  onClick={handleWhatsAppClick}
+                  className="btn-primary focus-ring"
+                >
+                  Ver demonstração completa
+                </button>
+                <button 
+                  onClick={handleWhatsAppClick}
+                  className="btn-secondary focus-ring"
+                >
+                  Agendar diagnóstico gratuito
+                </button>
+              </div>
+            </MagicBento>
+          </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }

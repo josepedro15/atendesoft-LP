@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { MessageCircle } from "lucide-react";
 import { events } from "@/lib/events";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +21,17 @@ const Navbar = () => {
     element?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const handleLogoClick = () => {
+    events.navClick("home");
+    if (router.pathname === "/") {
+      // Se já estiver na home, scroll para o topo
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      // Se estiver em outra página, navegar para home
+      router.push("/");
+    }
+  };
+
   const handleWhatsAppClick = () => {
     events.ctaWhatsappClick("navbar");
     window.open("https://wa.me/5531994959512?text=Quero%20uma%20demo%20com%20IA%20da%20AtendeSoft", "_blank");
@@ -31,13 +44,17 @@ const Navbar = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center">
+          <button 
+            onClick={handleLogoClick}
+            className="flex items-center focus-ring hover:opacity-80 transition-opacity"
+            aria-label="Ir para página inicial"
+          >
             <img 
               src="/LOGO HOME.svg" 
               alt="AtendeSoft" 
               className="h-10 w-auto"
             />
-          </div>
+          </button>
 
           {/* Navigation Links - Desktop */}
           <div className="hidden lg:flex items-center space-x-8">

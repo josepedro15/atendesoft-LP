@@ -52,7 +52,7 @@ export default function DashboardsBIPage() {
   };
 
   const handleDemoClick = () => {
-    events.heroCtaClick("demo");
+    events.heroCtaClick("secondary");
     const element = document.getElementById("demo-section");
     element?.scrollIntoView({ behavior: "smooth" });
   };

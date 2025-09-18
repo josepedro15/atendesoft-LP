@@ -23,7 +23,6 @@ import ReactFlow, {
   MiniMap,
   BackgroundVariant,
   NodeTypes,
-  EdgeTypes,
   MarkerType,
 } from 'reactflow'
 import 'reactflow/dist/style.css'
@@ -165,7 +164,7 @@ function EditorContent() {
       setEdges((eds) => addEdge(newEdge, eds))
       saveToHistory()
     },
-    [setEdges]
+    [setEdges, saveToHistory]
   )
 
   const saveToHistory = () => {
@@ -238,7 +237,7 @@ function EditorContent() {
     }
   }
 
-  const handleShapeSelect = (shape: string) => {
+  const handleShapeSelect = () => {
     // Implementar seleção de forma
   }
 

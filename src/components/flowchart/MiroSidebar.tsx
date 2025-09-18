@@ -22,7 +22,7 @@ import { motion, AnimatePresence } from 'motion/react'
 
 interface MiroSidebarProps {
   onToolSelect: (tool: string) => void
-  onShapeSelect: (shape: string) => void
+  onShapeSelect: () => void
   selectedTool: string
   onAddNode: (type: string) => void
 }
@@ -74,14 +74,11 @@ export default function MiroSidebar({ onToolSelect, onShapeSelect, selectedTool,
     
     if (toolId === 'pen') {
       setShowDrawingTools(true)
-      setActivePanel('drawing')
     } else if (toolId === 'shapes') {
       setShowShapes(true)
-      setActivePanel('shapes')
     } else {
       setShowDrawingTools(false)
       setShowShapes(false)
-      setActivePanel('tools')
     }
   }
 

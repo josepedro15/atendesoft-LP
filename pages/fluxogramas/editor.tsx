@@ -62,6 +62,9 @@ import {
   LoopNode
 } from '@/components/flowchart/CustomNodes'
 import FlowchartToolbar from '@/components/flowchart/FlowchartToolbar'
+import MiroToolbar from '@/components/flowchart/MiroToolbar'
+import MiroSidebar from '@/components/flowchart/MiroSidebar'
+import TemplatesPanel from '@/components/flowchart/TemplatesPanel'
 import { exportAsPNG, exportAsPDF, exportAsSVG, exportAsJSON } from '@/components/flowchart/ExportUtils'
 
 const nodeTypes: NodeTypes = {
@@ -163,6 +166,11 @@ function EditorContent() {
   const [history, setHistory] = useState<{ nodes: Node[]; edges: Edge[] }[]>([{ nodes: initialNodes, edges: initialEdges }])
   const [historyIndex, setHistoryIndex] = useState(0)
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null)
+  const [selectedTool, setSelectedTool] = useState('select')
+  const [fontSize, setFontSize] = useState(16)
+  const [selectedColor, setSelectedColor] = useState('#3b82f6')
+  const [isLocked, setIsLocked] = useState(false)
+  const [showTemplates, setShowTemplates] = useState(false)
 
   const onConnect = useCallback(
     (params: Connection) => {
@@ -247,10 +255,84 @@ function EditorContent() {
     console.log('Salvando fluxograma...')
   }
 
+  const handleToolSelect = (tool: string) => {
+    setSelectedTool(tool)
+    if (tool === 'shapes') {
+      setShowTemplates(true)
+    }
+  }
+
+  const handleShapeSelect = (shape: string) => {
+    console.log('Shape selected:', shape)
+  }
+
+  const handleTemplateSelect = (template: any) => {
+    if (template.type === 'template') {
+      setNodes(template.template.nodes)
+      setEdges(template.template.edges)
+      setShowTemplates(false)
+    } else if (template.type === 'flowchart') {
+      addNode(template.shape.id)
+    }
+  }
+
+  const handleLock = () => {
+    setIsLocked(!isLocked)
+  }
+
+  const handleUnlock = () => {
+    setIsLocked(false)
+  }
+
+  const handlePresent = () => {
+    console.log('Apresentando...')
+  }
+
+  const handleShare = () => {
+    console.log('Compartilhando...')
+  }
+
   return (
-    <div className="h-screen flex flex-col bg-background">
+    <div className="h-screen flex flex-col bg-gray-50 relative">
+      {/* Miro-style Toolbar */}
+      <MiroToolbar
+        onToolSelect={handleToolSelect}
+        onUndo={undo}
+        onRedo={redo}
+        onCopy={() => console.log('Copy')}
+        onDelete={deleteSelected}
+        onLock={handleLock}
+        onUnlock={handleUnlock}
+        onPresent={handlePresent}
+        onShare={handleShare}
+        canUndo={historyIndex > 0}
+        canRedo={historyIndex < history.length - 1}
+        hasSelection={nodes.some(node => node.selected) || edges.some(edge => edge.selected)}
+        isLocked={isLocked}
+        selectedTool={selectedTool}
+        fontSize={fontSize}
+        onFontSizeChange={setFontSize}
+        selectedColor={selectedColor}
+        onColorChange={setSelectedColor}
+      />
+
+      {/* Miro-style Sidebar */}
+      <MiroSidebar
+        onToolSelect={handleToolSelect}
+        onShapeSelect={handleShapeSelect}
+        selectedTool={selectedTool}
+        onAddNode={addNode}
+      />
+
+      {/* Templates Panel */}
+      <TemplatesPanel
+        isOpen={showTemplates}
+        onClose={() => setShowTemplates(false)}
+        onTemplateSelect={handleTemplateSelect}
+      />
+
       {/* Header */}
-      <header className="border-b bg-white/70 backdrop-blur-lg flex-shrink-0">
+      <header className="border-b bg-white/70 backdrop-blur-lg flex-shrink-0 mt-16">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -302,7 +384,7 @@ function EditorContent() {
       {/* Main Content */}
       <div className="flex-1 flex">
         {/* Canvas */}
-        <div className="flex-1 relative">
+        <div className="flex-1 relative ml-20">
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -342,7 +424,7 @@ function EditorContent() {
           </ReactFlow>
         </div>
 
-        {/* Toolbar */}
+        {/* Right Sidebar - Optional */}
         <div className="w-80 border-l bg-white/50 backdrop-blur-sm">
           <FlowchartToolbar
             onAddNode={addNode}

@@ -151,6 +151,14 @@ function EditorContent() {
   const [isLocked, setIsLocked] = useState(false)
   const [showTemplates, setShowTemplates] = useState(false)
 
+  const saveToHistory = useCallback(() => {
+    const newState = { nodes, edges }
+    const newHistory = history.slice(0, historyIndex + 1)
+    newHistory.push(newState)
+    setHistory(newHistory)
+    setHistoryIndex(newHistory.length - 1)
+  }, [nodes, edges, history, historyIndex])
+
   const onConnect = useCallback(
     (params: Connection) => {
       const newEdge = {
@@ -166,14 +174,6 @@ function EditorContent() {
     },
     [setEdges, saveToHistory]
   )
-
-  const saveToHistory = () => {
-    const newState = { nodes, edges }
-    const newHistory = history.slice(0, historyIndex + 1)
-    newHistory.push(newState)
-    setHistory(newHistory)
-    setHistoryIndex(newHistory.length - 1)
-  }
 
   const undo = () => {
     if (historyIndex > 0) {

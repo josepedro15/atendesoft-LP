@@ -32,29 +32,35 @@ export default function Login() {
     setError('')
 
     try {
-      const { error } = isSignUp 
+      console.log('🚀 Iniciando processo de autenticação...')
+      const result = isSignUp 
         ? await signUp(email, password)
         : await signIn(email, password)
 
-      if (error) {
-        console.log('Erro de autenticação:', error)
-        if (error.message === 'Email not confirmed') {
+      console.log('📋 Resultado da autenticação:', result)
+
+      if (result.error) {
+        console.log('❌ Erro de autenticação:', result.error)
+        if (result.error.message === 'Email not confirmed') {
           setError('Email não confirmado. Verifique sua caixa de entrada e clique no link de confirmação.')
           // Redirecionar para página de confirmação após 3 segundos
           setTimeout(() => {
             router.push('/confirmar-email')
           }, 3000)
-        } else if (error.message === 'Invalid login credentials') {
+        } else if (result.error.message === 'Invalid login credentials') {
           setError('Email ou senha incorretos. Verifique suas credenciais.')
         } else {
-          setError(error.message)
+          setError(result.error.message)
         }
       } else if (isSignUp) {
         setError('✅ Conta criada! Verifique seu email para confirmar a conta.')
       } else {
+        console.log('✅ Login bem-sucedido! Redirecionando para dashboard...')
+        setError('') // Limpar erros
         router.push('/dashboard')
       }
     } catch (err) {
+      console.log('❌ Erro inesperado:', err)
       setError('Erro inesperado. Tente novamente.')
     } finally {
       setLoading(false)

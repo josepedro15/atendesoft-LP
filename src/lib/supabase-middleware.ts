@@ -35,28 +35,10 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  console.log('🔍 Middleware - User:', user?.email || 'No user')
+  // DESABILITADO: Middleware não protege mais rotas autenticadas
+  // Deixa o ProtectedRoute fazer o trabalho no cliente
   console.log('🔍 Middleware - Path:', request.nextUrl.pathname)
-
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/auth') &&
-    !request.nextUrl.pathname.startsWith('/api') &&
-    request.nextUrl.pathname !== '/' &&
-    !request.nextUrl.pathname.startsWith('/_next') &&
-    !request.nextUrl.pathname.startsWith('/favicon') &&
-    !request.nextUrl.pathname.startsWith('/fluxogramas') &&
-    !request.nextUrl.pathname.startsWith('/dashboard')
-  ) {
-    console.log('🚫 Middleware - Redirecting to login')
-    // no user, potentially respond by redirecting the user to the login page
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return NextResponse.redirect(url)
-  }
-
-  console.log('✅ Middleware - User authenticated, allowing access')
+  console.log('✅ Middleware - Allow all routes, ProtectedRoute handles auth')
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
   // creating a new response object with NextResponse.next() make sure to:

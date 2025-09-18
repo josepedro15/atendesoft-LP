@@ -18,7 +18,10 @@ export default function ProtectedRoute({
 
   useEffect(() => {
     if (!loading && !user) {
+      console.log('🚫 ProtectedRoute - No user, redirecting to login')
       router.push(redirectTo)
+    } else if (user) {
+      console.log('✅ ProtectedRoute - User authenticated:', user.email)
     }
   }, [user, loading, router, redirectTo])
 

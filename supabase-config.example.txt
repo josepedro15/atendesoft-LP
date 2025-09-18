@@ -1,0 +1,16 @@
+# Configuração do Supabase
+# Copie este arquivo para .env.local e preencha com suas credenciais
+
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# Como obter as credenciais:
+# 1. Acesse https://supabase.com
+# 2. Crie um novo projeto
+# 3. Vá em Settings > API
+# 4. Copie a URL do projeto e a chave anônima
+# 5. Cole nos valores acima
+
+# Exemplo:
+# NEXT_PUBLIC_SUPABASE_URL=https://abcdefghijklmnop.supabase.co
+# NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiY2RlZmdoaWprbG1ub3AiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTY0NjQ2NDAwMCwiZXhwIjoxOTYyMDQwMDAwfQ.example

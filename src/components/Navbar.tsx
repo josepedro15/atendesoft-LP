@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, LogIn } from "lucide-react";
 import { events } from "@/lib/events";
 import { useRouter } from "next/router";
+import { useAuth } from "@/contexts/AuthContext";
+import Image from "next/image";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const router = useRouter();
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,6 +40,16 @@ const Navbar = () => {
     window.open("https://wa.me/5531994959512?text=Quero%20uma%20demo%20com%20IA%20da%20AtendeSoft", "_blank");
   };
 
+  const handleLoginClick = () => {
+    events.navClick("login");
+    router.push("/login");
+  };
+
+  const handleDashboardClick = () => {
+    events.navClick("dashboard");
+    router.push("/dashboard");
+  };
+
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
       isScrolled ? "navbar-glass shadow-lg" : "bg-transparent"
@@ -49,10 +62,13 @@ const Navbar = () => {
             className="flex items-center focus-ring hover:opacity-80 transition-opacity"
             aria-label="Ir para página inicial"
           >
-            <img 
+            <Image 
               src="/LOGO HOME.svg" 
               alt="AtendeSoft" 
+              width={120}
+              height={40}
               className="h-10 w-auto"
+              priority
             />
           </button>
 
@@ -96,14 +112,33 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* WhatsApp CTA */}
-          <button 
-            onClick={handleWhatsAppClick}
-            className="btn-whatsapp flex items-center space-x-2 focus-ring"
-          >
-            <MessageCircle size={18} />
-            <span className="hidden sm:inline">Falar no WhatsApp</span>
-          </button>
+          {/* Auth Actions */}
+          <div className="flex items-center space-x-3">
+            {user ? (
+              <button 
+                onClick={handleDashboardClick}
+                className="btn-primary flex items-center space-x-2 focus-ring"
+              >
+                <span className="hidden sm:inline">Dashboard</span>
+              </button>
+            ) : (
+              <button 
+                onClick={handleLoginClick}
+                className="btn-secondary flex items-center space-x-2 focus-ring"
+              >
+                <LogIn size={18} />
+                <span className="hidden sm:inline">Entrar</span>
+              </button>
+            )}
+            
+            <button 
+              onClick={handleWhatsAppClick}
+              className="btn-whatsapp flex items-center space-x-2 focus-ring"
+            >
+              <MessageCircle size={18} />
+              <span className="hidden sm:inline">WhatsApp</span>
+            </button>
+          </div>
         </div>
       </div>
     </nav>

@@ -158,7 +158,7 @@ const ParticleCard: React.FC<{
 
     const handleMouseEnter = () => {
       isHoveredRef.current = true;
-      console.log('Mouse entered, starting particles...');
+      // console.log('Mouse entered, starting particles...'); // Removed for production
       animateParticles();
 
       if (enableTilt) {

@@ -9,6 +9,8 @@ export default function Document() {
         <meta name="description" content="Automação Comercial, Apps e Dashboards com IA - AtendeSoft" />
         <meta name="keywords" content="automação, IA, WhatsApp, dashboards, BI, vendas" />
         <meta name="author" content="AtendeSoft" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://atendesoft.com/" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />

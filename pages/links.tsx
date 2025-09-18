@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 import CurvedLoop from '../src/components/CurvedLoop';
 
 export default function LinksPage() {
@@ -38,15 +39,18 @@ export default function LinksPage() {
               boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
               overflow: 'hidden'
             }}>
-              <img
+              <Image
                 src="/LOGO HOME.svg"
                 alt="AtendeSoft"
+                width={200}
+                height={200}
                 style={{
                   width: '100%',
                   height: '100%',
                   objectFit: 'contain',
                   padding: '8px'
                 }}
+                priority
               />
             </div>
             <div style={{ 

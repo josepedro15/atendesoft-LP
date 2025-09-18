@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import Image from "next/image";
 
 interface ProfileHeaderProps {
   name: string;
@@ -20,9 +21,11 @@ const ProfileHeader = ({ name, description, avatar }: ProfileHeaderProps) => {
         whileHover={{ scale: 1.05 }}
         transition={{ duration: 0.2 }}
       >
-        <img
+        <Image
           src={avatar}
           alt={name}
+          width={80}
+          height={80}
           className="w-full h-full object-contain p-2"
         />
       </motion.div>

@@ -58,12 +58,9 @@ export default function Login() {
         console.log('✅ Login bem-sucedido! Redirecionando para dashboard...')
         setError('') // Limpar erros
         
-        // Forçar redirecionamento com refresh da página
-        setTimeout(() => {
-          console.log('🔄 Executando redirecionamento...')
-          // Força refresh da página para sincronizar com o servidor
-          window.location.href = '/dashboard'
-        }, 500)
+        // Redirecionamento usando router
+        console.log('🔄 Executando redirecionamento...')
+        router.push('/dashboard')
       }
     } catch (err) {
       console.log('❌ Erro inesperado:', err)

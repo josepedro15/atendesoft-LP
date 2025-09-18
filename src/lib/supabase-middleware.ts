@@ -46,7 +46,8 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname !== '/' &&
     !request.nextUrl.pathname.startsWith('/_next') &&
     !request.nextUrl.pathname.startsWith('/favicon') &&
-    !request.nextUrl.pathname.startsWith('/fluxogramas')
+    !request.nextUrl.pathname.startsWith('/fluxogramas') &&
+    !request.nextUrl.pathname.startsWith('/dashboard')
   ) {
     console.log('🚫 Middleware - Redirecting to login')
     // no user, potentially respond by redirecting the user to the login page

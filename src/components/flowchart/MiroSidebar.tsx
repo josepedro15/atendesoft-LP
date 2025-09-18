@@ -16,12 +16,7 @@ import {
   Plus,
   Grid3X3,
   Table,
-  FileText,
-  Workflow,
-  Sparkles,
-  History,
-  Video,
-  MessageSquare
+  Workflow
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 
@@ -71,7 +66,6 @@ const nodeTypes = [
 ]
 
 export default function MiroSidebar({ onToolSelect, onShapeSelect, selectedTool, onAddNode }: MiroSidebarProps) {
-  const [activePanel, setActivePanel] = useState('tools')
   const [showDrawingTools, setShowDrawingTools] = useState(false)
   const [showShapes, setShowShapes] = useState(false)
 

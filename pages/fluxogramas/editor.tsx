@@ -1,35 +1,16 @@
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { 
   Save, 
   Download, 
-  Share2, 
-  Settings, 
   ArrowLeft,
-  Undo,
-  Redo,
-  Copy,
-  Trash2,
-  ZoomIn,
-  ZoomOut,
-  Maximize,
-  Minimize,
-  Square,
-  Diamond,
-  Circle,
-  Hexagon,
-  Workflow,
-  FileText,
   FileDown
 } from 'lucide-react'
 import Image from 'next/image'
-import { motion } from 'motion/react'
 import ReactFlow, {
   Node,
   Edge,
@@ -162,7 +143,6 @@ function EditorContent() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
   const [flowchartTitle, setFlowchartTitle] = useState('Novo Fluxograma')
-  const [selectedNodeType, setSelectedNodeType] = useState('process')
   const [history, setHistory] = useState<{ nodes: Node[]; edges: Edge[] }[]>([{ nodes: initialNodes, edges: initialEdges }])
   const [historyIndex, setHistoryIndex] = useState(0)
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null)
@@ -226,9 +206,6 @@ function EditorContent() {
   }
 
   const deleteSelected = () => {
-    const selectedNodes = nodes.filter(node => node.selected)
-    const selectedEdges = edges.filter(edge => edge.selected)
-    
     setNodes(nodes.filter(node => !node.selected))
     setEdges(edges.filter(edge => !edge.selected))
     saveToHistory()
@@ -252,7 +229,6 @@ function EditorContent() {
 
   const saveFlowchart = () => {
     // Implementar salvamento
-    console.log('Salvando fluxograma...')
   }
 
   const handleToolSelect = (tool: string) => {
@@ -263,7 +239,7 @@ function EditorContent() {
   }
 
   const handleShapeSelect = (shape: string) => {
-    console.log('Shape selected:', shape)
+    // Implementar seleção de forma
   }
 
   const handleTemplateSelect = (template: any) => {
@@ -285,11 +261,11 @@ function EditorContent() {
   }
 
   const handlePresent = () => {
-    console.log('Apresentando...')
+    // Implementar apresentação
   }
 
   const handleShare = () => {
-    console.log('Compartilhando...')
+    // Implementar compartilhamento
   }
 
   return (
@@ -299,7 +275,7 @@ function EditorContent() {
         onToolSelect={handleToolSelect}
         onUndo={undo}
         onRedo={redo}
-        onCopy={() => console.log('Copy')}
+        onCopy={() => {}}
         onDelete={deleteSelected}
         onLock={handleLock}
         onUnlock={handleUnlock}
@@ -431,8 +407,8 @@ function EditorContent() {
             onUndo={undo}
             onRedo={redo}
             onDelete={deleteSelected}
-            onCopy={() => console.log('Copy')}
-            onPaste={() => console.log('Paste')}
+            onCopy={() => {}}
+            onPaste={() => {}}
             onSave={saveFlowchart}
             onExport={(format) => {
               if (format === 'png') handleExportPNG()
@@ -440,7 +416,7 @@ function EditorContent() {
               if (format === 'svg') handleExportSVG()
               if (format === 'json') handleExportJSON()
             }}
-            onShare={() => console.log('Share')}
+            onShare={() => {}}
             canUndo={historyIndex > 0}
             canRedo={historyIndex < history.length - 1}
             hasSelection={nodes.some(node => node.selected) || edges.some(edge => edge.selected)}

@@ -5,7 +5,6 @@ import {
   MousePointer2,
   Square,
   Type,
-  Palette,
   Undo,
   Redo,
   Copy,
@@ -14,12 +13,8 @@ import {
   Unlock,
   Sparkles,
   MoreHorizontal,
-  Present,
-  Share2,
-  Users,
-  MessageCircle,
-  Video,
-  Clock
+  Play,
+  Share2
 } from 'lucide-react'
 import { motion } from 'motion/react'
 
@@ -71,7 +66,6 @@ export default function MiroToolbar({
   onColorChange
 }: MiroToolbarProps) {
   const [showColorPalette, setShowColorPalette] = useState(false)
-  const [showTextOptions, setShowTextOptions] = useState(false)
 
   const tools = [
     { id: 'select', icon: MousePointer2, label: 'Selecionar' },
@@ -270,7 +264,7 @@ export default function MiroToolbar({
           onClick={onPresent}
           className="h-8 px-3"
         >
-          <Present className="h-4 w-4 mr-1" />
+          <Play className="h-4 w-4 mr-1" />
           Apresentar
         </Button>
 

@@ -28,7 +28,7 @@ import {
   ChevronRight,
   Palette
 } from 'lucide-react'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion } from 'motion/react'
 
 interface TemplatesPanelProps {
   isOpen: boolean
@@ -133,7 +133,6 @@ const templates = [
 
 export default function TemplatesPanel({ isOpen, onClose, onTemplateSelect }: TemplatesPanelProps) {
   const [searchTerm, setSearchTerm] = useState('')
-  const [activeSection, setActiveSection] = useState('basic')
   const [expandedSections, setExpandedSections] = useState({
     basic: true,
     flowchart: true,

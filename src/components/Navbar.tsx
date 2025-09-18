@@ -110,6 +110,14 @@ const Navbar = () => {
             >
               FAQ
             </button>
+            {user && (
+              <button 
+                onClick={() => router.push("/fluxogramas")}
+                className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
+              >
+                Fluxogramas
+              </button>
+            )}
           </div>
 
           {/* Auth Actions */}

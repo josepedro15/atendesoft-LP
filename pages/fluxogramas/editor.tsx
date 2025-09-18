@@ -1,0 +1,349 @@
+import { useState, useCallback, useRef, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import ProtectedRoute from '@/components/ProtectedRoute'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { 
+  Save, 
+  Download, 
+  Share2, 
+  Settings, 
+  ArrowLeft,
+  Undo,
+  Redo,
+  Copy,
+  Trash2,
+  ZoomIn,
+  ZoomOut,
+  Maximize,
+  Minimize,
+  Square,
+  Diamond,
+  Circle,
+  Hexagon,
+  Workflow,
+  FileText,
+  FileDown
+} from 'lucide-react'
+import Image from 'next/image'
+import { motion } from 'motion/react'
+import ReactFlow, {
+  Node,
+  Edge,
+  addEdge,
+  Connection,
+  useNodesState,
+  useEdgesState,
+  Controls,
+  Background,
+  MiniMap,
+  BackgroundVariant,
+  NodeTypes,
+  EdgeTypes,
+  MarkerType,
+} from 'reactflow'
+import 'reactflow/dist/style.css'
+import { 
+  ProcessNode, 
+  DecisionNode, 
+  StartEndNode, 
+  InputOutputNode,
+  DataNode,
+  DocumentNode,
+  ConnectorNode
+} from '@/components/flowchart/CustomNodes'
+import FlowchartToolbar from '@/components/flowchart/FlowchartToolbar'
+
+const nodeTypes: NodeTypes = {
+  process: ProcessNode,
+  decision: DecisionNode,
+  startEnd: StartEndNode,
+  inputOutput: InputOutputNode,
+  data: DataNode,
+  document: DocumentNode,
+  connector: ConnectorNode,
+}
+
+const initialNodes: Node[] = [
+  {
+    id: '1',
+    type: 'startEnd',
+    position: { x: 250, y: 25 },
+    data: { label: 'Início' },
+  },
+  {
+    id: '2',
+    type: 'process',
+    position: { x: 100, y: 125 },
+    data: { label: 'Processo 1' },
+  },
+  {
+    id: '3',
+    type: 'decision',
+    position: { x: 400, y: 125 },
+    data: { label: 'Decisão?' },
+  },
+  {
+    id: '4',
+    type: 'process',
+    position: { x: 100, y: 250 },
+    data: { label: 'Processo 2' },
+  },
+  {
+    id: '5',
+    type: 'startEnd',
+    position: { x: 400, y: 250 },
+    data: { label: 'Fim' },
+  },
+]
+
+const initialEdges: Edge[] = [
+  {
+    id: 'e1-2',
+    source: '1',
+    target: '2',
+    type: 'smoothstep',
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+    },
+  },
+  {
+    id: 'e2-3',
+    source: '2',
+    target: '3',
+    type: 'smoothstep',
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+    },
+  },
+  {
+    id: 'e3-4',
+    source: '3',
+    target: '4',
+    type: 'smoothstep',
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+    },
+    label: 'Sim',
+  },
+  {
+    id: 'e3-5',
+    source: '3',
+    target: '5',
+    type: 'smoothstep',
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+    },
+    label: 'Não',
+  },
+]
+
+function EditorContent() {
+  const router = useRouter()
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
+  const [flowchartTitle, setFlowchartTitle] = useState('Novo Fluxograma')
+  const [selectedNodeType, setSelectedNodeType] = useState('process')
+  const [history, setHistory] = useState<{ nodes: Node[]; edges: Edge[] }[]>([{ nodes: initialNodes, edges: initialEdges }])
+  const [historyIndex, setHistoryIndex] = useState(0)
+
+  const onConnect = useCallback(
+    (params: Connection) => {
+      const newEdge = {
+        ...params,
+        id: `e${params.source}-${params.target}`,
+        type: 'smoothstep',
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+        },
+      }
+      setEdges((eds) => addEdge(newEdge, eds))
+      saveToHistory()
+    },
+    [setEdges]
+  )
+
+  const saveToHistory = () => {
+    const newState = { nodes, edges }
+    const newHistory = history.slice(0, historyIndex + 1)
+    newHistory.push(newState)
+    setHistory(newHistory)
+    setHistoryIndex(newHistory.length - 1)
+  }
+
+  const undo = () => {
+    if (historyIndex > 0) {
+      const newIndex = historyIndex - 1
+      setHistoryIndex(newIndex)
+      setNodes(history[newIndex].nodes)
+      setEdges(history[newIndex].edges)
+    }
+  }
+
+  const redo = () => {
+    if (historyIndex < history.length - 1) {
+      const newIndex = historyIndex + 1
+      setHistoryIndex(newIndex)
+      setNodes(history[newIndex].nodes)
+      setEdges(history[newIndex].edges)
+    }
+  }
+
+  const addNode = (type: string) => {
+    const newNode: Node = {
+      id: `${nodes.length + 1}`,
+      type,
+      position: { x: Math.random() * 400, y: Math.random() * 400 },
+      data: { label: `Novo ${type}` },
+    }
+    setNodes((nds) => [...nds, newNode])
+    saveToHistory()
+  }
+
+  const deleteSelected = () => {
+    const selectedNodes = nodes.filter(node => node.selected)
+    const selectedEdges = edges.filter(edge => edge.selected)
+    
+    setNodes(nodes.filter(node => !node.selected))
+    setEdges(edges.filter(edge => !edge.selected))
+    saveToHistory()
+  }
+
+  const exportAsPNG = () => {
+    // Implementar exportação PNG
+    console.log('Exportando como PNG...')
+  }
+
+  const exportAsPDF = () => {
+    // Implementar exportação PDF
+    console.log('Exportando como PDF...')
+  }
+
+  const saveFlowchart = () => {
+    // Implementar salvamento
+    console.log('Salvando fluxograma...')
+  }
+
+  return (
+    <div className="h-screen flex flex-col bg-background">
+      {/* Header */}
+      <header className="border-b bg-white/70 backdrop-blur-lg flex-shrink-0">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => router.push('/fluxogramas')}
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Voltar
+              </Button>
+              <Image 
+                src="/LOGO HOME.svg" 
+                alt="AtendeSoft" 
+                width={120}
+                height={40}
+                className="h-8 w-auto"
+              />
+              <Badge variant="secondary">
+                Editor de Fluxogramas
+              </Badge>
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <Input
+                value={flowchartTitle}
+                onChange={(e) => setFlowchartTitle(e.target.value)}
+                className="w-64"
+                placeholder="Nome do fluxograma"
+              />
+              <Button onClick={saveFlowchart} variant="outline" size="sm">
+                <Save className="h-4 w-4 mr-2" />
+                Salvar
+              </Button>
+              <Button onClick={exportAsPNG} variant="outline" size="sm">
+                <Download className="h-4 w-4 mr-2" />
+                PNG
+              </Button>
+              <Button onClick={exportAsPDF} variant="outline" size="sm">
+                <FileDown className="h-4 w-4 mr-2" />
+                PDF
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+
+      {/* Main Content */}
+      <div className="flex-1 flex">
+        {/* Canvas */}
+        <div className="flex-1 relative">
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            nodeTypes={nodeTypes}
+            fitView
+            className="bg-gray-50"
+          >
+            <Controls />
+            <MiniMap 
+              nodeColor={(node) => {
+                switch (node.type) {
+                  case 'process': return '#3b82f6'
+                  case 'decision': return '#ef4444'
+                  case 'startEnd': return '#10b981'
+                  case 'inputOutput': return '#f59e0b'
+                  case 'data': return '#8b5cf6'
+                  case 'document': return '#6366f1'
+                  case 'connector': return '#6b7280'
+                  default: return '#6b7280'
+                }
+              }}
+              nodeStrokeWidth={3}
+              zoomable
+              pannable
+            />
+            <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
+          </ReactFlow>
+        </div>
+
+        {/* Toolbar */}
+        <div className="w-80 border-l bg-white/50 backdrop-blur-sm">
+          <FlowchartToolbar
+            onAddNode={addNode}
+            onUndo={undo}
+            onRedo={redo}
+            onDelete={deleteSelected}
+            onCopy={() => console.log('Copy')}
+            onPaste={() => console.log('Paste')}
+            onSave={saveFlowchart}
+            onExport={(format) => {
+              if (format === 'png') exportAsPNG()
+              if (format === 'pdf') exportAsPDF()
+            }}
+            onShare={() => console.log('Share')}
+            canUndo={historyIndex > 0}
+            canRedo={historyIndex < history.length - 1}
+            hasSelection={nodes.some(node => node.selected) || edges.some(edge => edge.selected)}
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default function Editor() {
+  return (
+    <ProtectedRoute>
+      <EditorContent />
+    </ProtectedRoute>
+  )
+}

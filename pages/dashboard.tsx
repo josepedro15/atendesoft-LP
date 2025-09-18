@@ -16,7 +16,8 @@ import {
   Clock,
   TrendingUp,
   Users,
-  Activity
+  Activity,
+  Workflow
 } from 'lucide-react'
 import Image from 'next/image'
 import { motion } from 'motion/react'
@@ -237,6 +238,14 @@ function DashboardContent() {
                 <Button className="w-full justify-start" variant="outline">
                   <Shield className="h-4 w-4 mr-2" />
                   Configurações de Segurança
+                </Button>
+                <Button 
+                  className="w-full justify-start" 
+                  variant="outline"
+                  onClick={() => router.push('/fluxogramas')}
+                >
+                  <Workflow className="h-4 w-4 mr-2" />
+                  Editor de Fluxogramas
                 </Button>
               </CardContent>
             </Card>

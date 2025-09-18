@@ -1,6 +1,6 @@
 import React from "react";
 import { CheckCircle2, BarChart3, Clock, Lightbulb, FileText, TrendingUp, Activity, AlertTriangle, MessageCircle, Play, ArrowRight } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
+import { Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
 import { motion } from "motion/react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";

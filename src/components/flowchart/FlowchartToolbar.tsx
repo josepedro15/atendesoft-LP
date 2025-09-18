@@ -32,7 +32,13 @@ import {
   Layers,
   Grid,
   Eye,
-  EyeOff
+  EyeOff,
+  Database,
+  Cloud,
+  Clock,
+  User,
+  RotateCcw,
+  Zap
 } from 'lucide-react'
 
 interface FlowchartToolbarProps {
@@ -58,6 +64,12 @@ const nodeTypes = [
   { type: 'data', label: 'Dados', icon: Cylinder, color: 'bg-purple-500', description: 'Armazenamento de dados' },
   { type: 'document', label: 'Documento', icon: FileText, color: 'bg-indigo-500', description: 'Documento ou relatório' },
   { type: 'connector', label: 'Conector', icon: Dot, color: 'bg-gray-500', description: 'Ponto de conexão' },
+  { type: 'database', label: 'Banco de Dados', icon: Database, color: 'bg-purple-600', description: 'Base de dados' },
+  { type: 'api', label: 'API', icon: Zap, color: 'bg-orange-500', description: 'Interface de programação' },
+  { type: 'timer', label: 'Timer', icon: Clock, color: 'bg-yellow-600', description: 'Temporizador ou delay' },
+  { type: 'user', label: 'Usuário', icon: User, color: 'bg-green-600', description: 'Interação do usuário' },
+  { type: 'cloud', label: 'Nuvem', icon: Cloud, color: 'bg-sky-500', description: 'Serviço em nuvem' },
+  { type: 'loop', label: 'Loop', icon: RotateCcw, color: 'bg-indigo-600', description: 'Repetição ou ciclo' },
 ]
 
 export default function FlowchartToolbar({
@@ -341,6 +353,15 @@ export default function FlowchartToolbar({
                   >
                     <Download className="h-4 w-4 mr-2" />
                     SVG (Vetorial)
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => onExport('json')}
+                    className="w-full justify-start"
+                  >
+                    <Settings className="h-4 w-4 mr-2" />
+                    JSON (Dados)
                   </Button>
                 </div>
               </div>

@@ -53,9 +53,16 @@ import {
   InputOutputNode,
   DataNode,
   DocumentNode,
-  ConnectorNode
+  ConnectorNode,
+  DatabaseNode,
+  ApiNode,
+  TimerNode,
+  UserNode,
+  CloudNode,
+  LoopNode
 } from '@/components/flowchart/CustomNodes'
 import FlowchartToolbar from '@/components/flowchart/FlowchartToolbar'
+import { exportAsPNG, exportAsPDF, exportAsSVG, exportAsJSON } from '@/components/flowchart/ExportUtils'
 
 const nodeTypes: NodeTypes = {
   process: ProcessNode,
@@ -65,6 +72,12 @@ const nodeTypes: NodeTypes = {
   data: DataNode,
   document: DocumentNode,
   connector: ConnectorNode,
+  database: DatabaseNode,
+  api: ApiNode,
+  timer: TimerNode,
+  user: UserNode,
+  cloud: CloudNode,
+  loop: LoopNode,
 }
 
 const initialNodes: Node[] = [
@@ -149,6 +162,7 @@ function EditorContent() {
   const [selectedNodeType, setSelectedNodeType] = useState('process')
   const [history, setHistory] = useState<{ nodes: Node[]; edges: Edge[] }[]>([{ nodes: initialNodes, edges: initialEdges }])
   const [historyIndex, setHistoryIndex] = useState(0)
+  const [reactFlowInstance, setReactFlowInstance] = useState<any>(null)
 
   const onConnect = useCallback(
     (params: Connection) => {
@@ -212,14 +226,20 @@ function EditorContent() {
     saveToHistory()
   }
 
-  const exportAsPNG = () => {
-    // Implementar exportação PNG
-    console.log('Exportando como PNG...')
+  const handleExportPNG = () => {
+    exportAsPNG(reactFlowInstance, flowchartTitle)
   }
 
-  const exportAsPDF = () => {
-    // Implementar exportação PDF
-    console.log('Exportando como PDF...')
+  const handleExportPDF = () => {
+    exportAsPDF(reactFlowInstance, flowchartTitle)
+  }
+
+  const handleExportSVG = () => {
+    exportAsSVG(nodes, edges, flowchartTitle)
+  }
+
+  const handleExportJSON = () => {
+    exportAsJSON(nodes, edges, flowchartTitle)
   }
 
   const saveFlowchart = () => {
@@ -265,11 +285,11 @@ function EditorContent() {
                 <Save className="h-4 w-4 mr-2" />
                 Salvar
               </Button>
-              <Button onClick={exportAsPNG} variant="outline" size="sm">
+              <Button onClick={handleExportPNG} variant="outline" size="sm">
                 <Download className="h-4 w-4 mr-2" />
                 PNG
               </Button>
-              <Button onClick={exportAsPDF} variant="outline" size="sm">
+              <Button onClick={handleExportPDF} variant="outline" size="sm">
                 <FileDown className="h-4 w-4 mr-2" />
                 PDF
               </Button>
@@ -290,6 +310,7 @@ function EditorContent() {
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
             nodeTypes={nodeTypes}
+            onInit={setReactFlowInstance}
             fitView
             className="bg-gray-50"
           >
@@ -304,6 +325,12 @@ function EditorContent() {
                   case 'data': return '#8b5cf6'
                   case 'document': return '#6366f1'
                   case 'connector': return '#6b7280'
+                  case 'database': return '#a855f7'
+                  case 'api': return '#f97316'
+                  case 'timer': return '#eab308'
+                  case 'user': return '#22c55e'
+                  case 'cloud': return '#0ea5e9'
+                  case 'loop': return '#6366f1'
                   default: return '#6b7280'
                 }
               }}
@@ -326,8 +353,10 @@ function EditorContent() {
             onPaste={() => console.log('Paste')}
             onSave={saveFlowchart}
             onExport={(format) => {
-              if (format === 'png') exportAsPNG()
-              if (format === 'pdf') exportAsPDF()
+              if (format === 'png') handleExportPNG()
+              if (format === 'pdf') handleExportPDF()
+              if (format === 'svg') handleExportSVG()
+              if (format === 'json') handleExportJSON()
             }}
             onShare={() => console.log('Share')}
             canUndo={historyIndex > 0}

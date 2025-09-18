@@ -37,9 +37,20 @@ export default function Login() {
         : await signIn(email, password)
 
       if (error) {
-        setError(error.message)
+        console.log('Erro de autenticação:', error)
+        if (error.message === 'Email not confirmed') {
+          setError('Email não confirmado. Verifique sua caixa de entrada e clique no link de confirmação.')
+          // Redirecionar para página de confirmação após 3 segundos
+          setTimeout(() => {
+            router.push('/confirmar-email')
+          }, 3000)
+        } else if (error.message === 'Invalid login credentials') {
+          setError('Email ou senha incorretos. Verifique suas credenciais.')
+        } else {
+          setError(error.message)
+        }
       } else if (isSignUp) {
-        setError('Verifique seu email para confirmar a conta!')
+        setError('✅ Conta criada! Verifique seu email para confirmar a conta.')
       } else {
         router.push('/dashboard')
       }

@@ -57,7 +57,12 @@ export default function Login() {
       } else {
         console.log('✅ Login bem-sucedido! Redirecionando para dashboard...')
         setError('') // Limpar erros
-        router.push('/dashboard')
+        
+        // Forçar redirecionamento
+        setTimeout(() => {
+          console.log('🔄 Executando redirecionamento...')
+          window.location.href = '/dashboard'
+        }, 100)
       }
     } catch (err) {
       console.log('❌ Erro inesperado:', err)

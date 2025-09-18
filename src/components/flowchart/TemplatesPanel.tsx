@@ -131,7 +131,7 @@ export default function TemplatesPanel({ isOpen, onClose, onTemplateSelect }: Te
     templates: true
   })
 
-  const toggleSection = (section: string) => {
+  const toggleSection = (section: keyof typeof expandedSections) => {
     setExpandedSections(prev => ({
       ...prev,
       [section]: !prev[section]

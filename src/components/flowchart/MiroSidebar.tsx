@@ -160,7 +160,7 @@ export default function MiroSidebar({ onToolSelect, onShapeSelect, selectedTool,
                 key={shape.id}
                 variant="ghost"
                 size="sm"
-                onClick={() => onShapeSelect(shape.id)}
+                onClick={() => onShapeSelect()}
                 className="w-12 h-12 p-0 relative group"
               >
                 <shape.icon className="h-5 w-5" />

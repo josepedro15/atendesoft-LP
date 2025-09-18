@@ -3,6 +3,14 @@
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "installCommand": "npm install",
+  "domains": ["atendesoft.com", "www.atendesoft.com"],
+  "redirects": [
+    {
+      "source": "/www/(.*)",
+      "destination": "https://atendesoft.com/$1",
+      "permanent": true
+    }
+  ],
   "functions": {
     "pages/api/**/*.js": {
       "maxDuration": 30

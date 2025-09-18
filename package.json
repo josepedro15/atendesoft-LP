@@ -5,9 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
+    "dev:domain": "next dev -H 0.0.0.0 -p 3000",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "start:domain": "next start -H 0.0.0.0 -p 3000",
+    "lint": "next lint",
+    "deploy": "vercel --prod",
+    "deploy:preview": "vercel"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

@@ -1,10 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Configuração do domínio
-  assetPrefix: process.env.NODE_ENV === 'production' ? 'https://atendesoft.com' : '',
-  basePath: '',
-  trailingSlash: false,
-  
   // Otimizações de performance
   compress: true,
   poweredByHeader: false,

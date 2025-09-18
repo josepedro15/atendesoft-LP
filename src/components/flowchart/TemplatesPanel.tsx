@@ -56,9 +56,9 @@ const flowchartShapes = [
   { id: 'start-end', icon: Circle, label: 'Início/Fim', color: '#10b981' },
   { id: 'document', icon: FileText, label: 'Documento', color: '#6366f1' },
   { id: 'message', icon: MessageCircle, label: 'Mensagem', color: '#8b5cf6' },
-  { id: 'input-output', icon: Trapezoid, label: 'Entrada/Saída', color: '#f59e0b' },
+  { id: 'input-output', icon: Square, label: 'Entrada/Saída', color: '#f59e0b' },
   { id: 'preparation', icon: Hexagon, label: 'Preparação', color: '#06b6d4' },
-  { id: 'data', icon: Parallelogram, label: 'Dados', color: '#8b5cf6' },
+  { id: 'data', icon: Square, label: 'Dados', color: '#8b5cf6' },
   { id: 'database', icon: Cylinder, label: 'Banco de Dados', color: '#a855f7' },
   { id: 'list', icon: FileText, label: 'Lista', color: '#6b7280' },
 ]

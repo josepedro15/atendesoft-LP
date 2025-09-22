@@ -1,5 +1,4 @@
 
-import MagicBento from "./MagicBento";
 
 const Manifesto = () => {
   return (

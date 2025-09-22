@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import { Button } from '@/components/ui/button'
@@ -8,10 +8,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { 
   Plus, 
-  Save, 
   Download, 
   Share2, 
-  Settings, 
   Trash2,
   Eye,
   Edit,
@@ -266,12 +264,12 @@ function FluxogramasContent() {
 
         {/* Flowcharts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredFlowcharts.map((flowchart, index) => (
+          {filteredFlowcharts.map((flowchart, ) => (
             <motion.div
               key={flowchart.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
             >
               <Card className="hover:shadow-lg transition-shadow cursor-pointer group">
                 <CardHeader>

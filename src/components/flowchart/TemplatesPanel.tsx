@@ -17,7 +17,8 @@ import {
   Cylinder,
   ChevronDown,
   ChevronRight,
-  Palette
+  Palette,
+  MessageCircle
 } from 'lucide-react'
 import { motion } from 'motion/react'
 

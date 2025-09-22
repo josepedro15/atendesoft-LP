@@ -29,7 +29,7 @@ const FAQ = () => {
 
         <div className="max-w-3xl mx-auto">
           <div className="space-y-4">
-            {faqData.map((item, index) => (
+            {faqData.map((item) => (
               <MagicBento 
                 key={item.id}
                 className="glass-card overflow-hidden"

@@ -255,7 +255,7 @@ export default function DashboardsBIPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {beneficios.map((b, index) => (
+            {beneficios.map((b) => (
               <MagicBento 
                 key={b.title}
                 className="glass-card p-8 hover:shadow-lg transition-all duration-300 group"

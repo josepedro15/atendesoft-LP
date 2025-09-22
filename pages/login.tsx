@@ -32,15 +32,11 @@ export default function Login() {
     setError('')
 
     try {
-      console.log('🚀 Iniciando processo de autenticação...')
       const result = isSignUp 
         ? await signUp(email, password)
         : await signIn(email, password)
 
-      console.log('📋 Resultado da autenticação:', result)
-
       if (result.error) {
-        console.log('❌ Erro de autenticação:', result.error)
         if (result.error.message === 'Email not confirmed') {
           setError('Email não confirmado. Verifique sua caixa de entrada e clique no link de confirmação.')
           // Redirecionar para página de confirmação após 3 segundos
@@ -55,15 +51,10 @@ export default function Login() {
       } else if (isSignUp) {
         setError('✅ Conta criada! Verifique seu email para confirmar a conta.')
       } else {
-        console.log('✅ Login bem-sucedido! Redirecionando para dashboard...')
         setError('') // Limpar erros
-        
-        // Redirecionamento usando router
-        console.log('🔄 Executando redirecionamento...')
         router.push('/dashboard')
       }
     } catch (err) {
-      console.log('❌ Erro inesperado:', err)
       setError('Erro inesperado. Tente novamente.')
     } finally {
       setLoading(false)

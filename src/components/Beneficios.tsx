@@ -1,6 +1,5 @@
 import { Brain, MessageCircle, BarChart3 } from "lucide-react";
 import beneficiosData from "@/content/beneficios.json";
-import MagicBento from "./MagicBento";
 
 const iconMap = {
   MessageCircle,
@@ -22,7 +21,7 @@ const Beneficios = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {beneficiosData.map((beneficio, index) => {
+          {beneficiosData.map((beneficio) => {
             const Icon = iconMap[beneficio.icone as keyof typeof iconMap];
             
             return (

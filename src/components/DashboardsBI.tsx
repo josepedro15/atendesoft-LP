@@ -23,7 +23,7 @@ const DashboardsBI = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {dashboardsData.map((dashboard, index) => {
+          {dashboardsData.map((dashboard) => {
             const Icon = iconMap[dashboard.id as keyof typeof iconMap] || BarChart3;
             
             return (

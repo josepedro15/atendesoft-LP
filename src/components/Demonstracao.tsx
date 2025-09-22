@@ -1,16 +1,10 @@
-import { Play, ExternalLink } from "lucide-react";
-import MagicBento from "./MagicBento";
+import { Play } from "lucide-react";
 import { events } from "@/lib/events";
 
 const Demonstracao = () => {
   const handleVideoPlay = () => {
     events.videoPlay("hero-demo");
     // In production, this would trigger video playback
-  };
-
-  const handleLiveDemo = () => {
-    events.ctaWhatsappClick("live-demo");
-    window.open("https://wa.me/5531994959512?text=Quero%20ver%20o%20fluxo%20ao%20vivo", "_blank");
   };
 
   return (

@@ -63,7 +63,7 @@ const SimpleMagicBento: React.FC<SimpleMagicBentoProps> = ({
     };
 
     const handleMouseEnter = () => {
-      console.log('Mouse entered card');
+      
       
       if (enableStars) {
         // Create particles immediately
@@ -103,7 +103,7 @@ const SimpleMagicBento: React.FC<SimpleMagicBentoProps> = ({
     };
 
     const handleMouseLeave = () => {
-      console.log('Mouse left card');
+      
       clearParticles();
 
       if (enableTilt) {

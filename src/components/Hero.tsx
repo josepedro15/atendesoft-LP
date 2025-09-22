@@ -2,7 +2,6 @@ import { ArrowRight, MessageCircle, Play } from "lucide-react";
 import { events } from "@/lib/events";
 import BlurText from "./BlurText";
 import ParallaxBackground from "./ParallaxBackground";
-import MagicBento from "./MagicBento";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 

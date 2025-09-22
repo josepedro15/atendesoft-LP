@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { ExternalLink } from "lucide-react";
-import { events } from "@/lib/events";
 import ferramentasData from "@/content/ferramentas.json";
 import MagicBento from "./MagicBento";
 
@@ -36,7 +34,7 @@ const Ferramentas = () => {
 
         {/* Tools Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-          {ferramentasData.map((ferramenta, index) => (
+          {ferramentasData.map((ferramenta) => (
             <MagicBento 
               key={ferramenta.nome}
               className="glass-card p-6 hover:shadow-lg transition-all duration-300 group relative"

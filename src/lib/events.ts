@@ -8,7 +8,7 @@ export interface AnalyticsEvent {
 // Event tracking functions
 export const trackEvent = (event: string, properties?: Record<string, any>) => {
   // In production, replace with your analytics service (Google Analytics, Mixpanel, etc.)
-  console.log('Event tracked:', { event, properties });
+  
   
   // Example: Google Analytics
   if (typeof window !== 'undefined' && (window as any).gtag) {

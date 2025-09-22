@@ -37,8 +37,8 @@ export async function updateSession(request: NextRequest) {
 
   // DESABILITADO: Middleware não protege mais rotas autenticadas
   // Deixa o ProtectedRoute fazer o trabalho no cliente
-  console.log('🔍 Middleware - Path:', request.nextUrl.pathname)
-  console.log('✅ Middleware - Allow all routes, ProtectedRoute handles auth')
+  
+  
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
   // creating a new response object with NextResponse.next() make sure to:

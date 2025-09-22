@@ -29,7 +29,7 @@ const Cases = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {casesData.map((caso, index) => {
+          {casesData.map((caso) => {
             const Icon = getIcon(caso.tipo);
             
             return (

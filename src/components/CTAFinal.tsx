@@ -1,12 +1,6 @@
-import { MessageCircle, ArrowRight } from "lucide-react";
-import { events } from "@/lib/events";
 import CurvedLoop from "./CurvedLoop";
 
 const CTAFinal = () => {
-  const handleWhatsAppClick = () => {
-    events.ctaWhatsappClick("final-cta");
-    window.open("https://wa.me/5531994959512?text=Estou%20pronto%20para%20vender%20com%20IA!", "_blank");
-  };
 
   return (
     <section className="py-20 bg-foreground relative overflow-hidden">

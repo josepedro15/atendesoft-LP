@@ -44,7 +44,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const signIn = async (email: string, password: string) => {
-    console.log('🔑 Tentando fazer login com:', email)
     setLoading(true)
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -52,9 +51,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     })
     
     if (error) {
-      console.log('❌ Erro no login:', error.message)
+      // Erro no login
     } else {
-      console.log('✅ Login realizado com sucesso!', data.user?.email)
       // Força atualização do estado
       setUser(data.user)
       setSession(data.session)

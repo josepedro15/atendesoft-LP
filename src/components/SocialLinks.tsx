@@ -25,7 +25,7 @@ const SocialLinks = ({ social }: SocialLinksProps) => {
       animate={{ opacity: 1 }}
       transition={{ delay: 0.6, duration: 0.5 }}
     >
-      {social.map((link, index) => {
+      {social.map((link, ) => {
         const Icon = link.icon;
         return (
           <motion.button
@@ -36,7 +36,7 @@ const SocialLinks = ({ social }: SocialLinksProps) => {
             whileTap={{ scale: 0.9 }}
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.8 + index * 0.1, duration: 0.3 }}
+            transition={{ delay: 0.8 + 0.1, duration: 0.3 }}
           >
             <Icon size={20} />
           </motion.button>

@@ -92,7 +92,7 @@ const TemplateEditor: React.FC<TemplateEditorProps> = ({
       ...prev,
       content_json: {
         ...prev.content_json,
-        blocks: prev.content_json.blocks.filter((_, i) => i !== index)
+        blocks: prev.content_json.blocks.filter((_: TemplateBlock, i: number) => i !== index)
       }
     }));
     setSelectedBlock(null);
@@ -321,7 +321,7 @@ const TemplateEditor: React.FC<TemplateEditorProps> = ({
                       size="sm"
                       variant="ghost"
                       onClick={() => {
-                        const newBullets = (props.bullets || []).filter((_, i) => i !== bulletIndex);
+                        const newBullets = (props.bullets || []).filter((_: string, i: number) => i !== bulletIndex);
                         updateBlock(index, {
                           props: { ...props, bullets: newBullets }
                         });

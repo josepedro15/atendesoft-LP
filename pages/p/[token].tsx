@@ -1,7 +1,7 @@
 // Página pública para visualização e assinatura de propostas
 import { GetServerSideProps } from 'next';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { createClient } from '@/lib/supabase-server';
+import { createPagesClient } from '@/lib/supabase-pages';
 import { ProposalVersion, SignatureData } from '@/types/proposals';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -541,7 +541,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   try {
     // Criar cliente Supabase para o servidor
-    const supabase = await createClient();
+    const supabase = createPagesClient();
     
     // Buscar versão da proposta pelo token
     const { data: version, error } = await supabase

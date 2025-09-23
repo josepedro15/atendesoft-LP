@@ -20,7 +20,9 @@ const Navbar = () => {
 
   const navigateToPage = (path: string) => {
     events.navClick(path);
-    router.push(path);
+    router.push(path).catch((err) => {
+      console.error('Navigation error:', err);
+    });
   };
 
   const handleLogoClick = () => {
@@ -66,37 +68,55 @@ const Navbar = () => {
           {/* Navigation Links - Desktop */}
           <div className="hidden lg:flex items-center space-x-8">
             <button 
-              onClick={() => navigateToPage("/como-funciona")}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateToPage("/como-funciona");
+              }}
               className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
             >
               Como Funciona
             </button>
             <button 
-              onClick={() => navigateToPage("/produtos")}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateToPage("/produtos");
+              }}
               className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
             >
               Produtos
             </button>
             <button 
-              onClick={() => navigateToPage("/ferramentas")}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateToPage("/ferramentas");
+              }}
               className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
             >
               Ferramentas
             </button>
             <button 
-              onClick={() => navigateToPage("/demonstracao")}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateToPage("/demonstracao");
+              }}
               className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
             >
               Demonstração
             </button>
             <button 
-              onClick={() => navigateToPage("/cases")}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateToPage("/cases");
+              }}
               className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
             >
               Casos
             </button>
             <button 
-              onClick={() => navigateToPage("/faq")}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateToPage("/faq");
+              }}
               className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
             >
               FAQ

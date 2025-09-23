@@ -120,12 +120,23 @@ const Navbar = () => {
               Casos
             </button>
             {user && (
-              <button 
-                onClick={() => router.push("/fluxogramas")}
-                className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
-              >
-                Fluxogramas
-              </button>
+              <>
+                <button 
+                  onClick={() => router.push("/fluxogramas")}
+                  className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
+                >
+                  Fluxogramas
+                </button>
+                <button 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateToPage("/propostas");
+                  }}
+                  className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
+                >
+                  Propostas
+                </button>
+              </>
             )}
           </div>
 

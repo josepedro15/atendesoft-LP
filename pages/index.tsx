@@ -7,6 +7,7 @@ import Manifesto from "@/components/Manifesto";
 import FAQ from "@/components/FAQ";
 import CTAFinal from "@/components/CTAFinal";
 import Footer from "@/components/Footer";
+import ParallaxBackground from "@/components/ParallaxBackground";
 
 const Home = () => {
   // Initialize scroll tracking for analytics
@@ -17,9 +18,10 @@ const Home = () => {
   }, [cleanup]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      <ParallaxBackground />
       <Navbar />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <ComoFunciona />
         <Manifesto />

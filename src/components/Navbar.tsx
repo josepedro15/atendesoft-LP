@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MessageCircle, LogIn } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { events } from "@/lib/events";
 import { useRouter } from "next/router";
 import { useAuth } from "@/contexts/AuthContext";
@@ -40,10 +40,6 @@ const Navbar = () => {
     window.open("https://wa.me/5531994959512?text=Quero%20uma%20demo%20com%20IA%20da%20AtendeSoft", "_blank");
   };
 
-  const handleLoginClick = () => {
-    events.navClick("login");
-    router.push("/login");
-  };
 
 
   return (
@@ -116,18 +112,8 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Auth Actions */}
-          <div className="flex items-center space-x-3">
-            {!user && (
-              <button 
-                onClick={handleLoginClick}
-                className="btn-secondary flex items-center space-x-2 focus-ring"
-              >
-                <LogIn size={18} />
-                <span className="hidden sm:inline">Entrar</span>
-              </button>
-            )}
-            
+          {/* WhatsApp Button */}
+          <div className="flex items-center">
             <button 
               onClick={handleWhatsAppClick}
               className="btn-whatsapp flex items-center space-x-2 focus-ring"

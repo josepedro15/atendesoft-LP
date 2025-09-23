@@ -483,5 +483,5 @@ function getBlockTemplate(blockType: string): string {
 // Helper para adicionar números (usado no timeline)
 templateEngine.addHelper('add', {
   name: 'add',
-  fn: (a: number, b: number) => a + b
+  fn: (a: number, b: number) => (a + b).toString()
 });

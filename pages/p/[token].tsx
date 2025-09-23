@@ -116,7 +116,7 @@ export default function PublicProposalPage({ version, error }: PublicProposalPag
     sections.forEach((section) => observer.observe(section));
 
     return () => observer.disconnect();
-  }, []);
+  }, [trackEvent]);
 
   const handleDownloadPDF = async () => {
     setIsLoading(true);
@@ -488,7 +488,7 @@ export default function PublicProposalPage({ version, error }: PublicProposalPag
               {signatureMethod === 'clickwrap' && (
                 <div className="mt-2 p-4 border border-gray-200 rounded-lg bg-gray-50">
                   <p className="text-sm text-gray-600">
-                    Ao clicar em "Confirmar Assinatura", você concorda com os termos da proposta.
+                    Ao clicar em &quot;Confirmar Assinatura&quot;, você concorda com os termos da proposta.
                   </p>
                 </div>
               )}
@@ -525,9 +525,11 @@ export default function PublicProposalPage({ version, error }: PublicProposalPag
       </Dialog>
 
       {/* Pixel de Tracking */}
-      <img
+      <Image
         src={`/api/track/open?pid=${version.proposal_id}&vid=${version.id}`}
         alt=""
+        width={1}
+        height={1}
         className="hidden"
         onLoad={() => trackEvent('open')}
       />

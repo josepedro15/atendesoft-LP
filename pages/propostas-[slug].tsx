@@ -521,9 +521,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     
     // Buscar versão no mock storage pelo slug
     const version = mockStorage.getVersionBySlug(slug as string);
+    console.log('Versão encontrada no mock storage:', version);
     
     if (!version) {
       console.log('Versão não encontrada para slug:', slug);
+      console.log('Slugs disponíveis:', mockStorage.getAllSlugs());
       return {
         props: {
           version: null,

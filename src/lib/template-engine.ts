@@ -50,7 +50,7 @@ const defaultHelpers: Record<string, TemplateHelper> = {
     name: 'calcTotal',
     fn: (quantity: number, unitPrice: number, discount = 0) => {
       const subtotal = quantity * unitPrice;
-      return subtotal - discount;
+      return (subtotal - discount).toString();
     }
   },
 
@@ -81,21 +81,21 @@ const defaultHelpers: Record<string, TemplateHelper> = {
   eq: {
     name: 'eq',
     fn: (a: any, b: any) => {
-      return a === b;
+      return (a === b).toString();
     }
   },
 
   gt: {
     name: 'gt',
     fn: (a: number, b: number) => {
-      return a > b;
+      return (a > b).toString();
     }
   },
 
   lt: {
     name: 'lt',
     fn: (a: number, b: number) => {
-      return a < b;
+      return (a < b).toString();
     }
   }
 };

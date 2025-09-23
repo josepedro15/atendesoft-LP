@@ -173,7 +173,8 @@ export default function PublicProposalPage({ version, error }: PublicProposalPag
       }
     } catch (error) {
       console.error('Erro ao assinar:', error);
-      await trackEvent('signature_rejected', { error: error.message });
+      const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
+      await trackEvent('signature_rejected', { error: errorMessage });
     } finally {
       setIsLoading(false);
     }

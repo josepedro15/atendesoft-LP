@@ -38,6 +38,31 @@ interface MockVersion {
 const mockProposals: Map<string, MockProposal> = new Map();
 const mockVersions: Map<string, MockVersion> = new Map();
 
+// Adicionar dados de exemplo para desenvolvimento
+const exampleProposal: MockProposal = {
+  id: 'prop-example-1',
+  title: 'Proposta de Exemplo',
+  client_id: 'client-1',
+  owner_id: '550e8400-e29b-41d4-a716-446655440000',
+  currency: 'BRL',
+  status: 'draft',
+  valid_until: null,
+  approval_required: false,
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString(),
+  client: {
+    id: 'client-1',
+    name: 'Camilotti Casa e Construção',
+    email: 'contato@camilotti.com',
+    phone: '(11) 99999-9999'
+  },
+  versions: [],
+  latest_version: null
+};
+
+// Inicializar com dados de exemplo
+mockProposals.set(exampleProposal.id, exampleProposal);
+
 export const mockStorage = {
   // Propostas
   createProposal: (proposal: MockProposal) => {

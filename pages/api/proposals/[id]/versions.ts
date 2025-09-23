@@ -75,7 +75,10 @@ async function handlePublishVersion(req: NextApiRequest, res: NextApiResponse<Ap
 
     // Gerar token público
     const publicToken = crypto.randomBytes(32).toString('hex');
-    const publicUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/p/${publicToken}`;
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : 'https://atendesoft.com';
+    const publicUrl = `${baseUrl}/p/${publicToken}`;
 
     // Criar versão mockada
     const mockVersion = {

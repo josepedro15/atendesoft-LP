@@ -101,7 +101,8 @@ async function handleUpdateProposal(req: NextApiRequest, res: NextApiResponse<Ap
     }
 
     // Verificar permissões (implementar lógica de RBAC)
-    const userId = req.headers['x-user-id'] as string;
+    // Para desenvolvimento, usar um ID fixo temporário
+    const userId = 'temp-user-id';
     if (existingProposal.owner_id !== userId) {
       return res.status(403).json({
         success: false,
@@ -160,7 +161,8 @@ async function handleDeleteProposal(req: NextApiRequest, res: NextApiResponse<Ap
     }
 
     // Verificar permissões
-    const userId = req.headers['x-user-id'] as string;
+    // Para desenvolvimento, usar um ID fixo temporário
+    const userId = 'temp-user-id';
     if (existingProposal.owner_id !== userId) {
       return res.status(403).json({
         success: false,

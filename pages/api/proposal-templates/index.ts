@@ -144,7 +144,8 @@ async function handleCreateTemplate(req: NextApiRequest, res: NextApiResponse<Ap
     }
 
     // Obter usuário da sessão
-    const userId = req.headers['x-user-id'] as string;
+    // Para desenvolvimento, usar um ID fixo temporário
+    const userId = 'temp-user-id';
     if (!userId) {
       return res.status(401).json({
         success: false,

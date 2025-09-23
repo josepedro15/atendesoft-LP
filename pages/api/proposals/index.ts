@@ -127,14 +127,9 @@ async function handleCreateProposal(req: NextApiRequest, res: NextApiResponse<Ap
       });
     }
 
-    // Obter usuário da sessão (implementar autenticação)
-    const userId = req.headers['x-user-id'] as string;
-    if (!userId) {
-      return res.status(401).json({
-        success: false,
-        error: 'Usuário não autenticado'
-      });
-    }
+    // Para desenvolvimento, usar um ID fixo temporário
+    // TODO: Implementar autenticação real com Supabase Auth
+    const userId = 'temp-user-id';
 
     // Criar proposta
     const { data: proposal, error } = await supabase

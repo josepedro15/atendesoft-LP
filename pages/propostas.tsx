@@ -179,8 +179,33 @@ function PropostasContent() {
     }
   };
 
-  const handleSelectTemplate = (template: ProposalTemplate) => {
-    if (currentProposal) {
+  const handleSelectTemplate = async (template: ProposalTemplate) => {
+    try {
+      setIsLoading(true);
+      
+      // Se não há proposta atual, criar uma nova
+      if (!currentProposal) {
+        const proposalData: CreateProposalData = {
+          title: `Proposta - ${template.name}`
+        };
+
+        const response = await fetch('/api/proposals', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(proposalData)
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          setCurrentProposal(data.data);
+        } else {
+          setError(data.error || 'Erro ao criar proposta');
+          return;
+        }
+      }
+
+      // Aplicar template
       setProposalBlocks(template.content_json.blocks);
       setProposalVariables({
         ...template.default_variables,
@@ -195,7 +220,7 @@ function PropostasContent() {
           marca: 'AtendeSoft'
         },
         projeto: {
-          titulo: currentProposal.title,
+          titulo: currentProposal?.title || `Proposta - ${template.name}`,
           validade: '7 dias'
         },
         precos: {
@@ -204,7 +229,14 @@ function PropostasContent() {
           condicoes: '50% à vista, 50% na entrega'
         }
       });
+      
       setShowTemplateModal(false);
+      setActiveTab('editar');
+      
+    } catch (error) {
+      setError('Erro ao aplicar template');
+    } finally {
+      setIsLoading(false);
     }
   };
 

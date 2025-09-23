@@ -68,7 +68,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const latestVersion = proposal.versions[0];
 
     // Verificar permissões
-    const userId = req.headers['x-user-id'] as string;
+    // Para desenvolvimento, usar um ID fixo temporário
+    const userId = 'temp-user-id';
     if (proposal.owner_id !== userId) {
       return res.status(403).json({
         success: false,

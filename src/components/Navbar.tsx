@@ -45,10 +45,6 @@ const Navbar = () => {
     router.push("/login");
   };
 
-  const handleDashboardClick = () => {
-    events.navClick("dashboard");
-    router.push("/dashboard");
-  };
 
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
@@ -122,14 +118,7 @@ const Navbar = () => {
 
           {/* Auth Actions */}
           <div className="flex items-center space-x-3">
-            {user ? (
-              <button 
-                onClick={handleDashboardClick}
-                className="btn-primary flex items-center space-x-2 focus-ring"
-              >
-                <span className="hidden sm:inline">Dashboard</span>
-              </button>
-            ) : (
+            {!user && (
               <button 
                 onClick={handleLoginClick}
                 className="btn-secondary flex items-center space-x-2 focus-ring"

@@ -6,6 +6,17 @@ import Footer from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { motion } from "motion/react";
+import { 
+  Proposal, 
+  ProposalVersion, 
+  ProposalTemplate, 
+  CatalogItem,
+  ProposalVariables,
+  TemplateBlock,
+  CreateProposalData,
+  PublishVersionData,
+  SendProposalData
+} from "@/types/proposals";
 
 // Componentes de UI
 import { Button } from "@/components/ui/button";
@@ -38,35 +49,15 @@ import {
   Copy
 } from "lucide-react";
 
-// Tipos para a proposta
-interface Cliente {
-  nome: string;
-  empresa: string;
-  email: string;
-  telefone: string;
-  cargo?: string;
-}
-
-interface ItemProposta {
-  id: string;
-  descricao: string;
-  quantidade: number;
-  valorUnitario: number;
-  valorTotal: number;
-  categoria: string;
-}
-
-interface Proposta {
-  id: string;
-  titulo: string;
-  cliente: Cliente;
-  dataValidade: string;
-  observacoes: string;
-  itens: ItemProposta[];
-  desconto: number;
-  valorTotal: number;
-  status: 'rascunho' | 'enviada' | 'aprovada' | 'rejeitada';
-  dataCriacao: string;
+// Estado da aplicação
+interface AppState {
+  proposals: Proposal[];
+  templates: ProposalTemplate[];
+  catalogItems: CatalogItem[];
+  currentProposal: Proposal | null;
+  currentVersion: ProposalVersion | null;
+  isLoading: boolean;
+  error: string | null;
 }
 
 function PropostasContent() {

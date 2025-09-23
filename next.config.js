@@ -23,9 +23,18 @@ const nextConfig = {
   
   // Compressão e otimizações (swcMinify é padrão no Next.js 15)
   
-  // Headers de performance
+  // Headers de performance e MIME types
   async headers() {
     return [
+      {
+        source: '/_next/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
       {
         source: '/(.*)',
         headers: [
@@ -40,10 +49,6 @@ const nextConfig = {
           {
             key: 'X-XSS-Protection',
             value: '1; mode=block',
-          },
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
           },
         ],
       },

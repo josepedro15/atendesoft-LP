@@ -29,7 +29,7 @@ export function generateSlug(title: string): string {
 export function generatePublicUrl(slug: string): string {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL 
     ? `https://${process.env.VERCEL_URL}` 
-    : 'https://atendesoft.com';
+    : 'https://www.atendesoft.com';
   
   return `${baseUrl}/propostas-${slug}`;
 }

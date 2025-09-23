@@ -148,7 +148,7 @@ const exampleVersion: MockVersion = {
   tax_amount: 0,
   public_token: '70d8bff46fa8abda0330312270d672332b60bc06754cca93e897774bc027abb8',
   public_slug: 'camilote',
-  public_url: 'https://atendesoft.com/propostas-camilote',
+  public_url: 'https://www.atendesoft.com/propostas-camilote',
   status: 'published',
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString()

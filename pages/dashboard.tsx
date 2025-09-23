@@ -18,7 +18,8 @@ import {
   TrendingUp,
   Users,
   Activity,
-  Workflow
+  Workflow,
+  FileText
 } from 'lucide-react'
 import Image from 'next/image'
 import { motion } from 'motion/react'

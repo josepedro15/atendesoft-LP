@@ -391,10 +391,9 @@ export default function PublicProposalPage({ version, error }: PublicProposalPag
                   placeholder="Seu nome completo"
                   value={signatureData?.signer_name || ''}
                   onChange={(e) => setSignatureData({
-                    ...signatureData,
+                    signature_data: signatureData?.signature_data || '',
                     signer_name: e.target.value,
                     signer_email: signatureData?.signer_email || '',
-                    signature_data: signatureData?.signature_data || '',
                     method: signatureMethod
                   })}
                 />
@@ -407,10 +406,9 @@ export default function PublicProposalPage({ version, error }: PublicProposalPag
                   placeholder="seu@email.com"
                   value={signatureData?.signer_email || ''}
                   onChange={(e) => setSignatureData({
-                    ...signatureData,
+                    signature_data: signatureData?.signature_data || '',
                     signer_name: signatureData?.signer_name || '',
                     signer_email: e.target.value,
-                    signature_data: signatureData?.signature_data || '',
                     method: signatureMethod
                   })}
                 />
@@ -441,8 +439,9 @@ export default function PublicProposalPage({ version, error }: PublicProposalPag
                       onClick={() => {
                         const signature = getSignatureFromCanvas();
                         setSignatureData({
-                          ...signatureData,
                           signature_data: signature,
+                          signer_name: signatureData?.signer_name || '',
+                          signer_email: signatureData?.signer_email || '',
                           method: signatureMethod
                         });
                       }}
@@ -461,8 +460,9 @@ export default function PublicProposalPage({ version, error }: PublicProposalPag
                   id="typed-signature"
                   placeholder="Digite seu nome como assinatura"
                   onChange={(e) => setSignatureData({
-                    ...signatureData,
                     signature_data: e.target.value,
+                    signer_name: signatureData?.signer_name || '',
+                    signer_email: signatureData?.signer_email || '',
                     method: signatureMethod
                   })}
                 />
@@ -476,8 +476,9 @@ export default function PublicProposalPage({ version, error }: PublicProposalPag
                     type="checkbox"
                     id="agree-terms"
                     onChange={(e) => setSignatureData({
-                      ...signatureData,
                       signature_data: e.target.checked ? 'accepted' : '',
+                      signer_name: signatureData?.signer_name || '',
+                      signer_email: signatureData?.signer_email || '',
                       method: signatureMethod
                     })}
                   />

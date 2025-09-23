@@ -78,7 +78,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       .from('proposal_events')
       .insert({
         proposal_id: id,
-        version_id: proposal.latest_version.id,
+        version_id: proposal.latest_version?.id,
         type: 'sent',
         metadata: {
           channel: sendData.channel,

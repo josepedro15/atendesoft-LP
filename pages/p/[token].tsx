@@ -1,6 +1,6 @@
 // Página pública para visualização e assinatura de propostas
 import { GetServerSideProps } from 'next';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { ProposalVersion, SignatureData } from '@/types/proposals';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -75,7 +75,7 @@ export default function PublicProposalPage({ version, error }: PublicProposalPag
   }, []);
 
   // Tracking de eventos
-  const trackEvent = async (type: string, metadata: any = {}) => {
+  const trackEvent = useCallback(async (type: string, metadata: any = {}) => {
     try {
       await fetch('/api/track/event', {
         method: 'POST',
@@ -94,7 +94,7 @@ export default function PublicProposalPage({ version, error }: PublicProposalPag
     } catch (error) {
       console.error('Erro ao registrar evento:', error);
     }
-  };
+  }, [version.proposal_id, version.id, scrollPercentage, timeSpent]);
 
   // Tracking de seções visualizadas
   useEffect(() => {

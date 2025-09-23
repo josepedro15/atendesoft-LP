@@ -25,29 +25,61 @@ async function handleGetClients(req: NextApiRequest, res: NextApiResponse<ApiRes
   try {
     const { search, limit = 50 } = req.query;
 
-    let query = supabase
-      .from('clients')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(Number(limit));
+    // Dados mockados temporários
+    const mockData = [
+      {
+        id: '1',
+        name: 'TechCorp Ltda',
+        document: '12.345.678/0001-90',
+        email: 'contato@techcorp.com',
+        phone: '(11) 99999-9999',
+        company_size: 'Média',
+        segment: 'Tecnologia',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      },
+      {
+        id: '2',
+        name: 'Camilotti Casa e Construção',
+        document: '98.765.432/0001-10',
+        email: 'vendas@camilotti.com',
+        phone: '(11) 88888-8888',
+        company_size: 'Grande',
+        segment: 'Construção',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      },
+      {
+        id: '3',
+        name: 'StartupXYZ',
+        document: '11.222.333/0001-44',
+        email: 'ceo@startupxyz.com',
+        phone: '(11) 77777-7777',
+        company_size: 'Pequena',
+        segment: 'SaaS',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }
+    ];
 
+    let filteredData = mockData;
+
+    // Aplicar filtros
     if (search) {
-      query = query.or(`name.ilike.%${search}%,email.ilike.%${search}%,document.ilike.%${search}%`);
+      const searchLower = (search as string).toLowerCase();
+      filteredData = filteredData.filter(client => 
+        client.name.toLowerCase().includes(searchLower) ||
+        client.email.toLowerCase().includes(searchLower) ||
+        client.document.toLowerCase().includes(searchLower)
+      );
     }
 
-    const { data, error } = await query;
-
-    if (error) {
-      console.error('Erro ao buscar clientes:', error);
-      return res.status(500).json({
-        success: false,
-        error: 'Erro interno do servidor'
-      });
-    }
+    // Aplicar limite
+    filteredData = filteredData.slice(0, Number(limit));
 
     res.status(200).json({
       success: true,
-      data: data || []
+      data: filteredData
     });
 
   } catch (error) {

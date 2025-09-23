@@ -25,28 +25,100 @@ async function handleGetTemplates(req: NextApiRequest, res: NextApiResponse<ApiR
   try {
     const { active_only = 'true' } = req.query;
 
-    let query = supabase
-      .from('proposal_templates')
-      .select('*')
-      .order('created_at', { ascending: false });
+    // Dados mockados temporários
+    const mockData = [
+      {
+        id: '1',
+        name: 'Padrão — Plataforma de Atendimento Inteligente',
+        description: 'Template padrão para propostas de automação WhatsApp com dashboard BI',
+        content_json: {
+          blocks: [
+            {
+              type: 'hero',
+              props: {
+                title: '{{projeto.titulo}}',
+                subtitle: '{{fornecedor.nome}} → {{cliente.nome}}'
+              }
+            },
+            {
+              type: 'objective',
+              props: {
+                text: 'Transformar o atendimento em um processo automatizado, ágil e escalável.'
+              }
+            },
+            {
+              type: 'scope',
+              props: {
+                items: [
+                  'Infraestrutura segura',
+                  'Fluxos n8n',
+                  'Disparos em massa',
+                  'Dashboards'
+                ]
+              }
+            },
+            {
+              type: 'pricing',
+              props: {
+                currency: '{{precos.moeda}}',
+                items: '{{precos.itens}}'
+              }
+            },
+            {
+              type: 'timeline',
+              props: {
+                weeks: [
+                  'Kickoff/Infra',
+                  'Fluxos',
+                  'Automação/Relatórios',
+                  'Go-Live'
+                ]
+              }
+            },
+            {
+              type: 'terms',
+              props: {
+                validade: '{{projeto.validade}}',
+                condicoes: '{{precos.condicoes}}'
+              }
+            },
+            {
+              type: 'signature',
+              props: {
+                cta: 'Aceitar e Assinar'
+              }
+            }
+          ]
+        },
+        default_variables: {
+          fornecedor: {
+            nome: 'AtendeSoft',
+            marca: 'AtendeSoft'
+          },
+          projeto: {
+            validade: '7 dias',
+            condicoes: '50% à vista, 50% na entrega'
+          },
+          precos: {
+            moeda: 'BRL'
+          }
+        },
+        is_active: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }
+    ];
 
+    let filteredData = mockData;
+
+    // Aplicar filtros
     if (active_only === 'true') {
-      query = query.eq('is_active', true);
-    }
-
-    const { data, error } = await query;
-
-    if (error) {
-      console.error('Erro ao buscar templates:', error);
-      return res.status(500).json({
-        success: false,
-        error: 'Erro interno do servidor'
-      });
+      filteredData = filteredData.filter(template => template.is_active);
     }
 
     res.status(200).json({
       success: true,
-      data: data || []
+      data: filteredData
     });
 
   } catch (error) {

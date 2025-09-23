@@ -4,6 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 import { renderTemplateBlocks } from '@/lib/template-engine';
 import { PublishVersionData, ApiResponse, ProposalVersion } from '@/types/proposals';
 import { mockStorage } from '@/lib/mock-storage';
+import { generateSlug, generatePublicUrl, generateUniqueSlug } from '@/lib/slug-utils';
 import crypto from 'crypto';
 
 // Usa a mesma lógica do sistema de autenticação
@@ -73,12 +74,17 @@ async function handlePublishVersion(req: NextApiRequest, res: NextApiResponse<Ap
       return sum + (taxableAmount * (item.tax_rate || 0) / 100);
     }, 0) || 0;
 
-    // Gerar token público
-    const publicToken = crypto.randomBytes(32).toString('hex');
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}` 
-      : 'https://atendesoft.com';
-    const publicUrl = `${baseUrl}/p/${publicToken}`;
+           // Gerar token público
+           const publicToken = crypto.randomBytes(32).toString('hex');
+           
+           // Gerar slug baseado no título da proposta
+           const proposal = mockStorage.getProposal(proposalId);
+           const baseSlug = generateSlug(proposal?.title || 'proposta');
+           const existingSlugs = mockStorage.getAllSlugs();
+           const uniqueSlug = generateUniqueSlug(baseSlug, existingSlugs);
+           
+           // Gerar URL pública com slug
+           const publicUrl = generatePublicUrl(uniqueSlug);
 
     // Criar versão mockada
     const mockVersion = {
@@ -95,6 +101,7 @@ async function handlePublishVersion(req: NextApiRequest, res: NextApiResponse<Ap
       discount_amount: discountAmount,
       tax_amount: taxAmount,
       public_token: publicToken,
+      public_slug: uniqueSlug,
       public_url: publicUrl,
       status: 'published',
       created_at: new Date().toISOString(),

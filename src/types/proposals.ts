@@ -145,6 +145,7 @@ export interface ProposalVersion {
   discount_amount: number;
   tax_amount: number;
   public_token: string;
+  public_slug: string;
   public_url: string;
   pdf_file_id?: string;
   created_at: string;

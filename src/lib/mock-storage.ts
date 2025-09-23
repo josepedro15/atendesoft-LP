@@ -1,6 +1,8 @@
 // Armazenamento temporário em memória para desenvolvimento
 // TODO: Substituir por Supabase quando RLS estiver configurado
 
+import { generateSlug, generatePublicUrl } from './slug-utils';
+
 interface MockProposal {
   id: string;
   title: string;
@@ -28,6 +30,7 @@ interface MockVersion {
   discount_amount: number;
   tax_amount: number;
   public_token: string;
+  public_slug: string;
   public_url: string;
   status: string;
   created_at: string;
@@ -144,7 +147,8 @@ const exampleVersion: MockVersion = {
   discount_amount: 0,
   tax_amount: 0,
   public_token: '70d8bff46fa8abda0330312270d672332b60bc06754cca93e897774bc027abb8',
-  public_url: 'https://atendesoft.com/p/70d8bff46fa8abda0330312270d672332b60bc06754cca93e897774bc027abb8',
+  public_slug: 'camilote',
+  public_url: 'https://atendesoft.com/propostas-camilote',
   status: 'published',
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString()
@@ -216,5 +220,13 @@ export const mockStorage = {
 
   getVersionsByProposal: (proposalId: string) => {
     return Array.from(mockVersions.values()).filter(v => v.proposal_id === proposalId);
+  },
+
+  getVersionBySlug: (slug: string) => {
+    return Array.from(mockVersions.values()).find(v => v.public_slug === slug) || null;
+  },
+
+  getAllSlugs: () => {
+    return Array.from(mockVersions.values()).map(v => v.public_slug);
   }
 };

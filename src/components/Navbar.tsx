@@ -20,9 +20,13 @@ const Navbar = () => {
 
   const navigateToPage = (path: string) => {
     events.navClick(path);
-    router.push(path).catch((err) => {
-      console.error('Navigation error:', err);
-    });
+    
+    // Adiciona um pequeno delay para suavizar a transição
+    setTimeout(() => {
+      router.push(path).catch((err) => {
+        console.error('Navigation error:', err);
+      });
+    }, 100);
   };
 
   const handleLogoClick = () => {
@@ -31,8 +35,10 @@ const Navbar = () => {
       // Se já estiver na home, scroll para o topo
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      // Se estiver em outra página, navegar para home
-      router.push("/");
+      // Se estiver em outra página, navegar para home com transição suave
+      setTimeout(() => {
+        router.push("/");
+      }, 100);
     }
   };
 

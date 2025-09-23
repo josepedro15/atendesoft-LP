@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
+import PageTransition from "@/components/PageTransition";
 import "@/index.css";
 
 const queryClient = new QueryClient();
@@ -16,7 +17,9 @@ export default function App({ Component, pageProps }: AppProps) {
           <TooltipProvider>
             <Toaster />
             <Sonner />
-            <Component {...pageProps} />
+            <PageTransition>
+              <Component {...pageProps} />
+            </PageTransition>
           </TooltipProvider>
         </AuthProvider>
       </QueryClientProvider>

@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useScrollTracking } from "@/lib/events";
 import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
+import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 
-const Home = () => {
+const FAQPage = () => {
   // Initialize scroll tracking for analytics
   const cleanup = useScrollTracking();
   
@@ -16,11 +16,11 @@ const Home = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <main>
-        <Hero />
+        <FAQ />
       </main>
       <Footer />
     </div>
   );
 };
 
-export default Home;
+export default FAQPage;

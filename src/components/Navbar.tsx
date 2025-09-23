@@ -18,10 +18,9 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    events.navClick(id);
-    const element = document.getElementById(id);
-    element?.scrollIntoView({ behavior: "smooth" });
+  const navigateToPage = (path: string) => {
+    events.navClick(path);
+    router.push(path);
   };
 
   const handleLogoClick = () => {
@@ -67,37 +66,37 @@ const Navbar = () => {
           {/* Navigation Links - Desktop */}
           <div className="hidden lg:flex items-center space-x-8">
             <button 
-              onClick={() => scrollToSection("como-funciona")}
+              onClick={() => navigateToPage("/como-funciona")}
               className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
             >
               Como Funciona
             </button>
             <button 
-              onClick={() => scrollToSection("produtos")}
+              onClick={() => navigateToPage("/produtos")}
               className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
             >
               Produtos
             </button>
             <button 
-              onClick={() => scrollToSection("ferramentas")}
+              onClick={() => navigateToPage("/ferramentas")}
               className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
             >
               Ferramentas
             </button>
             <button 
-              onClick={() => scrollToSection("demonstracao")}
+              onClick={() => navigateToPage("/demonstracao")}
               className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
             >
               Demonstração
             </button>
             <button 
-              onClick={() => scrollToSection("cases")}
+              onClick={() => navigateToPage("/cases")}
               className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
             >
               Casos
             </button>
             <button 
-              onClick={() => scrollToSection("faq")}
+              onClick={() => navigateToPage("/faq")}
               className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
             >
               FAQ

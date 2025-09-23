@@ -59,8 +59,8 @@ async function handlePublishVersion(req: NextApiRequest, res: NextApiResponse<Ap
     }
 
     // Verificar permissões
-    // Para desenvolvimento, usar um ID fixo temporário
-    const userId = 'temp-user-id';
+    // Para desenvolvimento, usar um UUID válido temporário
+    const userId = '550e8400-e29b-41d4-a716-446655440000';
     if (proposal.owner_id !== userId) {
       return res.status(403).json({
         success: false,

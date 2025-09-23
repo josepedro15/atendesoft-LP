@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const results = [];
+    const results: any[] = [];
 
     // Primeiro, vamos tentar inserir dados ignorando conflitos
     const insertData = async () => {

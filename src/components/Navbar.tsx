@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Home } from "lucide-react";
 import { events } from "@/lib/events";
 import { useRouter } from "next/router";
 import { useAuth } from "@/contexts/AuthContext";
@@ -76,6 +76,16 @@ const Navbar = () => {
             <button 
               onClick={(e) => {
                 e.preventDefault();
+                handleLogoClick();
+              }}
+              className="text-muted-foreground hover:text-foreground transition-colors focus-ring flex items-center space-x-2"
+            >
+              <Home size={16} />
+              <span>Home</span>
+            </button>
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
                 navigateToPage("/produtos");
               }}
               className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
@@ -119,8 +129,20 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* WhatsApp Button */}
-          <div className="flex items-center">
+          {/* Mobile Home Button & WhatsApp Button */}
+          <div className="flex items-center space-x-3">
+            {/* Mobile Home Button */}
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                handleLogoClick();
+              }}
+              className="lg:hidden text-muted-foreground hover:text-foreground transition-colors focus-ring p-2"
+              aria-label="Ir para home"
+            >
+              <Home size={18} />
+            </button>
+            
             <button 
               onClick={handleWhatsAppClick}
               className="btn-whatsapp flex items-center space-x-2 focus-ring"

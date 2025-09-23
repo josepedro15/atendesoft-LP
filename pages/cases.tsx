@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useScrollTracking } from "@/lib/events";
 import Navbar from "@/components/Navbar";
 import Cases from "@/components/Cases";
+import ParallaxBackground from "@/components/ParallaxBackground";
 import Footer from "@/components/Footer";
 
 const CasesPage = () => {
@@ -13,9 +14,10 @@ const CasesPage = () => {
   }, [cleanup]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      <ParallaxBackground />
       <Navbar />
-      <main>
+      <main className="relative z-10">
         <Cases />
       </main>
       <Footer />

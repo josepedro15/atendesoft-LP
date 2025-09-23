@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useAuth } from '@/contexts/AuthContext'
+import ParallaxBackground from '@/components/ParallaxBackground'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -66,8 +67,9 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4 relative">
+      <ParallaxBackground />
+      <div className="w-full max-w-md space-y-6 relative z-10">
         {/* Logo */}
         <div className="text-center">
           <Image 

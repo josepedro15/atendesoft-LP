@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import ProtectedRoute from '@/components/ProtectedRoute'
+import ParallaxBackground from '@/components/ParallaxBackground'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -100,7 +101,8 @@ function FluxogramasContent() {
   })
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      <ParallaxBackground />
       {/* Header */}
       <header className="border-b bg-white/70 backdrop-blur-lg">
         <div className="container mx-auto px-6 py-4">
@@ -139,7 +141,7 @@ function FluxogramasContent() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-8">
+      <main className="container mx-auto px-6 py-8 relative z-10">
         {/* Welcome Section */}
         <motion.div 
           className="mb-8"

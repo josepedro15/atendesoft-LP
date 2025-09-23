@@ -60,8 +60,108 @@ const exampleProposal: MockProposal = {
   latest_version: null
 };
 
+// Criar versão de exemplo
+const exampleVersion: MockVersion = {
+  id: 'version-example-1',
+  proposal_id: 'prop-example-1',
+  version_number: 1,
+  snapshot_html: '<div class="proposal-content"><h1>Proposta de Exemplo</h1><p>Esta é uma proposta de exemplo para demonstração.</p></div>',
+  snapshot_json: {
+    blocks: [
+      {
+        type: 'header',
+        content: 'Proposta de Exemplo',
+        style: { fontSize: '24px', fontWeight: 'bold' }
+      },
+      {
+        type: 'text',
+        content: 'Esta é uma proposta de exemplo para demonstração do sistema.',
+        style: { fontSize: '16px' }
+      }
+    ],
+    variables: {
+      cliente: {
+        nome: 'Camilotti Casa e Construção',
+        empresa: 'Camilotti Casa e Construção',
+        email: 'contato@camilotti.com',
+        telefone: '(11) 99999-9999'
+      },
+      fornecedor: {
+        nome: 'AtendeSoft',
+        marca: 'AtendeSoft'
+      },
+      projeto: {
+        titulo: 'Proposta de Exemplo',
+        validade: '7 dias'
+      },
+      precos: {
+        itens: [
+          {
+            name: 'Desenvolvimento de Sistema',
+            description: 'Sistema completo de automação',
+            quantity: 1,
+            unit_price: 5000.00,
+            discount: 0,
+            tax_rate: 0
+          }
+        ],
+        moeda: 'BRL',
+        condicoes: '50% à vista, 50% na entrega'
+      }
+    }
+  },
+  variables: {
+    cliente: {
+      nome: 'Camilotti Casa e Construção',
+      empresa: 'Camilotti Casa e Construção',
+      email: 'contato@camilotti.com',
+      telefone: '(11) 99999-9999'
+    },
+    fornecedor: {
+      nome: 'AtendeSoft',
+      marca: 'AtendeSoft'
+    },
+    projeto: {
+      titulo: 'Proposta de Exemplo',
+      validade: '7 dias'
+    },
+    precos: {
+      itens: [
+        {
+          name: 'Desenvolvimento de Sistema',
+          description: 'Sistema completo de automação',
+          quantity: 1,
+          unit_price: 5000.00,
+          discount: 0,
+          tax_rate: 0
+        }
+      ],
+      moeda: 'BRL',
+      condicoes: '50% à vista, 50% na entrega'
+    }
+  },
+  total_amount: 5000.00,
+  discount_amount: 0,
+  tax_amount: 0,
+  public_token: '70d8bff46fa8abda0330312270d672332b60bc06754cca93e897774bc027abb8',
+  public_url: 'https://atendesoft.com/p/70d8bff46fa8abda0330312270d672332b60bc06754cca93e897774bc027abb8',
+  status: 'published',
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString()
+};
+
 // Inicializar com dados de exemplo
 mockProposals.set(exampleProposal.id, exampleProposal);
+mockVersions.set(exampleVersion.id, exampleVersion);
+
+// Atualizar a proposta com a versão
+const updatedProposal = {
+  ...exampleProposal,
+  versions: [exampleVersion],
+  latest_version: exampleVersion,
+  status: 'ready_to_send'
+};
+mockProposals.set(exampleProposal.id, updatedProposal);
 
 export const mockStorage = {
   // Propostas

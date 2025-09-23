@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { createPagesClient } from '@/lib/supabase-pages';
 import { ProposalVersion, SignatureData } from '@/types/proposals';
+import { mockStorage } from '@/lib/mock-storage';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 
@@ -540,20 +541,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { token } = context.params!;
 
   try {
-    // Criar cliente Supabase para o servidor
-    const supabase = createPagesClient();
+    // Para desenvolvimento, usar mock storage
+    // TODO: Implementar com Supabase quando RLS estiver configurado
+    console.log('Buscando versão com token:', token);
     
-    // Buscar versão da proposta pelo token
-    const { data: version, error } = await supabase
-      .from('proposal_versions')
-      .select(`
-        *,
-        proposal:proposals(*)
-      `)
-      .eq('public_token', token)
-      .single();
-
-    if (error || !version) {
+    // Buscar versão no mock storage
+    const allVersions = mockStorage.getVersionsByProposal('prop-example-1');
+    const version = allVersions.find(v => v.public_token === token);
+    
+    if (!version) {
+      console.log('Versão não encontrada para token:', token);
       return {
         props: {
           version: null,
@@ -562,8 +559,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       };
     }
 
+    // Buscar a proposta pai
+    const proposal = mockStorage.getProposal(version.proposal_id);
+    if (!proposal) {
+      return {
+        props: {
+          version: null,
+          error: 'Proposta não encontrada'
+        }
+      };
+    }
+
     // Verificar se a proposta ainda é válida
-    const proposal = version.proposal;
     if (proposal.valid_until && new Date(proposal.valid_until) < new Date()) {
       return {
         props: {
@@ -573,9 +580,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       };
     }
 
+    // Adicionar dados da proposta à versão
+    const versionWithProposal = {
+      ...version,
+      proposal: proposal
+    };
+
+    console.log('Versão encontrada:', versionWithProposal);
+
     return {
       props: {
-        version,
+        version: versionWithProposal,
         error: null
       }
     };

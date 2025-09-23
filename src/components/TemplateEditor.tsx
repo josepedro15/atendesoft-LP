@@ -34,14 +34,37 @@ const TemplateEditor: React.FC<TemplateEditorProps> = ({
   const [editedTemplate, setEditedTemplate] = useState<ProposalTemplate>(template);
   const [activeTab, setActiveTab] = useState('blocks');
   const [selectedBlock, setSelectedBlock] = useState<number | null>(null);
-  const [previewVariables, setPreviewVariables] = useState<ProposalVariables>(
-    template.default_variables || {
-      cliente: { nome: 'Cliente Exemplo' },
-      fornecedor: { nome: 'AtendeSoft' },
-      projeto: { titulo: 'Projeto Exemplo' },
-      precos: { itens: [], moeda: 'BRL' }
+  const [previewVariables, setPreviewVariables] = useState<ProposalVariables>({
+    cliente: { 
+      nome: template.default_variables?.cliente?.nome || 'Cliente Exemplo',
+      cnpj: template.default_variables?.cliente?.cnpj || '',
+      email: template.default_variables?.cliente?.email || '',
+      telefone: template.default_variables?.cliente?.telefone || '',
+      empresa: template.default_variables?.cliente?.empresa || '',
+      cargo: template.default_variables?.cliente?.cargo || ''
+    },
+    fornecedor: { 
+      nome: template.default_variables?.fornecedor?.nome || 'AtendeSoft',
+      marca: template.default_variables?.fornecedor?.marca || 'AtendeSoft',
+      cnpj: template.default_variables?.fornecedor?.cnpj || '',
+      endereco: template.default_variables?.fornecedor?.endereco || '',
+      telefone: template.default_variables?.fornecedor?.telefone || '',
+      email: template.default_variables?.fornecedor?.email || ''
+    },
+    projeto: { 
+      titulo: template.default_variables?.projeto?.titulo || 'Projeto Exemplo',
+      escopo: template.default_variables?.projeto?.escopo || '',
+      cronograma: template.default_variables?.projeto?.cronograma || '',
+      validade: template.default_variables?.projeto?.validade || '7 dias',
+      objetivo: template.default_variables?.projeto?.objetivo || ''
+    },
+    precos: { 
+      itens: template.default_variables?.precos?.itens || [],
+      moeda: template.default_variables?.precos?.moeda || 'BRL',
+      condicoes: template.default_variables?.precos?.condicoes || '50% à vista, 50% na entrega',
+      total_formatado: template.default_variables?.precos?.total_formatado || ''
     }
-  );
+  });
 
   // Atualizar preview quando template ou variáveis mudarem
   useEffect(() => {

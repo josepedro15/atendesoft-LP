@@ -2,6 +2,9 @@ import { useEffect } from "react";
 import { useScrollTracking } from "@/lib/events";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import ComoFunciona from "@/components/ComoFunciona";
+import Manifesto from "@/components/Manifesto";
+import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 
 const Home = () => {
@@ -17,6 +20,9 @@ const Home = () => {
       <Navbar />
       <main>
         <Hero />
+        <ComoFunciona />
+        <Manifesto />
+        <FAQ />
       </main>
       <Footer />
     </div>

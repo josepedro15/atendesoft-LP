@@ -70,15 +70,6 @@ const Navbar = () => {
             <button 
               onClick={(e) => {
                 e.preventDefault();
-                navigateToPage("/como-funciona");
-              }}
-              className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
-            >
-              Como Funciona
-            </button>
-            <button 
-              onClick={(e) => {
-                e.preventDefault();
                 navigateToPage("/produtos");
               }}
               className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
@@ -111,15 +102,6 @@ const Navbar = () => {
               className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
             >
               Casos
-            </button>
-            <button 
-              onClick={(e) => {
-                e.preventDefault();
-                navigateToPage("/faq");
-              }}
-              className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
-            >
-              FAQ
             </button>
             {user && (
               <button 

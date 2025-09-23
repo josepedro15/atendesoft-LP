@@ -154,8 +154,7 @@ function PropostasContent() {
       setIsLoading(true);
       
       const proposalData: CreateProposalData = {
-        title: 'Nova Proposta',
-        currency: 'BRL'
+        title: 'Nova Proposta'
       };
 
       const response = await fetch('/api/proposals', {

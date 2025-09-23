@@ -31,7 +31,7 @@ export function generatePublicUrl(slug: string): string {
     ? `https://${process.env.VERCEL_URL}` 
     : 'https://www.atendesoft.com';
   
-  return `${baseUrl}/propostas-${slug}`;
+  return `${baseUrl}/proposta-${slug}`;
 }
 
 /**

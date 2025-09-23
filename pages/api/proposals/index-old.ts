@@ -1,7 +1,14 @@
-// API para gerenciamento de propostas - Versão com Mock Storage
+// API para gerenciamento de propostas
 import { NextApiRequest, NextApiResponse } from 'next';
+import { createClient } from '@supabase/supabase-js';
 import { Proposal, CreateProposalData, ApiResponse, ProposalFilters } from '@/types/proposals';
 import { mockStorage } from './mock-storage';
+
+// Usa a mesma lógica do sistema de autenticação
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://vlayangmpcogxoolcksc.supabase.co',
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsYXlhbmdtcGNvZ3hvb2xja3NjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5NzEwMDIsImV4cCI6MjA2OTU0NzAwMn0.U4jxKlTf_eCX6zochG6wZPxRBvWk90erSNY_IEuYqrY'
+);
 
 // GET /api/proposals - Listar propostas
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {
@@ -31,53 +38,73 @@ async function handleGetProposals(req: NextApiRequest, res: NextApiResponse<ApiR
     } = req.query;
 
     // Para desenvolvimento, usar armazenamento mockado
+    // TODO: Implementar com Supabase quando RLS estiver configurado
     let proposals = mockStorage.getAllProposals();
 
     // Aplicar filtros
     if (status) {
       const statusArray = Array.isArray(status) ? status : [status];
-      proposals = proposals.filter(p => statusArray.includes(p.status));
+      query = query.in('status', statusArray);
     }
 
     if (owner_id) {
-      proposals = proposals.filter(p => p.owner_id === owner_id);
+      query = query.eq('owner_id', owner_id);
     }
 
     if (client_id) {
-      proposals = proposals.filter(p => p.client_id === client_id);
+      query = query.eq('client_id', client_id);
+    }
+
+    if (date_from) {
+      query = query.gte('created_at', date_from);
+    }
+
+    if (date_to) {
+      query = query.lte('created_at', date_to);
     }
 
     if (search) {
-      proposals = proposals.filter(p => 
-        p.title.toLowerCase().includes((search as string).toLowerCase())
-      );
+      query = query.or(`title.ilike.%${search}%,client:clients.name.ilike.%${search}%`);
     }
 
-    // Ordenar por data de criação (mais recente primeiro)
-    proposals.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-
-    // Aplicar paginação
+    // Paginação
     const from = (Number(page) - 1) * Number(limit);
-    const to = from + Number(limit);
-    const paginatedProposals = proposals.slice(from, to);
+    const to = from + Number(limit) - 1;
+    query = query.range(from, to);
+
+    const { data, error, count } = await query;
+
+    if (error) {
+      console.error('Erro ao buscar propostas:', error);
+      return res.status(500).json({ 
+        success: false, 
+        error: 'Erro interno do servidor' 
+      });
+    }
+
+    // Adicionar versão mais recente a cada proposta
+    const proposalsWithLatestVersion = data?.map(proposal => ({
+      ...proposal,
+      latest_version: proposal.versions?.[0] // Versão mais recente
+    }));
 
     res.status(200).json({
       success: true,
       data: {
-        proposals: paginatedProposals,
+        proposals: proposalsWithLatestVersion,
         pagination: {
           page: Number(page),
           limit: Number(limit),
-          total: proposals.length,
-          pages: Math.ceil(proposals.length / Number(limit))
+          total: count || 0,
+          pages: Math.ceil((count || 0) / Number(limit))
         }
       }
     });
 
   } catch (error) {
     console.error('Erro inesperado:', error);
-    res.status(500).json({
-      success: false,
+    res.status(500).json({ 
+      success: false, 
       error: 'Erro interno do servidor' 
     });
   }
@@ -96,6 +123,7 @@ async function handleCreateProposal(req: NextApiRequest, res: NextApiResponse<Ap
     }
 
     // Para desenvolvimento, usar armazenamento mockado
+    // TODO: Implementar com Supabase quando RLS estiver configurado
     const mockProposal = {
       id: `prop-${Date.now()}`,
       title: proposalData.title,
@@ -114,6 +142,20 @@ async function handleCreateProposal(req: NextApiRequest, res: NextApiResponse<Ap
     // Salvar no armazenamento mockado
     const savedProposal = mockStorage.createProposal(mockProposal);
     console.log('Proposta criada (mock):', savedProposal);
+
+    // Se foi fornecido um template, aplicar variáveis padrão
+    if (proposalData.template_id) {
+      const { data: template } = await supabase
+        .from('proposal_templates')
+        .select('*')
+        .eq('id', proposalData.template_id)
+        .single();
+
+      if (template) {
+        // Aqui você pode aplicar as variáveis padrão do template
+        // Por enquanto, apenas retornamos a proposta criada
+      }
+    }
 
     res.status(201).json({
       success: true,

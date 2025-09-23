@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 import { renderTemplateBlocks } from '@/lib/template-engine';
 import { PublishVersionData, ApiResponse, ProposalVersion } from '@/types/proposals';
+import { mockStorage } from '../mock-storage';
 import crypto from 'crypto';
 
 // Usa a mesma lógica do sistema de autenticação
@@ -44,129 +45,66 @@ async function handlePublishVersion(req: NextApiRequest, res: NextApiResponse<Ap
       });
     }
 
-    // Verificar se a proposta existe
-    const { data: proposal, error: proposalError } = await supabase
-      .from('proposals')
-      .select('id, owner_id, status')
-      .eq('id', proposalId)
-      .single();
+    // Para desenvolvimento, simular publicação de versão
+    // TODO: Implementar com Supabase quando RLS estiver configurado
+    console.log('Publicando versão (mock):', { proposalId, versionData });
 
-    if (proposalError || !proposal) {
-      return res.status(404).json({
-        success: false,
-        error: 'Proposta não encontrada'
-      });
-    }
-
-    // Verificar permissões
-    // Para desenvolvimento, usar um UUID válido temporário
-    const userId = '550e8400-e29b-41d4-a716-446655440000';
-    if (proposal.owner_id !== userId) {
-      return res.status(403).json({
-        success: false,
-        error: 'Sem permissão para publicar esta proposta'
-      });
-    }
-
-    // Obter próxima versão
-    const { data: existingVersions } = await supabase
-      .from('proposal_versions')
-      .select('version_number')
-      .eq('proposal_id', proposalId)
-      .order('version_number', { ascending: false })
-      .limit(1);
-
-    const nextVersion = (existingVersions?.[0]?.version_number || 0) + 1;
-
+    // Simular criação de versão
+    const nextVersion = 1; // Simular primeira versão
+    
     // Renderizar HTML da proposta
     const renderedHTML = renderTemplateBlocks(versionData.blocks, versionData.variables);
 
     // Calcular totais
-    const totalAmount = versionData.variables.precos.itens.reduce((sum, item) => {
+    const totalAmount = versionData.variables.precos?.itens?.reduce((sum, item) => {
       const subtotal = item.quantity * item.unit_price;
       const discount = item.discount || 0;
       return sum + (subtotal - discount);
-    }, 0);
+    }, 0) || 0;
 
-    const discountAmount = versionData.variables.precos.itens.reduce((sum, item) => {
+    const discountAmount = versionData.variables.precos?.itens?.reduce((sum, item) => {
       return sum + (item.discount || 0);
-    }, 0);
+    }, 0) || 0;
 
-    const taxAmount = versionData.variables.precos.itens.reduce((sum, item) => {
+    const taxAmount = versionData.variables.precos?.itens?.reduce((sum, item) => {
       const subtotal = item.quantity * item.unit_price;
       const discount = item.discount || 0;
       const taxableAmount = subtotal - discount;
       return sum + (taxableAmount * (item.tax_rate || 0) / 100);
-    }, 0);
+    }, 0) || 0;
 
     // Gerar token público
     const publicToken = crypto.randomBytes(32).toString('hex');
-    const publicUrl = `${process.env.NEXT_PUBLIC_APP_URL}/p/${publicToken}`;
+    const publicUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/p/${publicToken}`;
 
-    // Criar versão
-    const { data: version, error: versionError } = await supabase
-      .from('proposal_versions')
-      .insert({
-        proposal_id: proposalId,
-        version_number: nextVersion,
-        snapshot_html: renderedHTML,
-        snapshot_json: {
-          blocks: versionData.blocks,
-          variables: versionData.variables
-        },
-        variables: versionData.variables,
-        total_amount: totalAmount,
-        discount_amount: discountAmount,
-        tax_amount: taxAmount,
-        public_token: publicToken,
-        public_url: publicUrl
-      })
-      .select()
-      .single();
+    // Criar versão mockada
+    const mockVersion = {
+      id: `version-${Date.now()}`,
+      proposal_id: proposalId,
+      version_number: nextVersion,
+      snapshot_html: renderedHTML,
+      snapshot_json: {
+        blocks: versionData.blocks,
+        variables: versionData.variables
+      },
+      variables: versionData.variables,
+      total_amount: totalAmount,
+      discount_amount: discountAmount,
+      tax_amount: taxAmount,
+      public_token: publicToken,
+      public_url: publicUrl,
+      status: 'published',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
 
-    if (versionError) {
-      console.error('Erro ao criar versão:', versionError);
-      return res.status(500).json({
-        success: false,
-        error: 'Erro ao criar versão da proposta'
-      });
-    }
-
-    // Inserir itens da versão
-    if (versionData.variables.precos.itens.length > 0) {
-      const items = versionData.variables.precos.itens.map(item => ({
-        version_id: version.id,
-        sku: item.sku,
-        name: item.name,
-        description: item.description,
-        quantity: item.quantity,
-        unit_price: item.unit_price,
-        discount: item.discount || 0,
-        tax_rate: item.tax_rate || 0
-      }));
-
-      const { error: itemsError } = await supabase
-        .from('proposal_version_items')
-        .insert(items);
-
-      if (itemsError) {
-        console.error('Erro ao inserir itens:', itemsError);
-        // Não falha a operação, apenas loga o erro
-      }
-    }
-
-    // Atualizar status da proposta para ready_to_send
-    await supabase
-      .from('proposals')
-      .update({ 
-        status: 'ready_to_send',
-        updated_at: new Date().toISOString()
-      })
-      .eq('id', proposalId);
+    // Salvar no armazenamento mockado
+    const savedVersion = mockStorage.createVersion(mockVersion);
+    console.log('Versão criada (mock):', savedVersion);
 
     res.status(201).json({
       success: true,
-      data: version,
+      data: savedVersion,
       message: 'Versão publicada com sucesso'
     });
 

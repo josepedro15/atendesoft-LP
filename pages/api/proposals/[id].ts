@@ -2,6 +2,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 import { ApiResponse } from '@/types/proposals';
+import { mockStorage } from './mock-storage';
 
 // Usa a mesma lógica do sistema de autenticação
 const supabase = createClient(
@@ -34,34 +35,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
 async function handleGetProposal(req: NextApiRequest, res: NextApiResponse<ApiResponse>, id: string) {
   try {
-    // Para desenvolvimento, usar dados mockados temporariamente
+    // Para desenvolvimento, usar armazenamento mockado
     // TODO: Implementar com Supabase quando RLS estiver configurado
-    const mockProposal = {
-      id: id,
-      title: 'Proposta Mockada',
-      client_id: null,
-      owner_id: '550e8400-e29b-41d4-a716-446655440000',
-      currency: 'BRL',
-      status: 'draft',
-      valid_until: null,
-      approval_required: false,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-      client: {
-        id: 'client-1',
-        name: 'Camilotti Casa e Construção',
-        email: 'contato@camilotti.com',
-        phone: '(11) 99999-9999'
-      },
-      versions: [],
-      latest_version: null
-    };
+    const proposal = mockStorage.getProposal(id);
+    
+    if (!proposal) {
+      return res.status(404).json({
+        success: false,
+        error: 'Proposta não encontrada'
+      });
+    }
 
-    console.log('Proposta carregada (mock):', mockProposal);
+    console.log('Proposta carregada (mock):', proposal);
 
     res.status(200).json({
       success: true,
-      data: mockProposal
+      data: proposal
     });
 
   } catch (error) {

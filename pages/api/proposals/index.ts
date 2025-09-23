@@ -1,7 +1,7 @@
 // API para gerenciamento de propostas - Versão com Mock Storage
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Proposal, CreateProposalData, ApiResponse, ProposalFilters } from '@/types/proposals';
-import { mockStorage } from './mock-storage';
+import { mockStorage } from '@/lib/mock-storage';
 
 // GET /api/proposals - Listar propostas
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {

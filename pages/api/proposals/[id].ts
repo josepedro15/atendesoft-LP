@@ -2,7 +2,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 import { ApiResponse } from '@/types/proposals';
-import { mockStorage } from './mock-storage';
+import { mockStorage } from '@/lib/mock-storage';
 
 // Usa a mesma lógica do sistema de autenticação
 const supabase = createClient(

@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 import { renderTemplateBlocks } from '@/lib/template-engine';
 import { PublishVersionData, ApiResponse, ProposalVersion } from '@/types/proposals';
-import { mockStorage } from '../mock-storage';
+import { mockStorage } from '@/lib/mock-storage';
 import crypto from 'crypto';
 
 // Usa a mesma lógica do sistema de autenticação

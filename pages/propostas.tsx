@@ -149,6 +149,58 @@ function PropostasContent() {
     }
   };
 
+  const loadProposalForEdit = async (proposalId: string) => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`/api/proposals/${proposalId}`);
+      const data = await response.json();
+      
+      if (data.success) {
+        const proposal = data.data;
+        setCurrentProposal(proposal);
+        
+        // Se a proposta tem uma versão, carregar os dados de edição
+        if (proposal.latest_version) {
+          setCurrentVersion(proposal.latest_version);
+          setProposalVariables(proposal.latest_version.variables);
+          setProposalBlocks(proposal.latest_version.blocks);
+        } else {
+          // Se não tem versão, inicializar com dados padrão
+          setProposalVariables({
+            cliente: {
+              nome: '',
+              empresa: '',
+              email: '',
+              telefone: ''
+            },
+            fornecedor: {
+              nome: 'AtendeSoft',
+              marca: 'AtendeSoft'
+            },
+            projeto: {
+              titulo: proposal.title,
+              validade: '7 dias'
+            },
+            precos: {
+              itens: [],
+              moeda: 'BRL',
+              condicoes: '50% à vista, 50% na entrega'
+            }
+          });
+          setProposalBlocks([]);
+        }
+        
+        setActiveTab('editar');
+      } else {
+        setError(data.error || 'Erro ao carregar proposta');
+      }
+    } catch (error) {
+      setError('Erro ao carregar proposta');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleCreateProposal = async () => {
     try {
       setIsLoading(true);
@@ -460,10 +512,7 @@ function PropostasContent() {
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => {
-                              setCurrentProposal(proposal);
-                              setActiveTab('editar');
-                            }}
+                            onClick={() => loadProposalForEdit(proposal.id)}
                           >
                             <Edit className="h-4 w-4" />
                           </Button>

@@ -34,43 +34,34 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
 async function handleGetProposal(req: NextApiRequest, res: NextApiResponse<ApiResponse>, id: string) {
   try {
-    const { data: proposal, error } = await supabase
-      .from('proposals')
-      .select(`
-        *,
-        client:clients(*),
-        versions:proposal_versions(
-          *,
-          items:proposal_version_items(*)
-        )
-      `)
-      .eq('id', id)
-      .single();
-
-    if (error) {
-      if (error.code === 'PGRST116') {
-        return res.status(404).json({
-          success: false,
-          error: 'Proposta não encontrada'
-        });
-      }
-      
-      console.error('Erro ao buscar proposta:', error);
-      return res.status(500).json({
-        success: false,
-        error: 'Erro interno do servidor'
-      });
-    }
-
-    // Adicionar versão mais recente
-    const proposalWithLatestVersion = {
-      ...proposal,
-      latest_version: proposal.versions?.[0]
+    // Para desenvolvimento, usar dados mockados temporariamente
+    // TODO: Implementar com Supabase quando RLS estiver configurado
+    const mockProposal = {
+      id: id,
+      title: 'Proposta Mockada',
+      client_id: null,
+      owner_id: '550e8400-e29b-41d4-a716-446655440000',
+      currency: 'BRL',
+      status: 'draft',
+      valid_until: null,
+      approval_required: false,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      client: {
+        id: 'client-1',
+        name: 'Camilotti Casa e Construção',
+        email: 'contato@camilotti.com',
+        phone: '(11) 99999-9999'
+      },
+      versions: [],
+      latest_version: null
     };
+
+    console.log('Proposta carregada (mock):', mockProposal);
 
     res.status(200).json({
       success: true,
-      data: proposalWithLatestVersion
+      data: mockProposal
     });
 
   } catch (error) {

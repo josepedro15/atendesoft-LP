@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import ComoFunciona from "@/components/ComoFunciona";
 import Manifesto from "@/components/Manifesto";
 import FAQ from "@/components/FAQ";
+import CTAFinal from "@/components/CTAFinal";
 import Footer from "@/components/Footer";
 
 const Home = () => {
@@ -23,6 +24,7 @@ const Home = () => {
         <ComoFunciona />
         <Manifesto />
         <FAQ />
+        <CTAFinal />
       </main>
       <Footer />
     </div>

@@ -286,10 +286,437 @@ export function renderTemplateBlocks(
   blocks: TemplateBlock[], 
   variables: ProposalVariables
 ): string {
-  return blocks.map(block => {
-    const blockTemplate = getBlockTemplate(block.type);
-    return renderTemplate(blockTemplate, variables);
+  if (!blocks || !Array.isArray(blocks)) {
+    return '<div class="proposal-content"><p>Nenhum conteúdo disponível.</p></div>';
+  }
+
+  const context = createTemplateContext(variables);
+  let html = '<div class="proposal-content">';
+
+  blocks.forEach((block, index) => {
+    try {
+      html += renderBlock(block, context, index);
+    } catch (error) {
+      console.error(`Erro ao renderizar bloco ${index}:`, error);
+      html += `<div class="block-error">Erro ao renderizar bloco: ${block.type}</div>`;
+    }
+  });
+
+  html += '</div>';
+  return html;
+}
+
+// Criar contexto do template
+function createTemplateContext(variables: ProposalVariables): TemplateContext {
+  return {
+    variables,
+    helpers: templateEngine['helpers']
+  };
+}
+
+// Renderizar um bloco específico
+function renderBlock(block: TemplateBlock, context: TemplateContext, index: number): string {
+  const { type, props } = block;
+
+  switch (type) {
+    case 'hero':
+      return renderHeroBlock(props, context);
+    case 'objective':
+      return renderObjectiveBlock(props, context);
+    case 'benefits':
+      return renderBenefitsBlock(props, context);
+    case 'scope':
+      return renderScopeBlock(props, context);
+    case 'timeline':
+      return renderTimelineBlock(props, context);
+    case 'comparison':
+      return renderComparisonBlock(props, context);
+    case 'pricing':
+      return renderPricingBlock(props, context);
+    case 'chart_placeholder':
+      return renderChartBlock(props, context);
+    case 'next_steps':
+      return renderNextStepsBlock(props, context);
+    case 'partnership':
+      return renderPartnershipBlock(props, context);
+    case 'terms':
+      return renderTermsBlock(props, context);
+    case 'signature':
+      return renderSignatureBlock(props, context);
+    case 'header':
+      return renderHeaderBlock(props, context);
+    case 'text':
+      return renderTextBlock(props, context);
+    case 'section':
+      return renderSectionBlock(props, context);
+    case 'pricing_table':
+      return renderPricingTableBlock(props, context);
+    default:
+      return `<div class="block-unknown">Bloco desconhecido: ${type}</div>`;
+  }
+}
+
+// Renderizar bloco Hero
+function renderHeroBlock(props: any, context: TemplateContext): string {
+  const title = renderTemplate(props.title || '', context);
+  const subtitle = renderTemplate(props.subtitle || '', context);
+  const tagline = renderTemplate(props.tagline || '', context);
+
+  return `
+    <div class="block-hero">
+      <div class="hero-header">
+        <h1 class="hero-title">${title}</h1>
+        <h2 class="hero-subtitle">${subtitle}</h2>
+        <p class="hero-tagline">${tagline}</p>
+      </div>
+    </div>
+  `;
+}
+
+// Renderizar bloco Objetivo
+function renderObjectiveBlock(props: any, context: TemplateContext): string {
+  const title = renderTemplate(props.title || 'Objetivo', context);
+  const bullets = props.bullets || [];
+
+  const bulletsHtml = bullets.map((bullet: string) => 
+    `<li>${renderTemplate(bullet, context)}</li>`
+  ).join('');
+
+  return `
+    <div class="block-objective">
+      <h2 class="section-title">${title}</h2>
+      <ul class="objective-list">
+        ${bulletsHtml}
+      </ul>
+    </div>
+  `;
+}
+
+// Renderizar bloco Benefícios
+function renderBenefitsBlock(props: any, context: TemplateContext): string {
+  const title = renderTemplate(props.title || 'Principais Benefícios', context);
+  const items = props.items || [];
+
+  const itemsHtml = items.map((item: any) => `
+    <div class="benefit-item">
+      <div class="benefit-icon">${item.icon || '✓'}</div>
+      <div class="benefit-text">${renderTemplate(item.text || '', context)}</div>
+    </div>
+  `).join('');
+
+  return `
+    <div class="block-benefits">
+      <h2 class="section-title">${title}</h2>
+      <div class="benefits-grid">
+        ${itemsHtml}
+      </div>
+    </div>
+  `;
+}
+
+// Renderizar bloco Escopo
+function renderScopeBlock(props: any, context: TemplateContext): string {
+  const title = renderTemplate(props.title || 'Escopo da Solução', context);
+  const sections = props.sections || [];
+
+  const sectionsHtml = sections.map((section: any) => {
+    const sectionTitle = renderTemplate(section.title || '', context);
+    const bullets = section.bullets || [];
+    const bulletsHtml = bullets.map((bullet: string) => 
+      `<li>${renderTemplate(bullet, context)}</li>`
+    ).join('');
+
+    return `
+      <div class="scope-section">
+        <h3 class="scope-section-title">${sectionTitle}</h3>
+        <ul class="scope-bullets">
+          ${bulletsHtml}
+        </ul>
+      </div>
+    `;
   }).join('');
+
+  return `
+    <div class="block-scope">
+      <h2 class="section-title">${title}</h2>
+      <div class="scope-sections">
+        ${sectionsHtml}
+      </div>
+    </div>
+  `;
+}
+
+// Renderizar bloco Timeline
+function renderTimelineBlock(props: any, context: TemplateContext): string {
+  const title = renderTemplate(props.title || 'Cronograma', context);
+  const weeks = props.weeks || [];
+  const note = renderTemplate(props.note || '', context);
+
+  const weeksHtml = weeks.map((week: any) => {
+    const weekLabel = week.label || '';
+    const weekItems = week.items || [];
+    const itemsHtml = weekItems.map((item: string) => 
+      `<li>${renderTemplate(item, context)}</li>`
+    ).join('');
+
+    return `
+      <div class="timeline-week">
+        <div class="week-label">${weekLabel}</div>
+        <ul class="week-items">
+          ${itemsHtml}
+        </ul>
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <div class="block-timeline">
+      <h2 class="section-title">${title}</h2>
+      <div class="timeline-weeks">
+        ${weeksHtml}
+      </div>
+      ${note ? `<div class="timeline-note">${note}</div>` : ''}
+    </div>
+  `;
+}
+
+// Renderizar bloco Comparação
+function renderComparisonBlock(props: any, context: TemplateContext): string {
+  const title = renderTemplate(props.title || 'Comparativo', context);
+  const left = props.left || {};
+  const right = props.right || {};
+  const conclusion = renderTemplate(props.conclusion || '', context);
+
+  const leftBullets = (left.bullets || []).map((bullet: string) => 
+    `<li>${renderTemplate(bullet, context)}</li>`
+  ).join('');
+
+  const rightBullets = (right.bullets || []).map((bullet: string) => 
+    `<li>${renderTemplate(bullet, context)}</li>`
+  ).join('');
+
+  return `
+    <div class="block-comparison">
+      <h2 class="section-title">${title}</h2>
+      <div class="comparison-grid">
+        <div class="comparison-left">
+          <h3 class="comparison-heading">${renderTemplate(left.heading || '', context)}</h3>
+          <ul class="comparison-bullets">
+            ${leftBullets}
+          </ul>
+        </div>
+        <div class="comparison-right">
+          <h3 class="comparison-heading">${renderTemplate(right.heading || '', context)}</h3>
+          <ul class="comparison-bullets">
+            ${rightBullets}
+          </ul>
+        </div>
+      </div>
+      ${conclusion ? `<div class="comparison-conclusion">${conclusion}</div>` : ''}
+    </div>
+  `;
+}
+
+// Renderizar bloco Preços
+function renderPricingBlock(props: any, context: TemplateContext): string {
+  const title = renderTemplate(props.title || 'Investimento', context);
+  const currency = props.currency || 'BRL';
+  const items = props.items || [];
+  const totals = props.totals || {};
+  const notes = props.notes || [];
+
+  const itemsHtml = items.map((item: any) => {
+    const name = renderTemplate(item.name || '', context);
+    const description = renderTemplate(item.description || '', context);
+    const quantity = item.quantity || 1;
+    const unitPrice = item.unitPrice || 0;
+    const discount = item.discount || 0;
+    const taxRate = item.taxRate || 0;
+    
+    const subtotal = quantity * unitPrice;
+    const discountAmount = discount;
+    const taxAmount = (subtotal - discountAmount) * (taxRate / 100);
+    const total = subtotal - discountAmount + taxAmount;
+
+    return `
+      <div class="pricing-item">
+        <div class="item-header">
+          <h4 class="item-name">${name}</h4>
+          <div class="item-price">${formatCurrency(unitPrice, currency)}</div>
+        </div>
+        ${description ? `<p class="item-description">${description}</p>` : ''}
+        <div class="item-details">
+          <div class="item-quantity">Qtd: ${quantity}</div>
+          ${discount > 0 ? `<div class="item-discount">Desconto: ${formatCurrency(discount, currency)}</div>` : ''}
+          ${taxRate > 0 ? `<div class="item-tax">Taxa: ${taxRate}%</div>` : ''}
+          <div class="item-total">Total: ${formatCurrency(total, currency)}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const notesHtml = notes.map((note: string) => 
+    `<li>${renderTemplate(note, context)}</li>`
+  ).join('');
+
+  return `
+    <div class="block-pricing">
+      <h2 class="section-title">${title}</h2>
+      <div class="pricing-items">
+        ${itemsHtml}
+      </div>
+      ${notes.length > 0 ? `
+        <div class="pricing-notes">
+          <h4>Observações:</h4>
+          <ul>
+            ${notesHtml}
+          </ul>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+// Renderizar bloco Gráfico
+function renderChartBlock(props: any, context: TemplateContext): string {
+  const title = renderTemplate(props.title || 'Distribuição', context);
+  const description = renderTemplate(props.description || '', context);
+  const data = props.data || [];
+
+  return `
+    <div class="block-chart">
+      <h2 class="section-title">${title}</h2>
+      ${description ? `<p class="chart-description">${description}</p>` : ''}
+      <div class="chart-placeholder">
+        <p>Gráfico: ${data.map((item: any) => `${item.label}: ${item.value}`).join(', ')}</p>
+      </div>
+    </div>
+  `;
+}
+
+// Renderizar bloco Próximos Passos
+function renderNextStepsBlock(props: any, context: TemplateContext): string {
+  const title = renderTemplate(props.title || 'Próximos Passos', context);
+  const steps = props.steps || [];
+
+  const stepsHtml = steps.map((step: any, index: number) => {
+    const stepTitle = renderTemplate(step.title || '', context);
+    const stepText = renderTemplate(step.text || '', context);
+
+    return `
+      <div class="next-step">
+        <div class="step-number">${index + 1}</div>
+        <div class="step-content">
+          <h4 class="step-title">${stepTitle}</h4>
+          <p class="step-text">${stepText}</p>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <div class="block-next-steps">
+      <h2 class="section-title">${title}</h2>
+      <div class="next-steps-list">
+        ${stepsHtml}
+      </div>
+    </div>
+  `;
+}
+
+// Renderizar bloco Parceria
+function renderPartnershipBlock(props: any, context: TemplateContext): string {
+  const title = renderTemplate(props.title || 'Parceria Estratégica', context);
+  const supplier = renderTemplate(props.supplier || '', context);
+  const client = renderTemplate(props.client || '', context);
+  const pillars = props.pillars || [];
+
+  const pillarsHtml = pillars.map((pillar: any) => {
+    const pillarTitle = renderTemplate(pillar.title || '', context);
+    const pillarText = renderTemplate(pillar.text || '', context);
+
+    return `
+      <div class="partnership-pillar">
+        <h4 class="pillar-title">${pillarTitle}</h4>
+        <p class="pillar-text">${pillarText}</p>
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <div class="block-partnership">
+      <h2 class="section-title">${title}</h2>
+      <div class="partnership-header">
+        <div class="partnership-supplier">${supplier}</div>
+        <div class="partnership-arrow">→</div>
+        <div class="partnership-client">${client}</div>
+      </div>
+      <div class="partnership-pillars">
+        ${pillarsHtml}
+      </div>
+    </div>
+  `;
+}
+
+// Renderizar bloco Termos
+function renderTermsBlock(props: any, context: TemplateContext): string {
+  const title = renderTemplate(props.title || 'Condições & Validade', context);
+  const validade = renderTemplate(props.validade || '', context);
+  const condicoes = renderTemplate(props.condicoes || '', context);
+  const legal = renderTemplate(props.legal || '', context);
+
+  return `
+    <div class="block-terms">
+      <h2 class="section-title">${title}</h2>
+      <div class="terms-content">
+        ${validade ? `<div class="term-item"><strong>Validade:</strong> ${validade}</div>` : ''}
+        ${condicoes ? `<div class="term-item"><strong>Condições:</strong> ${condicoes}</div>` : ''}
+        ${legal ? `<div class="term-legal">${legal}</div>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+// Renderizar bloco Assinatura
+function renderSignatureBlock(props: any, context: TemplateContext): string {
+  const cta = renderTemplate(props.cta || 'Aceitar e Assinar', context);
+  const signerName = renderTemplate(props.signer_name || '', context);
+  const signerEmail = renderTemplate(props.signer_email || '', context);
+
+  return `
+    <div class="block-signature">
+      <div class="signature-content">
+        <h3 class="signature-title">${cta}</h3>
+        <div class="signature-fields">
+          <div class="signature-field">
+            <label>Nome:</label>
+            <input type="text" value="${signerName}" readonly />
+          </div>
+          <div class="signature-field">
+            <label>Email:</label>
+            <input type="email" value="${signerEmail}" readonly />
+          </div>
+        </div>
+        <div class="signature-area">
+          <canvas id="signature-canvas" width="400" height="200"></canvas>
+          <div class="signature-actions">
+            <button type="button" class="btn-clear">Limpar</button>
+            <button type="button" class="btn-type">Digitar</button>
+          </div>
+        </div>
+        <button type="submit" class="btn-sign">Assinar Proposta</button>
+      </div>
+    </div>
+  `;
+}
+
+// Função auxiliar para formatar moeda
+function formatCurrency(value: number, currency: string): string {
+  if (typeof value !== 'number') return '0,00';
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: currency === 'BRL' ? 'BRL' : 'USD'
+  }).format(value);
 }
 
 // Templates para cada tipo de bloco

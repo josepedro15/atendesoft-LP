@@ -26,8 +26,12 @@ async function handleGetTemplates(req: NextApiRequest, res: NextApiResponse<ApiR
   try {
     const { active_only = 'true' } = req.query;
 
+    // Importar template do Camilotti
+    const { camilottiTemplate } = await import('@/lib/camilotti-template');
+
     // Dados mockados temporários
     const mockData = [
+      camilottiTemplate,
       {
         id: '1',
         name: 'Padrão — Plataforma de Atendimento Inteligente',

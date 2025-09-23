@@ -6,6 +6,7 @@ import ParallaxBackground from "@/components/ParallaxBackground";
 import Footer from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import TemplateEditor from "@/components/TemplateEditor";
 import { motion } from "motion/react";
 import { 
   Proposal, 
@@ -79,6 +80,7 @@ function PropostasContent() {
   const [error, setError] = useState<string | null>(null);
   const [showSendModal, setShowSendModal] = useState(false);
   const [showTemplateModal, setShowTemplateModal] = useState(false);
+  const [editingTemplate, setEditingTemplate] = useState<ProposalTemplate | null>(null);
   
   // Filtros e busca
   const [searchTerm, setSearchTerm] = useState('');
@@ -352,6 +354,31 @@ function PropostasContent() {
     }
   };
 
+  const handleSaveTemplate = async (template: ProposalTemplate) => {
+    try {
+      setIsLoading(true);
+      
+      const response = await fetch('/api/proposal-templates', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(template)
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setEditingTemplate(null);
+        await loadTemplates();
+      } else {
+        setError(data.error || 'Erro ao salvar template');
+      }
+    } catch (error) {
+      setError('Erro ao salvar template');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'draft': return 'bg-gray-100 text-gray-800';
@@ -420,12 +447,15 @@ function PropostasContent() {
       {/* Main Content */}
       <main className="container mx-auto px-6 py-8 relative z-10">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="lista">Lista de Propostas</TabsTrigger>
             <TabsTrigger value="editar" disabled={!currentProposal}>
               {currentProposal ? 'Editar Proposta' : 'Nova Proposta'}
             </TabsTrigger>
             <TabsTrigger value="templates">Templates</TabsTrigger>
+            <TabsTrigger value="editor" disabled={!editingTemplate}>
+              Editor de Template
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="lista" className="space-y-6">
@@ -660,6 +690,40 @@ function PropostasContent() {
           </TabsContent>
 
           <TabsContent value="templates" className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h2 className="text-2xl font-bold">Templates de Propostas</h2>
+                <p className="text-muted-foreground">Gerencie seus templates de propostas comerciais</p>
+              </div>
+              <Button
+                onClick={() => {
+                  // Criar template vazio para edição
+                  const newTemplate: ProposalTemplate = {
+                    id: `template-${Date.now()}`,
+                    name: 'Novo Template',
+                    description: 'Template personalizado',
+                    content_json: { blocks: [] },
+                    default_variables: {
+                      cliente: { nome: '' },
+                      fornecedor: { nome: 'AtendeSoft' },
+                      projeto: { titulo: '' },
+                      precos: { itens: [], moeda: 'BRL' }
+                    },
+                    is_active: true,
+                    created_by: '550e8400-e29b-41d4-a716-446655440000',
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString()
+                  };
+                  setEditingTemplate(newTemplate);
+                  setActiveTab('editor');
+                }}
+                className="btn-primary"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Novo Template
+              </Button>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {templates.map((template) => (
                 <Card key={template.id} className="hover:shadow-lg transition-shadow">
@@ -684,11 +748,43 @@ function PropostasContent() {
                           </Badge>
                         )}
                       </div>
+                      <div className="flex space-x-2 mt-3">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => {
+                            setEditingTemplate(template);
+                            setActiveTab('editor');
+                          }}
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleSelectTemplate(template)}
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
               ))}
             </div>
+          </TabsContent>
+
+          <TabsContent value="editor" className="space-y-6">
+            {editingTemplate && (
+              <TemplateEditor
+                template={editingTemplate}
+                onSave={handleSaveTemplate}
+                onCancel={() => {
+                  setEditingTemplate(null);
+                  setActiveTab('templates');
+                }}
+              />
+            )}
           </TabsContent>
         </Tabs>
       </main>

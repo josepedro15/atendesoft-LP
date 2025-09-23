@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       'files'
     ];
 
-    const results = {};
+    const results: Record<string, any> = {};
 
     for (const table of tables) {
       try {

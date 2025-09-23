@@ -43,18 +43,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         owner_id,
         status,
         client:clients(*),
-        latest_version:proposal_versions!inner(*)
+        versions:proposal_versions(*)
       `)
       .eq('id', id)
-      .eq('proposal_versions.version_number', 1) // Assumindo que queremos a versão mais recente
       .single();
 
     if (proposalError || !proposal) {
       return res.status(404).json({
         success: false,
-        error: 'Proposta não encontrada ou sem versão publicada'
+        error: 'Proposta não encontrada'
       });
     }
+
+    // Verificar se tem versões publicadas
+    if (!proposal.versions || proposal.versions.length === 0) {
+      return res.status(404).json({
+        success: false,
+        error: 'Proposta não tem versões publicadas'
+      });
+    }
+
+    // Pegar a versão mais recente
+    const latestVersion = proposal.versions[0];
 
     // Verificar permissões
     const userId = req.headers['x-user-id'] as string;
@@ -78,7 +88,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       .from('proposal_events')
       .insert({
         proposal_id: id,
-        version_id: proposal.latest_version?.id,
+        version_id: latestVersion.id,
         type: 'sent',
         metadata: {
           channel: sendData.channel,
@@ -125,7 +135,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       success: true,
       data: {
         channel: sendData.channel,
-        public_url: proposal.latest_version.public_url,
+        public_url: latestVersion.public_url,
         sent_at: new Date().toISOString()
       },
       message: 'Proposta enviada com sucesso'

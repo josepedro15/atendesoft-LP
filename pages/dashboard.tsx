@@ -249,6 +249,14 @@ function DashboardContent() {
                   <Workflow className="h-4 w-4 mr-2" />
                   Editor de Fluxogramas
                 </Button>
+                <Button 
+                  className="w-full justify-start" 
+                  variant="outline"
+                  onClick={() => router.push('/propostas')}
+                >
+                  <FileText className="h-4 w-4 mr-2" />
+                  Propostas Comerciais
+                </Button>
               </CardContent>
             </Card>
 

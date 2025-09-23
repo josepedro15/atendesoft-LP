@@ -162,8 +162,8 @@ function PropostasContent() {
         // Se a proposta tem uma versão, carregar os dados de edição
         if (proposal.latest_version) {
           setCurrentVersion(proposal.latest_version);
-          setProposalVariables(proposal.latest_version.variables);
-          setProposalBlocks(proposal.latest_version.blocks);
+          setProposalVariables(proposal.latest_version.variables || null);
+          setProposalBlocks(proposal.latest_version.blocks || []);
         } else {
           // Se não tem versão, inicializar com dados padrão
           setProposalVariables({
@@ -258,7 +258,7 @@ function PropostasContent() {
       }
 
       // Aplicar template
-      setProposalBlocks(template.content_json.blocks);
+      setProposalBlocks(template.content_json?.blocks || []);
       setProposalVariables({
         ...template.default_variables,
         cliente: {
@@ -670,17 +670,17 @@ function PropostasContent() {
                   <CardContent>
                     <div className="space-y-2">
                       <p className="text-sm text-muted-foreground">
-                        {template.content_json.blocks.length} blocos
+                        {(template.content_json?.blocks || []).length} blocos
                       </p>
                       <div className="flex flex-wrap gap-1">
-                        {template.content_json.blocks.slice(0, 3).map((block, index) => (
+                        {(template.content_json?.blocks || []).slice(0, 3).map((block, index) => (
                           <Badge key={index} variant="outline" className="text-xs">
                             {block.type}
                           </Badge>
                         ))}
-                        {template.content_json.blocks.length > 3 && (
+                        {(template.content_json?.blocks || []).length > 3 && (
                           <Badge variant="outline" className="text-xs">
-                            +{template.content_json.blocks.length - 3}
+                            +{(template.content_json?.blocks || []).length - 3}
                           </Badge>
                         )}
                       </div>
@@ -717,10 +717,10 @@ function PropostasContent() {
                 <CardContent>
                   <div className="space-y-2">
                     <p className="text-sm text-muted-foreground">
-                      {template.content_json.blocks.length} blocos
+                      {(template.content_json?.blocks || []).length} blocos
                     </p>
                     <div className="flex flex-wrap gap-1">
-                      {template.content_json.blocks.slice(0, 4).map((block, index) => (
+                      {(template.content_json?.blocks || []).slice(0, 4).map((block, index) => (
                         <Badge key={index} variant="outline" className="text-xs">
                           {block.type}
                         </Badge>

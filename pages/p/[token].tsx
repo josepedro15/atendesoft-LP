@@ -427,11 +427,10 @@ export default function PublicProposalPage({ version, error }: PublicProposalPag
                   id="signerName"
                   placeholder="Seu nome completo"
                   onChange={(e) => setSignatureData({
-                    ...signatureData,
                     signer_name: e.target.value,
                     signer_email: signatureData?.signer_email || '',
                     method: signatureMethod,
-                    signature_data: ''
+                    signature_data: signatureData?.signature_data || ''
                   })}
                 />
               </div>
@@ -442,11 +441,10 @@ export default function PublicProposalPage({ version, error }: PublicProposalPag
                   type="email"
                   placeholder="seu@email.com"
                   onChange={(e) => setSignatureData({
-                    ...signatureData,
                     signer_name: signatureData?.signer_name || '',
                     signer_email: e.target.value,
                     method: signatureMethod,
-                    signature_data: ''
+                    signature_data: signatureData?.signature_data || ''
                   })}
                 />
               </div>
@@ -480,7 +478,9 @@ export default function PublicProposalPage({ version, error }: PublicProposalPag
                   placeholder="Digite sua assinatura"
                   className="mt-2"
                   onChange={(e) => setSignatureData({
-                    ...signatureData,
+                    signer_name: signatureData?.signer_name || '',
+                    signer_email: signatureData?.signer_email || '',
+                    method: signatureData?.method || 'type',
                     signature_data: e.target.value
                   })}
                 />
@@ -509,7 +509,8 @@ export default function PublicProposalPage({ version, error }: PublicProposalPag
                 onClick={() => {
                   const data = getSignatureData();
                   setSignatureData({
-                    ...signatureData,
+                    signer_name: signatureData?.signer_name || '',
+                    signer_email: signatureData?.signer_email || '',
                     signature_data: data,
                     method: signatureMethod
                   });

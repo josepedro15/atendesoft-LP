@@ -196,7 +196,7 @@ export const camilottiTemplate: ProposalTemplate = {
         type: 'signature',
         props: {
           cta: 'Aceitar e Assinar',
-          signer_name: '{{cliente.contato}}',
+          signer_name: '{{cliente.nome}}',
           signer_email: '{{cliente.email}}'
         }
       }
@@ -205,7 +205,6 @@ export const camilottiTemplate: ProposalTemplate = {
   default_variables: {
     cliente: { 
       nome: 'Camilotti Casa e Construção', 
-      contato: 'Responsável Camilotti', 
       email: 'contato@cliente.com' 
     },
     fornecedor: { nome: 'Atendesoft' },
@@ -219,30 +218,21 @@ export const camilottiTemplate: ProposalTemplate = {
         { 
           name: 'Implementação da Plataforma', 
           quantity: 1, 
-          unitPrice: 6000, 
+          unit_price: 6000, 
           description: 'Configuração completa de infraestrutura e fluxos', 
           discount: 0, 
-          taxRate: 0 
+          tax_rate: 0 
         },
         { 
           name: 'Manutenção Mensal', 
           quantity: 12, 
-          unitPrice: 2300, 
+          unit_price: 2300, 
           description: 'Suporte contínuo e melhorias evolutivas', 
           discount: 0, 
-          taxRate: 0 
+          tax_rate: 0 
         }
       ],
-      subtotal: 33600,
-      desconto: 0,
-      impostos: 0,
-      total: 33600,
-      pagamento_inicial: '50% da implementação',
-      condicoes: 'Implementação em até 30 dias após pagamento inicial. Faturamento mensal para manutenção.',
-      chart_dados: [
-        { label: 'Implementação', value: 6000 },
-        { label: 'Manutenção (12x)', value: 27600 }
-      ]
+      condicoes: 'Implementação em até 30 dias após pagamento inicial. Faturamento mensal para manutenção.'
     }
   },
   is_active: true,

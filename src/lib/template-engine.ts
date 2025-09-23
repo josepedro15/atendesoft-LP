@@ -358,9 +358,9 @@ function renderBlock(block: TemplateBlock, context: TemplateContext, index: numb
 
 // Renderizar bloco Hero
 function renderHeroBlock(props: any, context: TemplateContext): string {
-  const title = renderTemplate(props.title || '', context);
-  const subtitle = renderTemplate(props.subtitle || '', context);
-  const tagline = renderTemplate(props.tagline || '', context);
+  const title = renderTemplate(props.title || '', context.variables);
+  const subtitle = renderTemplate(props.subtitle || '', context.variables);
+  const tagline = renderTemplate(props.tagline || '', context.variables);
 
   return `
     <div class="block-hero">
@@ -375,11 +375,11 @@ function renderHeroBlock(props: any, context: TemplateContext): string {
 
 // Renderizar bloco Objetivo
 function renderObjectiveBlock(props: any, context: TemplateContext): string {
-  const title = renderTemplate(props.title || 'Objetivo', context);
+  const title = renderTemplate(props.title || 'Objetivo', context.variables);
   const bullets = props.bullets || [];
 
   const bulletsHtml = bullets.map((bullet: string) => 
-    `<li>${renderTemplate(bullet, context)}</li>`
+    `<li>${renderTemplate(bullet, context.variables)}</li>`
   ).join('');
 
   return `
@@ -394,13 +394,13 @@ function renderObjectiveBlock(props: any, context: TemplateContext): string {
 
 // Renderizar bloco Benefícios
 function renderBenefitsBlock(props: any, context: TemplateContext): string {
-  const title = renderTemplate(props.title || 'Principais Benefícios', context);
+  const title = renderTemplate(props.title || 'Principais Benefícios', context.variables);
   const items = props.items || [];
 
   const itemsHtml = items.map((item: any) => `
     <div class="benefit-item">
       <div class="benefit-icon">${item.icon || '✓'}</div>
-      <div class="benefit-text">${renderTemplate(item.text || '', context)}</div>
+      <div class="benefit-text">${renderTemplate(item.text || '', context.variables)}</div>
     </div>
   `).join('');
 
@@ -416,14 +416,14 @@ function renderBenefitsBlock(props: any, context: TemplateContext): string {
 
 // Renderizar bloco Escopo
 function renderScopeBlock(props: any, context: TemplateContext): string {
-  const title = renderTemplate(props.title || 'Escopo da Solução', context);
+  const title = renderTemplate(props.title || 'Escopo da Solução', context.variables);
   const sections = props.sections || [];
 
   const sectionsHtml = sections.map((section: any) => {
-    const sectionTitle = renderTemplate(section.title || '', context);
+    const sectionTitle = renderTemplate(section.title || '', context.variables);
     const bullets = section.bullets || [];
     const bulletsHtml = bullets.map((bullet: string) => 
-      `<li>${renderTemplate(bullet, context)}</li>`
+      `<li>${renderTemplate(bullet, context.variables)}</li>`
     ).join('');
 
     return `
@@ -448,15 +448,15 @@ function renderScopeBlock(props: any, context: TemplateContext): string {
 
 // Renderizar bloco Timeline
 function renderTimelineBlock(props: any, context: TemplateContext): string {
-  const title = renderTemplate(props.title || 'Cronograma', context);
+  const title = renderTemplate(props.title || 'Cronograma', context.variables);
   const weeks = props.weeks || [];
-  const note = renderTemplate(props.note || '', context);
+  const note = renderTemplate(props.note || '', context.variables);
 
   const weeksHtml = weeks.map((week: any) => {
     const weekLabel = week.label || '';
     const weekItems = week.items || [];
     const itemsHtml = weekItems.map((item: string) => 
-      `<li>${renderTemplate(item, context)}</li>`
+      `<li>${renderTemplate(item, context.variables)}</li>`
     ).join('');
 
     return `
@@ -482,17 +482,17 @@ function renderTimelineBlock(props: any, context: TemplateContext): string {
 
 // Renderizar bloco Comparação
 function renderComparisonBlock(props: any, context: TemplateContext): string {
-  const title = renderTemplate(props.title || 'Comparativo', context);
+  const title = renderTemplate(props.title || 'Comparativo', context.variables);
   const left = props.left || {};
   const right = props.right || {};
-  const conclusion = renderTemplate(props.conclusion || '', context);
+  const conclusion = renderTemplate(props.conclusion || '', context.variables);
 
   const leftBullets = (left.bullets || []).map((bullet: string) => 
-    `<li>${renderTemplate(bullet, context)}</li>`
+    `<li>${renderTemplate(bullet, context.variables)}</li>`
   ).join('');
 
   const rightBullets = (right.bullets || []).map((bullet: string) => 
-    `<li>${renderTemplate(bullet, context)}</li>`
+    `<li>${renderTemplate(bullet, context.variables)}</li>`
   ).join('');
 
   return `
@@ -500,13 +500,13 @@ function renderComparisonBlock(props: any, context: TemplateContext): string {
       <h2 class="section-title">${title}</h2>
       <div class="comparison-grid">
         <div class="comparison-left">
-          <h3 class="comparison-heading">${renderTemplate(left.heading || '', context)}</h3>
+          <h3 class="comparison-heading">${renderTemplate(left.heading || '', context.variables)}</h3>
           <ul class="comparison-bullets">
             ${leftBullets}
           </ul>
         </div>
         <div class="comparison-right">
-          <h3 class="comparison-heading">${renderTemplate(right.heading || '', context)}</h3>
+          <h3 class="comparison-heading">${renderTemplate(right.heading || '', context.variables)}</h3>
           <ul class="comparison-bullets">
             ${rightBullets}
           </ul>
@@ -519,15 +519,15 @@ function renderComparisonBlock(props: any, context: TemplateContext): string {
 
 // Renderizar bloco Preços
 function renderPricingBlock(props: any, context: TemplateContext): string {
-  const title = renderTemplate(props.title || 'Investimento', context);
+  const title = renderTemplate(props.title || 'Investimento', context.variables);
   const currency = props.currency || 'BRL';
   const items = props.items || [];
   const totals = props.totals || {};
   const notes = props.notes || [];
 
   const itemsHtml = items.map((item: any) => {
-    const name = renderTemplate(item.name || '', context);
-    const description = renderTemplate(item.description || '', context);
+    const name = renderTemplate(item.name || '', context.variables);
+    const description = renderTemplate(item.description || '', context.variables);
     const quantity = item.quantity || 1;
     const unitPrice = item.unitPrice || 0;
     const discount = item.discount || 0;
@@ -556,7 +556,7 @@ function renderPricingBlock(props: any, context: TemplateContext): string {
   }).join('');
 
   const notesHtml = notes.map((note: string) => 
-    `<li>${renderTemplate(note, context)}</li>`
+    `<li>${renderTemplate(note, context.variables)}</li>`
   ).join('');
 
   return `
@@ -579,8 +579,8 @@ function renderPricingBlock(props: any, context: TemplateContext): string {
 
 // Renderizar bloco Gráfico
 function renderChartBlock(props: any, context: TemplateContext): string {
-  const title = renderTemplate(props.title || 'Distribuição', context);
-  const description = renderTemplate(props.description || '', context);
+  const title = renderTemplate(props.title || 'Distribuição', context.variables);
+  const description = renderTemplate(props.description || '', context.variables);
   const data = props.data || [];
 
   return `
@@ -596,12 +596,12 @@ function renderChartBlock(props: any, context: TemplateContext): string {
 
 // Renderizar bloco Próximos Passos
 function renderNextStepsBlock(props: any, context: TemplateContext): string {
-  const title = renderTemplate(props.title || 'Próximos Passos', context);
+  const title = renderTemplate(props.title || 'Próximos Passos', context.variables);
   const steps = props.steps || [];
 
   const stepsHtml = steps.map((step: any, index: number) => {
-    const stepTitle = renderTemplate(step.title || '', context);
-    const stepText = renderTemplate(step.text || '', context);
+    const stepTitle = renderTemplate(step.title || '', context.variables);
+    const stepText = renderTemplate(step.text || '', context.variables);
 
     return `
       <div class="next-step">
@@ -626,14 +626,14 @@ function renderNextStepsBlock(props: any, context: TemplateContext): string {
 
 // Renderizar bloco Parceria
 function renderPartnershipBlock(props: any, context: TemplateContext): string {
-  const title = renderTemplate(props.title || 'Parceria Estratégica', context);
-  const supplier = renderTemplate(props.supplier || '', context);
-  const client = renderTemplate(props.client || '', context);
+  const title = renderTemplate(props.title || 'Parceria Estratégica', context.variables);
+  const supplier = renderTemplate(props.supplier || '', context.variables);
+  const client = renderTemplate(props.client || '', context.variables);
   const pillars = props.pillars || [];
 
   const pillarsHtml = pillars.map((pillar: any) => {
-    const pillarTitle = renderTemplate(pillar.title || '', context);
-    const pillarText = renderTemplate(pillar.text || '', context);
+    const pillarTitle = renderTemplate(pillar.title || '', context.variables);
+    const pillarText = renderTemplate(pillar.text || '', context.variables);
 
     return `
       <div class="partnership-pillar">
@@ -660,10 +660,10 @@ function renderPartnershipBlock(props: any, context: TemplateContext): string {
 
 // Renderizar bloco Termos
 function renderTermsBlock(props: any, context: TemplateContext): string {
-  const title = renderTemplate(props.title || 'Condições & Validade', context);
-  const validade = renderTemplate(props.validade || '', context);
-  const condicoes = renderTemplate(props.condicoes || '', context);
-  const legal = renderTemplate(props.legal || '', context);
+  const title = renderTemplate(props.title || 'Condições & Validade', context.variables);
+  const validade = renderTemplate(props.validade || '', context.variables);
+  const condicoes = renderTemplate(props.condicoes || '', context.variables);
+  const legal = renderTemplate(props.legal || '', context.variables);
 
   return `
     <div class="block-terms">
@@ -679,9 +679,9 @@ function renderTermsBlock(props: any, context: TemplateContext): string {
 
 // Renderizar bloco Assinatura
 function renderSignatureBlock(props: any, context: TemplateContext): string {
-  const cta = renderTemplate(props.cta || 'Aceitar e Assinar', context);
-  const signerName = renderTemplate(props.signer_name || '', context);
-  const signerEmail = renderTemplate(props.signer_email || '', context);
+  const cta = renderTemplate(props.cta || 'Aceitar e Assinar', context.variables);
+  const signerName = renderTemplate(props.signer_name || '', context.variables);
+  const signerEmail = renderTemplate(props.signer_email || '', context.variables);
 
   return `
     <div class="block-signature">
@@ -706,6 +706,77 @@ function renderSignatureBlock(props: any, context: TemplateContext): string {
         </div>
         <button type="submit" class="btn-sign">Assinar Proposta</button>
       </div>
+    </div>
+  `;
+}
+
+// Renderizar bloco Header
+function renderHeaderBlock(props: any, context: TemplateContext): string {
+  const content = renderTemplate(props.content || '', context.variables);
+  const style = props.style || {};
+  
+  return `
+    <div class="block-header" style="${Object.entries(style).map(([key, value]) => `${key}: ${value}`).join('; ')}">
+      <h1>${content}</h1>
+    </div>
+  `;
+}
+
+// Renderizar bloco Text
+function renderTextBlock(props: any, context: TemplateContext): string {
+  const content = renderTemplate(props.content || '', context.variables);
+  const style = props.style || {};
+  
+  return `
+    <div class="block-text" style="${Object.entries(style).map(([key, value]) => `${key}: ${value}`).join('; ')}">
+      <p>${content}</p>
+    </div>
+  `;
+}
+
+// Renderizar bloco Section
+function renderSectionBlock(props: any, context: TemplateContext): string {
+  const title = renderTemplate(props.title || '', context.variables);
+  const content = renderTemplate(props.content || '', context.variables);
+  
+  return `
+    <div class="block-section">
+      <h2>${title}</h2>
+      <div>${content}</div>
+    </div>
+  `;
+}
+
+// Renderizar bloco Pricing Table
+function renderPricingTableBlock(props: any, context: TemplateContext): string {
+  const title = renderTemplate(props.title || 'Preços', context.variables);
+  const items = props.items || [];
+  
+  const itemsHtml = items.map((item: any) => `
+    <tr>
+      <td>${renderTemplate(item.name || '', context.variables)}</td>
+      <td>${item.quantity || 1}</td>
+      <td>${formatCurrency(item.unit_price || 0, 'BRL')}</td>
+      <td>${formatCurrency((item.quantity || 1) * (item.unit_price || 0), 'BRL')}</td>
+    </tr>
+  `).join('');
+  
+  return `
+    <div class="block-pricing-table">
+      <h2>${title}</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Qtd</th>
+            <th>Valor Unit.</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${itemsHtml}
+        </tbody>
+      </table>
     </div>
   `;
 }

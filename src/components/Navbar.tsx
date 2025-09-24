@@ -119,6 +119,15 @@ const Navbar = () => {
             >
               Casos
             </button>
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                navigateToPage("/blog");
+              }}
+              className="text-muted-foreground hover:text-foreground transition-colors focus-ring"
+            >
+              Blog
+            </button>
           </div>
 
           {/* Mobile Home Button & WhatsApp Button */}

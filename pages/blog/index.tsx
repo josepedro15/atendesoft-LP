@@ -8,7 +8,6 @@ import BlogHero from '@/components/blog/BlogHero';
 import BlogCard from '@/components/blog/BlogCard';
 import BlogSidebar from '@/components/blog/BlogSidebar';
 import BlogPagination from '@/components/blog/BlogPagination';
-import BlogSearch from '@/components/blog/BlogSearch';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 

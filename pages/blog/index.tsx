@@ -48,7 +48,7 @@ const BlogPage = ({
       <div className="min-h-screen bg-background">
         <Navbar />
 
-        <main className="min-h-screen bg-background">
+        <main className="bg-background">
           {/* Hero Section */}
           <BlogHero 
             latestPost={posts[0]} 

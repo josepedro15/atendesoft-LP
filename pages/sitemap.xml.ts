@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { supabase } from '@/lib/supabase-server';
+import { supabase } from '@/lib/supabase';
 
 interface SitemapUrl {
   loc: string;

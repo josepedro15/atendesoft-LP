@@ -220,25 +220,37 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       status: 'published'
     };
 
+    console.log('Buscando posts com filtros:', filters);
+
     // Buscar posts e keywords em paralelo
     const [postsResponse, popularKeywords] = await Promise.all([
       fetchPosts(filters),
       fetchPopularKeywords(10)
     ]);
 
+    console.log('Posts response:', postsResponse);
+    console.log('Popular keywords:', popularKeywords);
+
     if (!postsResponse.success) {
+      console.error('Erro na resposta dos posts:', postsResponse.error);
       throw new Error('Erro ao buscar dados');
     }
 
+    const posts = postsResponse.data?.posts || [];
+    const pagination = postsResponse.data?.pagination || {
+      page: 1,
+      limit: 10,
+      total: 0,
+      pages: 0
+    };
+
+    console.log('Posts encontrados:', posts.length);
+    console.log('Pagination:', pagination);
+
     return {
       props: {
-        initialPosts: postsResponse.data?.posts || [],
-        initialPagination: postsResponse.data?.pagination || {
-          page: 1,
-          limit: 10,
-          total: 0,
-          pages: 0
-        },
+        initialPosts: posts,
+        initialPagination: pagination,
         popularKeywords: popularKeywords || [],
         filters
       }

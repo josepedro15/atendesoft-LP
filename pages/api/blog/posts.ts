@@ -24,6 +24,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       status = 'published' 
     } = req.query as BlogFilters;
 
+    console.log('API: Buscando posts com filtros:', { page, limit, keyword, search, status });
+
     // Construir query base
     let query = supabase
       .from('blog_posts')
@@ -47,6 +49,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     const { data: posts, error, count } = await query;
 
+    console.log('API: Resultado da query:', { posts: posts?.length, error, count });
+
     if (error) {
       console.error('Erro ao buscar posts:', error);
       return res.status(500).json({ 
@@ -57,6 +61,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     const total = count || 0;
     const pages = Math.ceil(total / Number(limit));
+
+    console.log('API: Retornando dados:', { total, pages, postsCount: posts?.length });
 
     res.status(200).json({
       success: true,

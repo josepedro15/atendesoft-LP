@@ -221,12 +221,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
 
     // Buscar posts e keywords em paralelo
-    const [postsResponse, keywordsResponse] = await Promise.all([
+    const [postsResponse, popularKeywords] = await Promise.all([
       fetchPosts(filters),
       fetchPopularKeywords(10)
     ]);
 
-    if (!postsResponse.success || !keywordsResponse.success) {
+    if (!postsResponse.success) {
       throw new Error('Erro ao buscar dados');
     }
 
@@ -239,7 +239,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           total: 0,
           pages: 0
         },
-        popularKeywords: keywordsResponse.data || [],
+        popularKeywords: popularKeywords || [],
         filters
       }
     };

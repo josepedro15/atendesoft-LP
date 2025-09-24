@@ -1,13 +1,13 @@
 import { GetServerSideProps } from 'next';
-import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { BlogPost } from '@/types/blog';
-import { fetchPostByUrl, fetchPosts, generatePostMetaTags, getKeywordUrl } from '@/lib/blog';
+import { fetchPostByUrl, fetchPosts, getKeywordUrl } from '@/lib/blog';
 import PostContent from '@/components/blog/PostContent';
 import RelatedPosts from '@/components/blog/RelatedPosts';
 import ShareButtons from '@/components/blog/ShareButtons';
 import BlogSidebar from '@/components/blog/BlogSidebar';
+import BlogSEO from '@/components/blog/BlogSEO';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { ArrowLeft, Calendar, Tag, Eye } from 'lucide-react';
@@ -20,68 +20,10 @@ interface PostPageProps {
 
 const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
   const router = useRouter();
-  const metaTags = generatePostMetaTags(post);
 
   return (
     <>
-      <Head>
-        <title>{post.title} - Blog AtendeSoft</title>
-        <meta name="description" content={post.summary} />
-        <meta name="keywords" content={post.keyword} />
-        
-        {/* Open Graph */}
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.summary} />
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content={metaTags.url} />
-        {post.image && <meta property="og:image" content={post.image} />}
-        <meta property="og:site_name" content="AtendeSoft" />
-        <meta property="article:author" content="AtendeSoft" />
-        <meta property="article:section" content={post.keyword} />
-        <meta property="article:published_time" content={post.timestamp} />
-        <meta property="article:modified_time" content={post.updated_at} />
-        <meta property="article:tag" content={post.keyword} />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.summary} />
-        {post.image && <meta name="twitter:image" content={post.image} />}
-
-        {/* Schema.org */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Article",
-              "headline": post.title,
-              "description": post.summary,
-              "image": post.image,
-              "author": {
-                "@type": "Organization",
-                "name": "AtendeSoft"
-              },
-              "publisher": {
-                "@type": "Organization",
-                "name": "AtendeSoft",
-                "logo": {
-                  "@type": "ImageObject",
-                  "url": "https://atendesoft.com/logo.png"
-                }
-              },
-              "datePublished": post.timestamp,
-              "dateModified": post.updated_at,
-              "mainEntityOfPage": {
-                "@type": "WebPage",
-                "@id": metaTags.url
-              }
-            })
-          }}
-        />
-
-        <link rel="canonical" href={metaTags.url} />
-      </Head>
+      <BlogSEO post={post} />
 
       <div className="min-h-screen bg-background">
         <Navbar />

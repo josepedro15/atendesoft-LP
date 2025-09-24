@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useScrollTracking } from "@/lib/events";
 import { useMobile } from "@/hooks/use-mobile";
+import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ComoFunciona from "@/components/ComoFunciona";
@@ -21,9 +22,17 @@ const Home = () => {
   }, [cleanup]);
 
   return (
-    <div className="min-h-screen bg-background relative">
-      {!isMobile && <ParallaxBackground />}
-      <Navbar />
+    <>
+      <SEO 
+        title="AtendeSoft | Automação Comercial e IA"
+        description="Transforme sua empresa com automação comercial e inteligência artificial. Soluções inovadoras para aumentar vendas e produtividade."
+        keywords="automação comercial, IA, inteligência artificial, vendas, produtividade, CRM, chatbot, automação de vendas"
+        url="https://atendesoft.com"
+      />
+      
+      <div className="min-h-screen bg-background relative">
+        {!isMobile && <ParallaxBackground />}
+        <Navbar />
       <main className="relative z-10">
         <Hero />
         <ComoFunciona />
@@ -33,6 +42,7 @@ const Home = () => {
       </main>
       <Footer />
     </div>
+    </>
   );
 };
 

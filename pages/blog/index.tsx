@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { GetServerSideProps } from 'next';
-import Head from 'next/head';
 import { BlogPost, BlogFilters, KeywordStats } from '@/types/blog';
 import { fetchPosts, fetchPopularKeywords } from '@/lib/blog';
 import BlogHero from '@/components/blog/BlogHero';
 import BlogCard from '@/components/blog/BlogCard';
 import BlogSidebar from '@/components/blog/BlogSidebar';
+import BlogSEO from '@/components/blog/BlogSEO';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -32,18 +32,11 @@ const BlogPage = ({
 
   return (
     <>
-      <Head>
-        <title>Blog - AtendeSoft | Automação Comercial e IA</title>
-        <meta 
-          name="description" 
-          content="Descubra as últimas tendências em automação comercial, inteligência artificial e transformação digital. Artigos exclusivos da AtendeSoft." 
-        />
-        <meta property="og:title" content="Blog - AtendeSoft" />
-        <meta property="og:description" content="Artigos sobre automação comercial e IA" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://atendesoft.com/blog" />
-        <link rel="canonical" href="https://atendesoft.com/blog" />
-      </Head>
+      <BlogSEO 
+        isListPage={true}
+        page={pagination.page}
+        totalPages={pagination.pages}
+      />
 
       <div className="min-h-screen bg-background">
         <Navbar />

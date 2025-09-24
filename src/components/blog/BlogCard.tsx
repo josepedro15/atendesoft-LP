@@ -12,7 +12,7 @@ const BlogCard = ({ post }: BlogCardProps) => {
   const postUrl = getPostUrl(post);
 
   return (
-    <article className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <article className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col">
       {/* Imagem */}
       {post.image && (
         <div className="aspect-video overflow-hidden">
@@ -28,41 +28,36 @@ const BlogCard = ({ post }: BlogCardProps) => {
         </div>
       )}
 
-      <div className="p-6">
+      <div className="p-4 flex flex-col flex-grow">
         {/* Meta informações */}
-        <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-4">
+        <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground mb-3">
           <div className="flex items-center space-x-1">
-            <Calendar size={14} />
+            <Calendar size={12} />
             <span>{formatDate(post.timestamp)}</span>
           </div>
           
           <div className="flex items-center space-x-1">
-            <Tag size={14} />
-            <span>{post.keyword}</span>
-          </div>
-          
-          <div className="flex items-center space-x-1">
-            <Eye size={14} />
-            <span>{post.view_count}</span>
+            <Tag size={12} />
+            <span className="truncate">{post.keyword}</span>
           </div>
         </div>
 
         {/* Título */}
-        <h2 className="text-2xl font-bold text-foreground mb-3 hover:text-primary transition-colors">
+        <h2 className="text-lg font-bold text-foreground mb-2 hover:text-primary transition-colors line-clamp-2">
           <Link href={postUrl}>
             {post.title}
           </Link>
         </h2>
 
         {/* Resumo */}
-        <p className="text-muted-foreground leading-relaxed mb-4 line-clamp-3">
+        <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-3 flex-grow">
           {post.summary}
         </p>
 
         {/* Link para ler mais */}
         <Link
           href={postUrl}
-          className="inline-flex items-center text-primary hover:text-primary/80 font-medium transition-colors"
+          className="inline-flex items-center text-primary hover:text-primary/80 font-medium text-sm transition-colors mt-auto"
         >
           Ler mais
           <svg

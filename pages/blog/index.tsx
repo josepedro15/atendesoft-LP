@@ -49,18 +49,18 @@ const BlogPage = ({
         <Navbar />
 
         <main className="min-h-screen bg-background">
+          {/* Hero Section */}
+          <BlogHero 
+            latestPost={posts[0]} 
+          />
+
           <div className="container mx-auto px-4 py-8">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
               {/* Conteúdo Principal */}
               <div className="lg:col-span-3">
-                {/* Hero Section */}
-                <BlogHero 
-                  latestPost={posts[0]} 
-                />
-
-                {/* Lista de Posts */}
+                {/* Lista de Posts em Grade */}
                 {posts.length > 0 ? (
-                  <div className="space-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     {posts.map((post) => (
                       <BlogCard 
                         key={post.id} 

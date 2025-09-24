@@ -62,6 +62,7 @@ import {
 
 function PropostasContent() {
   const { user } = useAuth();
+  const isMobile = useMobile();
   
   // Estado principal
   const [proposals, setProposals] = useState<Proposal[]>([]);
@@ -880,7 +881,6 @@ function PropostasContent() {
 }
 
 const PropostasPage = () => {
-  const isMobile = useMobile();
   const cleanup = useScrollTracking();
   
   useEffect(() => {

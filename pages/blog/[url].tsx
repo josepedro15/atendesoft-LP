@@ -129,8 +129,8 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
                 </button>
 
                 {/* Header do Post */}
-                <article className="mb-8">
-                  <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 leading-tight">
+                <div className="mb-12">
+                  <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 leading-tight">
                     {post.title}
                   </h1>
                   
@@ -159,14 +159,14 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
                       <span>{post.view_count} visualizações</span>
                     </div>
                   </div>
-                </article>
+                </div>
 
-                {/* Imagem Destacada em Card Isolado */}
+                {/* Imagem Destacada - SEPARADA E ISOLADA */}
                 {post.image && (
-                  <div className="mb-8 w-full">
-                    <div className="max-w-4xl mx-auto">
-                      <div className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative z-0">
-                        <div className="relative w-full h-48 md:h-64">
+                  <div className="mb-12 w-full">
+                    <div className="max-w-3xl mx-auto">
+                      <div className="bg-white border border-gray-300 rounded-lg shadow-md overflow-hidden">
+                        <div className="w-full h-64 md:h-80 relative">
                           <Image
                             src={post.image}
                             alt={post.title}
@@ -174,19 +174,10 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
                             height={400}
                             className="w-full h-full object-cover"
                             priority
-                            style={{
-                              position: 'absolute',
-                              top: 0,
-                              left: 0,
-                              width: '100%',
-                              height: '100%',
-                              objectFit: 'cover'
-                            }}
                           />
                         </div>
-                        {/* Caption */}
-                        <div className="p-4 bg-gray-50 border-t border-gray-200">
-                          <p className="text-sm text-gray-600 text-center italic">
+                        <div className="p-3 bg-gray-100">
+                          <p className="text-xs text-gray-500 text-center">
                             {post.title}
                           </p>
                         </div>

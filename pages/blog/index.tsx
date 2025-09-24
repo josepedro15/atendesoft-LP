@@ -206,13 +206,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const { page = 1, keyword, search } = context.query;
     
+    // Apenas aplicar filtros se especificamente fornecidos
     const filters: BlogFilters = {
       page: Number(page),
       limit: 10,
-      keyword: keyword as string,
-      search: search as string,
       status: 'published'
     };
+
+    // Aplicar filtros opcionais apenas se fornecidos
+    if (keyword && keyword !== '') {
+      filters.keyword = keyword as string;
+    }
+    if (search && search !== '') {
+      filters.search = search as string;
+    }
 
     console.log('Buscando posts com filtros:', filters);
 

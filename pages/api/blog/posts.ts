@@ -33,12 +33,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       .eq('status', status)
       .order('timestamp', { ascending: false });
 
-    // Aplicar filtros
-    if (keyword) {
+    // Aplicar filtros apenas se fornecidos e não vazios
+    if (keyword && keyword.trim() !== '') {
       query = query.eq('keyword', keyword);
     }
 
-    if (search) {
+    if (search && search.trim() !== '') {
       query = query.or(`title.ilike.%${search}%,summary.ilike.%${search}%`);
     }
 

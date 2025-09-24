@@ -142,7 +142,7 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
                 <div className="mt-8 pt-8 border-t">
                   <ShareButtons 
                     title={post.title}
-                    url={metaTags.url}
+                    url={`https://atendesoft.com/blog/${post.url}`}
                     description={post.summary}
                   />
                 </div>

@@ -206,22 +206,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const { page = 1, keyword, search } = context.query;
     
-    // Apenas aplicar filtros se especificamente fornecidos
+    // Sempre buscar todos os posts publicados por padrão
     const filters: BlogFilters = {
       page: Number(page),
       limit: 10,
       status: 'published'
     };
 
-    // Aplicar filtros opcionais apenas se fornecidos
-    if (keyword && keyword !== '') {
+    // Aplicar filtros opcionais apenas se fornecidos e não vazios
+    if (keyword && keyword !== '' && keyword !== 'undefined') {
       filters.keyword = keyword as string;
     }
-    if (search && search !== '') {
+    if (search && search !== '' && search !== 'undefined') {
       filters.search = search as string;
     }
 
-    console.log('Buscando posts com filtros:', filters);
+    console.log('getServerSideProps - Buscando posts com filtros:', filters);
 
     // Buscar posts e keywords em paralelo
     const [postsResponse, popularKeywords] = await Promise.all([
@@ -229,11 +229,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       fetchPopularKeywords(10)
     ]);
 
-    console.log('Posts response:', postsResponse);
-    console.log('Popular keywords:', popularKeywords);
+    console.log('getServerSideProps - Posts response:', postsResponse);
+    console.log('getServerSideProps - Popular keywords:', popularKeywords);
 
     if (!postsResponse.success) {
-      console.error('Erro na resposta dos posts:', postsResponse.error);
+      console.error('getServerSideProps - Erro na resposta dos posts:', postsResponse.error);
       throw new Error('Erro ao buscar dados');
     }
 
@@ -245,8 +245,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       pages: 0
     };
 
-    console.log('Posts encontrados:', posts.length);
-    console.log('Pagination:', pagination);
+    console.log('getServerSideProps - Posts encontrados:', posts.length);
+    console.log('getServerSideProps - Pagination:', pagination);
 
     return {
       props: {
@@ -257,7 +257,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
     };
   } catch (error) {
-    console.error('Erro no getServerSideProps:', error);
+    console.error('getServerSideProps - Erro geral:', error);
     return {
       props: {
         initialPosts: [],

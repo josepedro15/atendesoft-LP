@@ -88,55 +88,55 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
         
         <main className="pt-24">
           {/* Breadcrumb */}
-          <div className="container mx-auto px-6 py-4">
-            <nav className="flex items-center space-x-2 text-sm text-muted-foreground">
+          <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4">
+            <nav className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm text-muted-foreground overflow-x-auto">
               <button
                 onClick={() => router.push('/')}
-                className="hover:text-foreground transition-colors"
+                className="hover:text-foreground transition-colors whitespace-nowrap"
               >
                 Home
               </button>
               <span>/</span>
               <button
                 onClick={() => router.push('/blog')}
-                className="hover:text-foreground transition-colors"
+                className="hover:text-foreground transition-colors whitespace-nowrap"
               >
                 Blog
               </button>
               <span>/</span>
               <button
                 onClick={() => router.push(getKeywordUrl(post.keyword))}
-                className="hover:text-foreground transition-colors"
+                className="hover:text-foreground transition-colors whitespace-nowrap"
               >
                 {post.keyword}
               </button>
               <span>/</span>
-              <span className="text-foreground">{post.title}</span>
+              <span className="text-foreground truncate">{post.title}</span>
             </nav>
           </div>
 
-          <div className="container mx-auto px-6 pb-12">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="container mx-auto px-4 sm:px-6 pb-8 sm:pb-12">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
               {/* Conteúdo Principal */}
-              <div className="lg:col-span-3">
+              <div className="lg:col-span-3 order-2 lg:order-1">
                 {/* Botão Voltar */}
                 <button
                   onClick={() => router.back()}
-                  className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors mb-6"
+                  className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors mb-4 sm:mb-6"
                 >
-                  <ArrowLeft size={16} />
-                  <span>Voltar</span>
+                  <ArrowLeft size={14} className="sm:w-4 sm:h-4" />
+                  <span className="text-sm">Voltar</span>
                 </button>
 
                 {/* Header do Post */}
-                <div className="mb-12">
-                  <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 leading-tight">
+                <div className="mb-8 sm:mb-12">
+                  <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6 leading-tight">
                     {post.title}
                   </h1>
                   
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-8">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground mb-6 sm:mb-8">
                     <div className="flex items-center space-x-1">
-                      <Calendar size={16} />
+                      <Calendar size={14} className="sm:w-4 sm:h-4" />
                       <span>{new Date(post.timestamp).toLocaleDateString('pt-BR', {
                         year: 'numeric',
                         month: 'long',
@@ -145,7 +145,7 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
                     </div>
                     
                     <div className="flex items-center space-x-1">
-                      <Tag size={16} />
+                      <Tag size={14} className="sm:w-4 sm:h-4" />
                       <button
                         onClick={() => router.push(getKeywordUrl(post.keyword))}
                         className="hover:text-foreground transition-colors"
@@ -155,7 +155,7 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
                     </div>
                     
                     <div className="flex items-center space-x-1">
-                      <Eye size={16} />
+                      <Eye size={14} className="sm:w-4 sm:h-4" />
                       <span>{post.view_count} visualizações</span>
                     </div>
                   </div>
@@ -163,10 +163,10 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
 
                 {/* Imagem Destacada - SEPARADA E ISOLADA */}
                 {post.image && (
-                  <div className="mb-12 w-full">
+                  <div className="mb-8 sm:mb-12 w-full">
                     <div className="max-w-3xl mx-auto">
                       <div className="bg-white border border-gray-300 rounded-lg shadow-md overflow-hidden">
-                        <div className="w-full h-64 md:h-80 relative">
+                        <div className="w-full h-48 sm:h-64 md:h-80 relative">
                           <Image
                             src={post.image}
                             alt={post.title}
@@ -176,7 +176,7 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
                             priority
                           />
                         </div>
-                        <div className="p-3 bg-gray-100">
+                        <div className="p-2 sm:p-3 bg-gray-100">
                           <p className="text-xs text-gray-500 text-center">
                             {post.title}
                           </p>
@@ -187,8 +187,8 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
                 )}
 
                 {/* Resumo */}
-                <div className="mb-8 p-6 bg-muted rounded-lg border-l-4 border-primary">
-                  <p className="text-lg text-muted-foreground leading-relaxed">
+                <div className="mb-6 sm:mb-8 p-4 sm:p-6 bg-muted rounded-lg border-l-4 border-primary">
+                  <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
                     {post.summary}
                   </p>
                 </div>
@@ -217,7 +217,7 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
               </div>
 
               {/* Sidebar */}
-              <div className="lg:col-span-1">
+              <div className="lg:col-span-1 order-1 lg:order-2">
                 <BlogSidebar
                   popularKeywords={popularKeywords}
                 />

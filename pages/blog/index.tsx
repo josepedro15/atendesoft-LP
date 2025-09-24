@@ -54,13 +54,13 @@ const BlogPage = ({
             latestPost={posts[0]} 
           />
 
-          <div className="container mx-auto px-4 py-8">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
               {/* Conteúdo Principal */}
-              <div className="lg:col-span-3">
+              <div className="lg:col-span-3 order-2 lg:order-1">
                 {/* Lista de Posts em Grade */}
                 {posts.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                     {posts.map((post) => (
                       <BlogCard 
                         key={post.id} 
@@ -81,7 +81,7 @@ const BlogPage = ({
               </div>
 
               {/* Sidebar */}
-              <div className="lg:col-span-1">
+              <div className="lg:col-span-1 order-1 lg:order-2">
                 <BlogSidebar
                   popularKeywords={popularKeywords}
                 />

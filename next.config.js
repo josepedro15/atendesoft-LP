@@ -6,7 +6,11 @@ const nextConfig = {
   
   // Otimizações de imagens
   images: {
-    domains: [],
+    domains: [
+      'cdn.prod.website-files.com',
+      'images.unsplash.com',
+      'via.placeholder.com'
+    ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,

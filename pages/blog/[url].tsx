@@ -161,26 +161,32 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
                   </div>
                 </article>
 
-                {/* Imagem Destacada em Card */}
+                {/* Imagem Destacada em Card Isolado */}
                 {post.image && (
                   <div className="mb-8 w-full">
                     <div className="max-w-4xl mx-auto">
-                      <div className="bg-card border border-border rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                        <div className="relative">
+                      <div className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative z-0">
+                        <div className="relative w-full h-48 md:h-64">
                           <Image
                             src={post.image}
                             alt={post.title}
                             width={800}
                             height={400}
-                            className="w-full h-48 md:h-64 object-cover"
+                            className="w-full h-full object-cover"
                             priority
+                            style={{
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover'
+                            }}
                           />
-                          {/* Overlay sutil para melhorar legibilidade se necessário */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
-                        {/* Caption opcional */}
-                        <div className="p-4 bg-muted/30">
-                          <p className="text-sm text-muted-foreground text-center italic">
+                        {/* Caption */}
+                        <div className="p-4 bg-gray-50 border-t border-gray-200">
+                          <p className="text-sm text-gray-600 text-center italic">
                             {post.title}
                           </p>
                         </div>

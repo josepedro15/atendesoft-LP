@@ -6,10 +6,9 @@ import Image from 'next/image';
 
 interface BlogCardProps {
   post: BlogPost;
-  onKeywordClick?: (keyword: string) => void;
 }
 
-const BlogCard = ({ post, onKeywordClick }: BlogCardProps) => {
+const BlogCard = ({ post }: BlogCardProps) => {
   const postUrl = getPostUrl(post);
 
   return (
@@ -39,16 +38,7 @@ const BlogCard = ({ post, onKeywordClick }: BlogCardProps) => {
           
           <div className="flex items-center space-x-1">
             <Tag size={14} />
-            {onKeywordClick ? (
-              <button
-                onClick={() => onKeywordClick(post.keyword)}
-                className="hover:text-foreground transition-colors"
-              >
-                {post.keyword}
-              </button>
-            ) : (
-              <span>{post.keyword}</span>
-            )}
+            <span>{post.keyword}</span>
           </div>
           
           <div className="flex items-center space-x-1">

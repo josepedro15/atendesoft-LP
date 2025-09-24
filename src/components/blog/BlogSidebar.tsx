@@ -3,14 +3,10 @@ import { Tag, TrendingUp } from 'lucide-react';
 
 interface BlogSidebarProps {
   popularKeywords: KeywordStats[];
-  onKeywordClick?: (keyword: string) => void;
-  activeKeyword?: string;
 }
 
 const BlogSidebar = ({ 
-  popularKeywords, 
-  onKeywordClick, 
-  activeKeyword 
+  popularKeywords
 }: BlogSidebarProps) => {
   return (
     <div className="space-y-6">
@@ -24,27 +20,18 @@ const BlogSidebar = ({
         {popularKeywords.length > 0 ? (
           <div className="space-y-2">
             {popularKeywords.map((item, index) => (
-              <button
+              <div
                 key={item.keyword}
-                onClick={() => onKeywordClick?.(item.keyword)}
-                className={`w-full text-left p-3 rounded-lg transition-colors flex items-center justify-between ${
-                  activeKeyword === item.keyword
-                    ? 'bg-primary text-primary-foreground'
-                    : 'hover:bg-muted'
-                }`}
+                className="w-full text-left p-3 rounded-lg bg-muted flex items-center justify-between"
               >
                 <div className="flex items-center">
                   <Tag size={16} className="mr-2" />
                   <span className="font-medium">{item.keyword}</span>
                 </div>
-                <span className={`text-sm ${
-                  activeKeyword === item.keyword 
-                    ? 'text-primary-foreground/70' 
-                    : 'text-muted-foreground'
-                }`}>
+                <span className="text-sm text-muted-foreground">
                   {item.count}
                 </span>
-              </button>
+              </div>
             ))}
           </div>
         ) : (

@@ -162,13 +162,13 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
 
                   {/* Imagem Destacada */}
                   {post.image && (
-                    <div className="mb-8">
+                    <div className="mb-8 max-w-4xl mx-auto">
                       <Image
                         src={post.image}
                         alt={post.title}
                         width={800}
                         height={400}
-                        className="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
+                        className="w-full h-48 md:h-64 object-cover rounded-lg shadow-lg"
                         priority
                       />
                     </div>

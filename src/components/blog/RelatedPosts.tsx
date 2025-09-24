@@ -31,7 +31,7 @@ const RelatedPosts = ({ posts, currentPostId }: RelatedPostsProps) => {
             <article key={post.id} className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
               {/* Imagem */}
               {post.image && (
-                <div className="aspect-video overflow-hidden">
+                <div className="aspect-video overflow-hidden max-h-32">
                   <Link href={postUrl}>
                     <Image
                       src={post.image}

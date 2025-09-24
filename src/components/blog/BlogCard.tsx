@@ -15,7 +15,7 @@ const BlogCard = ({ post }: BlogCardProps) => {
     <article className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col">
       {/* Imagem */}
       {post.image && (
-        <div className="aspect-video overflow-hidden">
+        <div className="aspect-video overflow-hidden max-h-48">
           <Link href={postUrl}>
             <Image
               src={post.image}

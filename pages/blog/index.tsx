@@ -166,15 +166,9 @@ const BlogPage = ({
                     <h3 className="text-lg font-semibold text-muted-foreground mb-2">
                       Nenhum post encontrado
                     </h3>
-                    <p className="text-muted-foreground mb-4">
+                    <p className="text-muted-foreground">
                       Tente ajustar os filtros ou fazer uma nova busca.
                     </p>
-                    <button
-                      onClick={handleClearFilters}
-                      className="btn-primary"
-                    >
-                      Ver todos os posts
-                    </button>
                   </div>
                 )}
 

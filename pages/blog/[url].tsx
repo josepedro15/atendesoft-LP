@@ -86,7 +86,7 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
       <div className="min-h-screen bg-background">
         <Navbar />
         
-        <main className="pt-20">
+        <main className="pt-24">
           {/* Breadcrumb */}
           <div className="container mx-auto px-6 py-4">
             <nav className="flex items-center space-x-2 text-sm text-muted-foreground">
@@ -159,20 +159,21 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
                       <span>{post.view_count} visualizações</span>
                     </div>
                   </div>
+                </article>
 
-                  {/* Imagem Destacada */}
-                  {post.image && (
-                    <div className="mb-8 max-w-4xl mx-auto">
-                      <Image
-                        src={post.image}
-                        alt={post.title}
-                        width={800}
-                        height={400}
-                        className="w-full h-48 md:h-64 object-cover rounded-lg shadow-lg"
-                        priority
-                      />
-                    </div>
-                  )}
+                {/* Imagem Destacada */}
+                {post.image && (
+                  <div className="mb-8 max-w-4xl mx-auto relative z-10">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      width={800}
+                      height={400}
+                      className="w-full h-48 md:h-64 object-cover rounded-lg shadow-lg"
+                      priority
+                    />
+                  </div>
+                )}
 
                   {/* Resumo */}
                   <div className="mb-8 p-6 bg-muted rounded-lg border-l-4 border-primary">

@@ -98,32 +98,42 @@ const BlogPage = ({
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    // Buscar TODOS os posts publicados, sem filtros
-    const filters: BlogFilters = {
-      page: 1,
-      limit: 50, // Aumentar limite para mostrar mais posts
-      status: 'published'
-    };
+    console.log('getServerSideProps - Iniciando busca de posts...');
 
-    console.log('getServerSideProps - Buscando TODOS os posts:', filters);
-
-    // Buscar posts e keywords em paralelo
+    // Buscar posts diretamente da API
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://atendesoft.com';
-    const [postsResponse, popularKeywords] = await Promise.all([
-      fetchPosts(filters, baseUrl),
-      fetchPopularKeywords(10)
+    const apiUrl = `${baseUrl}/api/blog/posts?page=1&limit=50&status=published`;
+    
+    console.log('getServerSideProps - URL da API:', apiUrl);
+
+    const [postsResponse, keywordsResponse] = await Promise.all([
+      fetch(apiUrl),
+      fetch(`${baseUrl}/api/blog/keywords?limit=10`)
     ]);
 
-    console.log('getServerSideProps - Posts response:', postsResponse);
-    console.log('getServerSideProps - Popular keywords:', popularKeywords);
+    console.log('getServerSideProps - Status posts:', postsResponse.status);
+    console.log('getServerSideProps - Status keywords:', keywordsResponse.status);
 
-    if (!postsResponse.success) {
-      console.error('getServerSideProps - Erro na resposta dos posts:', postsResponse.error);
-      throw new Error('Erro ao buscar dados');
+    if (!postsResponse.ok) {
+      throw new Error(`Erro na API de posts: ${postsResponse.status}`);
     }
 
-    const posts = postsResponse.data?.posts || [];
-    const pagination = postsResponse.data?.pagination || {
+    if (!keywordsResponse.ok) {
+      throw new Error(`Erro na API de keywords: ${keywordsResponse.status}`);
+    }
+
+    const postsData = await postsResponse.json();
+    const keywordsData = await keywordsResponse.json();
+
+    console.log('getServerSideProps - Posts data:', postsData);
+    console.log('getServerSideProps - Keywords data:', keywordsData);
+
+    if (!postsData.success) {
+      throw new Error('API retornou success: false');
+    }
+
+    const posts = postsData.data?.posts || [];
+    const pagination = postsData.data?.pagination || {
       page: 1,
       limit: 50,
       total: posts.length,
@@ -137,8 +147,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
       props: {
         initialPosts: posts,
         initialPagination: pagination,
-        popularKeywords: popularKeywords || [],
-        filters
+        popularKeywords: keywordsData.data || [],
+        filters: { page: 1, limit: 50, status: 'published' }
       }
     };
   } catch (error) {

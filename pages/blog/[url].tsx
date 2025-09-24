@@ -209,7 +209,6 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
               <div className="lg:col-span-1">
                 <BlogSidebar
                   popularKeywords={popularKeywords}
-                  onKeywordClick={(keyword) => router.push(getKeywordUrl(keyword))}
                 />
               </div>
             </div>

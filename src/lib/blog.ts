@@ -26,8 +26,12 @@ export async function fetchPosts(filters: BlogFilters = {}, baseUrl?: string) {
 }
 
 // Função para buscar post por URL
-export async function fetchPostByUrl(url: string) {
-  const response = await fetch(`/api/blog/posts/${encodeURIComponent(url)}`);
+export async function fetchPostByUrl(url: string, baseUrl?: string) {
+  const apiUrl = baseUrl 
+    ? `${baseUrl}/api/blog/posts/${encodeURIComponent(url)}`
+    : `/api/blog/posts/${encodeURIComponent(url)}`;
+    
+  const response = await fetch(apiUrl);
   
   if (!response.ok) {
     if (response.status === 404) {

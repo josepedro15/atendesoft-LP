@@ -231,32 +231,41 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       };
     }
 
-    // Buscar post por URL
-    const postResponse = await fetchPostByUrl(url);
+    console.log('getServerSideProps - Buscando post com URL:', url);
+
+    // Buscar post por URL usando URL absoluta
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://atendesoft.com';
+    const postResponse = await fetchPostByUrl(url, baseUrl);
+    
+    console.log('getServerSideProps - Post response:', postResponse);
     
     if (!postResponse.success || !postResponse.data) {
+      console.log('getServerSideProps - Post não encontrado');
       return {
         notFound: true
       };
     }
 
     const post = postResponse.data;
+    console.log('getServerSideProps - Post encontrado:', post.title);
 
     // Buscar posts relacionados (mesma keyword, excluindo o post atual)
     const relatedResponse = await fetchPosts({
       keyword: post.keyword,
       limit: 3,
       status: 'published'
-    });
+    }, baseUrl);
 
     const relatedPosts = relatedResponse.success && relatedResponse.data
       ? relatedResponse.data.posts.filter((p: BlogPost) => p.id !== post.id).slice(0, 3)
       : [];
 
     // Buscar keywords populares para sidebar
-    const keywordsResponse = await fetch('/api/blog/keywords?limit=10');
+    const keywordsResponse = await fetch(`${baseUrl}/api/blog/keywords?limit=10`);
     const keywordsData = await keywordsResponse.json();
     const popularKeywords = keywordsData.success ? keywordsData.data : [];
+
+    console.log('getServerSideProps - Posts relacionados encontrados:', relatedPosts.length);
 
     return {
       props: {

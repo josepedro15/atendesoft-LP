@@ -251,7 +251,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     });
 
     const relatedPosts = relatedResponse.success && relatedResponse.data
-      ? relatedResponse.data.posts.filter(p => p.id !== post.id).slice(0, 3)
+      ? relatedResponse.data.posts.filter((p: BlogPost) => p.id !== post.id).slice(0, 3)
       : [];
 
     // Buscar keywords populares para sidebar

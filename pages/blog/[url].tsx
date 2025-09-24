@@ -5,8 +5,6 @@ import { useRouter } from 'next/router';
 import { BlogPost } from '@/types/blog';
 import { fetchPostByUrl, fetchPosts, generatePostMetaTags, getKeywordUrl } from '@/lib/blog';
 import PostContent from '@/components/blog/PostContent';
-import PostMeta from '@/components/blog/PostMeta';
-import PostNavigation from '@/components/blog/PostNavigation';
 import RelatedPosts from '@/components/blog/RelatedPosts';
 import ShareButtons from '@/components/blog/ShareButtons';
 import BlogSidebar from '@/components/blog/BlogSidebar';

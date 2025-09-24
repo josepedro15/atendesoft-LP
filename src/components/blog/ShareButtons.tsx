@@ -88,7 +88,7 @@ const ShareButtons = ({ title, url, description }: ShareButtonsProps) => {
         </button>
 
         {/* Compartilhamento Nativo (Mobile) */}
-        {typeof window !== 'undefined' && navigator.share && (
+        {typeof window !== 'undefined' && 'share' in navigator && (
           <button
             onClick={() => handleShare('native')}
             className="p-2 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"

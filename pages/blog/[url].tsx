@@ -161,18 +161,30 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
                   </div>
                 </article>
 
-                {/* Imagem Destacada */}
+                {/* Imagem Destacada em Card */}
                 {post.image && (
                   <div className="mb-8 w-full">
                     <div className="max-w-4xl mx-auto">
-                      <Image
-                        src={post.image}
-                        alt={post.title}
-                        width={800}
-                        height={400}
-                        className="w-full h-48 md:h-64 object-cover rounded-lg shadow-lg"
-                        priority
-                      />
+                      <div className="bg-card border border-border rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <div className="relative">
+                          <Image
+                            src={post.image}
+                            alt={post.title}
+                            width={800}
+                            height={400}
+                            className="w-full h-48 md:h-64 object-cover"
+                            priority
+                          />
+                          {/* Overlay sutil para melhorar legibilidade se necessário */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                        {/* Caption opcional */}
+                        <div className="p-4 bg-muted/30">
+                          <p className="text-sm text-muted-foreground text-center italic">
+                            {post.title}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}

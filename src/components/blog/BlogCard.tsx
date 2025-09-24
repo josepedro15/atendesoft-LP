@@ -2,6 +2,7 @@ import { BlogPost } from '@/types/blog';
 import { getPostUrl, formatDate } from '@/lib/blog';
 import { Calendar, Tag, Eye } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface BlogCardProps {
   post: BlogPost;
@@ -17,9 +18,11 @@ const BlogCard = ({ post, onKeywordClick }: BlogCardProps) => {
       {post.image && (
         <div className="aspect-video overflow-hidden">
           <Link href={postUrl}>
-            <img
+            <Image
               src={post.image}
               alt={post.title}
+              width={400}
+              height={225}
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
             />
           </Link>

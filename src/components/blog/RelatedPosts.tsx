@@ -2,6 +2,7 @@ import { BlogPost } from '@/types/blog';
 import { getPostUrl, formatDate } from '@/lib/blog';
 import { Calendar, Tag } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface RelatedPostsProps {
   posts: BlogPost[];
@@ -32,9 +33,11 @@ const RelatedPosts = ({ posts, currentPostId }: RelatedPostsProps) => {
               {post.image && (
                 <div className="aspect-video overflow-hidden">
                   <Link href={postUrl}>
-                    <img
+                    <Image
                       src={post.image}
                       alt={post.title}
+                      width={300}
+                      height={169}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                     />
                   </Link>

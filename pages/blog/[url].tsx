@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { BlogPost } from '@/types/blog';
 import { fetchPostByUrl, fetchPosts, generatePostMetaTags, getKeywordUrl } from '@/lib/blog';
@@ -164,10 +165,13 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
                   {/* Imagem Destacada */}
                   {post.image && (
                     <div className="mb-8">
-                      <img
+                      <Image
                         src={post.image}
                         alt={post.title}
+                        width={800}
+                        height={400}
                         className="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
+                        priority
                       />
                     </div>
                   )}

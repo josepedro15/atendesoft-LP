@@ -127,7 +127,7 @@ const BlogPage = ({
                         )}
                         {currentFilters.search && (
                           <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded">
-                            "{currentFilters.search}"
+                            &quot;{currentFilters.search}&quot;
                           </span>
                         )}
                       </div>

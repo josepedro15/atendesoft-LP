@@ -1,6 +1,7 @@
 // Página de Propostas Comerciais - Sistema Completo
 import { useState, useEffect } from "react";
 import { useScrollTracking } from "@/lib/events";
+import { useMobile } from "@/hooks/use-mobile";
 import Navbar from "@/components/Navbar";
 import ParallaxBackground from "@/components/ParallaxBackground";
 import Footer from "@/components/Footer";
@@ -416,7 +417,7 @@ function PropostasContent() {
 
   return (
     <div className="min-h-screen bg-background relative">
-      <ParallaxBackground />
+      {!isMobile && <ParallaxBackground />}
       
       {/* Header */}
       <header className="border-b bg-white/70 backdrop-blur-lg relative z-10">
@@ -879,6 +880,7 @@ function PropostasContent() {
 }
 
 const PropostasPage = () => {
+  const isMobile = useMobile();
   const cleanup = useScrollTracking();
   
   useEffect(() => {

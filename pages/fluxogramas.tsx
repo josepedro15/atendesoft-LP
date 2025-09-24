@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { useMobile } from '@/hooks/use-mobile'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import ParallaxBackground from '@/components/ParallaxBackground'
 import { Button } from '@/components/ui/button'
@@ -35,6 +36,7 @@ interface Flowchart {
 
 function FluxogramasContent() {
   const router = useRouter()
+  const isMobile = useMobile()
   const [flowcharts, setFlowcharts] = useState<Flowchart[]>([
     {
       id: '1',
@@ -102,7 +104,7 @@ function FluxogramasContent() {
 
   return (
     <div className="min-h-screen bg-background relative">
-      <ParallaxBackground />
+      {!isMobile && <ParallaxBackground />}
       {/* Header */}
       <header className="border-b bg-white/70 backdrop-blur-lg">
         <div className="container mx-auto px-6 py-4">

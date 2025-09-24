@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useScrollTracking } from "@/lib/events";
+import { useMobile } from "@/hooks/use-mobile";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ComoFunciona from "@/components/ComoFunciona";
@@ -10,6 +11,8 @@ import Footer from "@/components/Footer";
 import ParallaxBackground from "@/components/ParallaxBackground";
 
 const Home = () => {
+  const isMobile = useMobile();
+  
   // Initialize scroll tracking for analytics
   const cleanup = useScrollTracking();
   
@@ -19,7 +22,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-background relative">
-      <ParallaxBackground />
+      {!isMobile && <ParallaxBackground />}
       <Navbar />
       <main className="relative z-10">
         <Hero />

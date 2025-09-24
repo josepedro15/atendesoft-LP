@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useAuth } from '@/contexts/AuthContext'
+import { useMobile } from '@/hooks/use-mobile'
 import ParallaxBackground from '@/components/ParallaxBackground'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -11,6 +12,7 @@ import { Loader2, Eye, EyeOff, MessageCircle } from 'lucide-react'
 import Image from 'next/image'
 
 export default function Login() {
+  const isMobile = useMobile()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -68,7 +70,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4 relative">
-      <ParallaxBackground />
+      {!isMobile && <ParallaxBackground />}
       <div className="w-full max-w-md space-y-6 relative z-10">
         {/* Logo */}
         <div className="text-center">

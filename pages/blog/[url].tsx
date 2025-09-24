@@ -175,25 +175,24 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
                   </div>
                 )}
 
-                  {/* Resumo */}
-                  <div className="mb-8 p-6 bg-muted rounded-lg border-l-4 border-primary">
-                    <p className="text-lg text-muted-foreground leading-relaxed">
-                      {post.summary}
-                    </p>
-                  </div>
+                {/* Resumo */}
+                <div className="mb-8 p-6 bg-muted rounded-lg border-l-4 border-primary">
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    {post.summary}
+                  </p>
+                </div>
 
-                  {/* Conteúdo */}
-                  <PostContent content={post.content} />
+                {/* Conteúdo */}
+                <PostContent content={post.content} />
 
-                  {/* Botões de Compartilhamento */}
-                  <div className="mt-8 pt-8 border-t">
-                    <ShareButtons 
-                      title={post.title}
-                      url={metaTags.url}
-                      description={post.summary}
-                    />
-                  </div>
-                </article>
+                {/* Botões de Compartilhamento */}
+                <div className="mt-8 pt-8 border-t">
+                  <ShareButtons 
+                    title={post.title}
+                    url={metaTags.url}
+                    description={post.summary}
+                  />
+                </div>
 
                 {/* Posts Relacionados */}
                 {relatedPosts.length > 0 && (

@@ -134,7 +134,7 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
                     {post.title}
                   </h1>
                   
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6">
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-8">
                     <div className="flex items-center space-x-1">
                       <Calendar size={16} />
                       <span>{new Date(post.timestamp).toLocaleDateString('pt-BR', {
@@ -163,15 +163,17 @@ const PostPage = ({ post, relatedPosts, popularKeywords }: PostPageProps) => {
 
                 {/* Imagem Destacada */}
                 {post.image && (
-                  <div className="mb-8 max-w-4xl mx-auto relative z-10">
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      width={800}
-                      height={400}
-                      className="w-full h-48 md:h-64 object-cover rounded-lg shadow-lg"
-                      priority
-                    />
+                  <div className="mb-8 w-full">
+                    <div className="max-w-4xl mx-auto">
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        width={800}
+                        height={400}
+                        className="w-full h-48 md:h-64 object-cover rounded-lg shadow-lg"
+                        priority
+                      />
+                    </div>
                   </div>
                 )}
 

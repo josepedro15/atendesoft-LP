@@ -224,8 +224,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     console.log('getServerSideProps - Buscando posts com filtros:', filters);
 
     // Buscar posts e keywords em paralelo
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://atendesoft.com';
     const [postsResponse, popularKeywords] = await Promise.all([
-      fetchPosts(filters),
+      fetchPosts(filters, baseUrl),
       fetchPopularKeywords(10)
     ]);
 

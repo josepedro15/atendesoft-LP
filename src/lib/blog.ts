@@ -2,7 +2,7 @@
 import { BlogPost, BlogFilters, KeywordStats } from '@/types/blog';
 
 // Função para buscar posts
-export async function fetchPosts(filters: BlogFilters = {}) {
+export async function fetchPosts(filters: BlogFilters = {}, baseUrl?: string) {
   const params = new URLSearchParams();
   
   if (filters.page) params.append('page', filters.page.toString());
@@ -11,7 +11,12 @@ export async function fetchPosts(filters: BlogFilters = {}) {
   if (filters.search) params.append('search', filters.search);
   if (filters.status) params.append('status', filters.status);
 
-  const response = await fetch(`/api/blog/posts?${params.toString()}`);
+  // Usar URL absoluta no servidor, relativa no cliente
+  const url = baseUrl 
+    ? `${baseUrl}/api/blog/posts?${params.toString()}`
+    : `/api/blog/posts?${params.toString()}`;
+
+  const response = await fetch(url);
   
   if (!response.ok) {
     throw new Error('Erro ao buscar posts');

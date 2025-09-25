@@ -8,6 +8,7 @@
   overflow: hidden;
   word-break: break-word;
   hyphens: auto;
+  text-overflow: ellipsis;
 }
 
 .line-clamp-3 {
@@ -17,15 +18,33 @@
   overflow: hidden;
   word-break: break-word;
   hyphens: auto;
+  text-overflow: ellipsis;
 }
 
-/* Otimizações para cards do blog */
+/* Prevenir sobreposições nos cards */
 .blog-card-optimized {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  z-index: 1;
 }
 
+.blog-card-optimized * {
+  position: relative;
+  z-index: inherit;
+}
+
+/* Garantir que os elementos não se sobreponham */
+.blog-card-optimized .space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+.blog-card-optimized .space-y-2 > * + * {
+  margin-top: 0.5rem;
+}
+
+/* Otimizações de tipografia para cards do blog */
 .blog-card-optimized h2 {
   font-feature-settings: "kern" 1, "liga" 1;
   letter-spacing: -0.025em;

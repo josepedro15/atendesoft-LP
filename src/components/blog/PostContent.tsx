@@ -1,10 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import PostImageCard from './PostImageCard';
+import { renderProcessedContent } from '@/hooks/use-processed-content';
 
 interface PostContentProps {
   content: string;
 }
 
 const PostContent = ({ content }: PostContentProps) => {
+  // Processar o conteúdo para aplicar containment às imagens
+  const processedContent = useMemo(() => {
+    return renderProcessedContent(content, content);
+  }, [content]);
+
   useEffect(() => {
     // Adicionar estilos customizados para o conteúdo do post
     const style = document.createElement('style');
@@ -117,6 +124,38 @@ const PostContent = ({ content }: PostContentProps) => {
         border-radius: 0.5rem;
         margin: 1.5rem 0;
         box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        contain: layout style paint;
+        isolation: isolate;
+      }
+
+      /* Estilos para o PostImageCard */
+      .post-image-card {
+        contain: layout style paint;
+        isolation: isolate;
+        position: relative;
+        z-index: 1;
+      }
+
+      .post-image-card * {
+        position: relative;
+        z-index: inherit;
+        box-sizing: border-box;
+      }
+
+      /* Garantir que a imagem nunca vaze do container */
+      .post-image-card img {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        display: block !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
       }
       
       .post-content table {
@@ -192,7 +231,7 @@ const PostContent = ({ content }: PostContentProps) => {
   return (
     <div 
       className="post-content prose prose-lg max-w-none"
-      dangerouslySetInnerHTML={{ __html: content }}
+      dangerouslySetInnerHTML={{ __html: processedContent }}
     />
   );
 };

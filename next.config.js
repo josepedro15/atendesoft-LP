@@ -6,10 +6,15 @@ const nextConfig = {
   
   // Otimizações de imagens
   images: {
-    domains: [
-      'cdn.prod.website-files.com',
-      'images.unsplash.com',
-      'via.placeholder.com'
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: '**',
+      },
     ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,

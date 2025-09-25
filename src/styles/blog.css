@@ -21,7 +21,7 @@
   text-overflow: ellipsis;
 }
 
-/* Prevenir sobreposições nos cards */
+/* Estrutura organizacional dos cards */
 .blog-card-optimized {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -30,18 +30,48 @@
   z-index: 1;
 }
 
-.blog-card-optimized * {
+/* Seções bem definidas */
+.blog-card-optimized > * {
   position: relative;
   z-index: inherit;
 }
 
-/* Garantir que os elementos não se sobreponham */
-.blog-card-optimized .space-y-4 > * + * {
-  margin-top: 1rem;
+/* SEÇÃO 1: Imagem de destaque */
+.blog-card-optimized .image-section {
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
 }
 
-.blog-card-optimized .space-y-2 > * + * {
-  margin-top: 0.5rem;
+/* SEÇÃO 2: Conteúdo principal */
+.blog-card-optimized .content-section {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* SUBSECÇÃO 2.1: Metadados */
+.blog-card-optimized .metadata-section {
+  flex-shrink: 0;
+  border-bottom: 1px solid hsl(var(--border) / 0.3);
+}
+
+/* SUBSECÇÃO 2.2: Título */
+.blog-card-optimized .title-section {
+  flex-shrink: 0;
+}
+
+/* SUBSECÇÃO 2.3: Resumo */
+.blog-card-optimized .summary-section {
+  flex-grow: 1;
+  min-height: 0; /* Permite que o flex-grow funcione */
+}
+
+/* SUBSECÇÃO 2.4: Ação */
+.blog-card-optimized .action-section {
+  flex-shrink: 0;
+  border-top: 1px solid hsl(var(--border) / 0.3);
+  margin-top: auto;
 }
 
 /* Otimizações de tipografia para cards do blog */

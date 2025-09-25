@@ -61,17 +61,17 @@ const BlogCard = ({ post }: BlogCardProps) => {
         </div>
 
         {/* SUBSECÇÃO 2.2: TÍTULO PRINCIPAL - ALTURA FIXA */}
-        <div className="title-section mb-4 flex-shrink-0">
-          <h2 className="text-xl font-bold text-foreground leading-tight line-clamp-2 group-hover:text-primary transition-colors duration-200 min-h-[3.5rem]">
-            <Link href={postUrl} className="block">
+        <div className="title-section mb-4 flex-shrink-0 h-14 overflow-hidden">
+          <h2 className="text-xl font-bold text-foreground leading-tight line-clamp-2 group-hover:text-primary transition-colors duration-200 h-full">
+            <Link href={postUrl} className="block h-full">
               {post.title}
             </Link>
           </h2>
         </div>
 
         {/* SUBSECÇÃO 2.3: RESUMO/EXCERPT - FLEXÍVEL */}
-        <div className="summary-section mb-5 flex-grow min-h-0">
-          <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3 min-h-[4.5rem] max-h-[6rem] overflow-hidden">
+        <div className="summary-section mb-5 flex-grow min-h-0 overflow-hidden">
+          <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3 h-full overflow-hidden">
             {post.summary}
           </p>
         </div>

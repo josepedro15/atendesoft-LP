@@ -90,20 +90,58 @@
   overflow: hidden;
 }
 
-/* SUBSECÇÃO 2.2: Título - ALTURA FIXA */
+/* SUBSECÇÃO 2.2: Título - ALTURA FIXA RÍGIDA */
 .blog-card-optimized .title-section {
   flex-shrink: 0;
   height: 3.5rem; /* 56px - altura fixa */
   overflow: hidden;
+  contain: layout style paint;
+  isolation: isolate;
+  position: relative;
+  z-index: 1;
 }
 
-/* SUBSECÇÃO 2.3: Resumo - FLEXÍVEL COM LIMITES */
+.blog-card-optimized .title-section h2 {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  hyphens: auto;
+  line-height: 1.4;
+  max-height: 3.5rem;
+}
+
+/* SUBSECÇÃO 2.3: Resumo - FLEXÍVEL COM LIMITES RÍGIDOS */
 .blog-card-optimized .summary-section {
   flex-grow: 1;
   min-height: 4.5rem; /* 72px - altura mínima */
   max-height: 6rem; /* 96px - altura máxima */
   overflow: hidden;
-  contain: layout style;
+  contain: layout style paint;
+  isolation: isolate;
+  position: relative;
+  z-index: 2;
+  margin-top: 0;
+}
+
+.blog-card-optimized .summary-section p {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  hyphens: auto;
+  line-height: 1.5;
+  max-height: 6rem;
 }
 
 /* SUBSECÇÃO 2.4: Ação - ALTURA FIXA */
@@ -114,29 +152,29 @@
   overflow: hidden;
 }
 
-/* Prevenir sobreposição de texto */
+/* Prevenir sobreposição de texto - ESPECÍFICO PARA CARDS */
 .blog-card-optimized .line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  word-break: break-word;
-  hyphens: auto;
-  text-overflow: ellipsis;
-  max-height: 3.5rem;
-  line-height: 1.75rem;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  word-break: break-word !important;
+  hyphens: auto !important;
+  text-overflow: ellipsis !important;
+  max-height: 3.5rem !important;
+  line-height: 1.4 !important;
 }
 
 .blog-card-optimized .line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  word-break: break-word;
-  hyphens: auto;
-  text-overflow: ellipsis;
-  max-height: 4.5rem;
-  line-height: 1.5rem;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  word-break: break-word !important;
+  hyphens: auto !important;
+  text-overflow: ellipsis !important;
+  max-height: 6rem !important;
+  line-height: 1.5 !important;
 }
 
 /* Otimizações de tipografia para cards do blog */

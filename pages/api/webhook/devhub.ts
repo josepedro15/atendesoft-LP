@@ -78,19 +78,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
 
     } catch (fetchError) {
+      const error = fetchError as Error;
       console.error('Fetch error details:', {
-        name: fetchError.name,
-        message: fetchError.message,
-        cause: fetchError.cause,
-        stack: fetchError.stack
+        name: error.name,
+        message: error.message,
+        cause: (error as any).cause,
+        stack: error.stack
       });
       
       return res.status(500).json({ 
         success: false,
-        error: `Erro ao conectar com webhook: ${fetchError.message}`,
+        error: `Erro ao conectar com webhook: ${error.message}`,
         details: {
-          name: fetchError.name,
-          message: fetchError.message
+          name: error.name,
+          message: error.message
         }
       });
     }
@@ -108,14 +109,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
   } catch (error) {
-    console.error('Erro geral no webhook proxy:', error);
+    const err = error as Error;
+    console.error('Erro geral no webhook proxy:', err);
     
     return res.status(500).json({ 
       success: false,
-      error: `Erro interno: ${error.message}`,
+      error: `Erro interno: ${err.message}`,
       details: {
-        name: error.name,
-        message: error.message
+        name: err.name,
+        message: err.message
       }
     });
   }

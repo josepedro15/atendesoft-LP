@@ -26,6 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Tentar enviar para o webhook externo
     try {
       console.log('Attempting to send to external webhook...');
+      console.log('Webhook data being sent:', JSON.stringify(webhookData, null, 2));
       
       // Criar AbortController para timeout
       const controller = new AbortController();
@@ -44,6 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       clearTimeout(timeoutId);
 
       console.log('Webhook response status:', response.status);
+      console.log('Webhook response headers:', Object.fromEntries(response.headers.entries()));
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -53,29 +55,43 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           body: errorText
         });
         
-        // Mesmo com erro no webhook externo, vamos retornar sucesso
-        // para não bloquear o usuário
-        console.log('Webhook externo falhou, mas retornando sucesso para o usuário');
-        return res.status(200).json({ 
-          success: true,
-          message: 'Dados processados com sucesso',
-          warning: 'Webhook externo temporariamente indisponível'
+        return res.status(500).json({ 
+          success: false,
+          error: `Webhook externo retornou erro: ${response.status} - ${errorText}`,
+          details: {
+            status: response.status,
+            statusText: response.statusText,
+            body: errorText
+          }
         });
       }
 
       const responseText = await response.text();
       console.log('Webhook response body:', responseText);
 
+      // Verificar se a resposta é válida
+      try {
+        const responseData = JSON.parse(responseText);
+        console.log('Webhook response parsed:', responseData);
+      } catch (parseError) {
+        console.log('Webhook response is not JSON:', responseText);
+      }
+
     } catch (fetchError) {
-      console.error('Fetch error:', fetchError);
+      console.error('Fetch error details:', {
+        name: fetchError.name,
+        message: fetchError.message,
+        cause: fetchError.cause,
+        stack: fetchError.stack
+      });
       
-      // Mesmo com erro de rede, vamos retornar sucesso
-      // para não bloquear o usuário
-      console.log('Erro de rede no webhook, mas retornando sucesso para o usuário');
-      return res.status(200).json({ 
-        success: true,
-        message: 'Dados processados com sucesso',
-        warning: 'Webhook externo temporariamente indisponível'
+      return res.status(500).json({ 
+        success: false,
+        error: `Erro ao conectar com webhook: ${fetchError.message}`,
+        details: {
+          name: fetchError.name,
+          message: fetchError.message
+        }
       });
     }
 
@@ -94,12 +110,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } catch (error) {
     console.error('Erro geral no webhook proxy:', error);
     
-    // Em caso de erro geral, ainda retornamos sucesso
-    // para não bloquear o fluxo do usuário
-    return res.status(200).json({ 
-      success: true,
-      message: 'Dados processados com sucesso',
-      warning: 'Sistema temporariamente indisponível'
+    return res.status(500).json({ 
+      success: false,
+      error: `Erro interno: ${error.message}`,
+      details: {
+        name: error.name,
+        message: error.message
+      }
     });
   }
 }

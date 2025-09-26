@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Download, CheckCircle, Zap, Search, FileText, Image, ImageIcon, Send, Users, MessageCircle, ArrowRight, Star, Clock, TrendingUp, Target, Shield, Globe, Bot, Database, Smartphone, Copy, ExternalLink, Play, BookOpen, Code, Settings, Loader2, User, Phone } from 'lucide-react';
+import { Download, CheckCircle, Zap, Search, FileText, Image, ImageIcon, Send, Users, MessageCircle, ArrowRight, Star, Clock, TrendingUp, Target, Shield, Globe, Bot, Database, Smartphone, ExternalLink, BookOpen, Code, Settings, Loader2, User, Phone } from 'lucide-react';
 
 export default function ObrigadoPage() {
   const [downloadCount, setDownloadCount] = useState(0);
@@ -133,10 +133,6 @@ export default function ObrigadoPage() {
     }
   };
 
-  const handleCopyCode = (code: string) => {
-    navigator.clipboard.writeText(code);
-    // Aqui você pode adicionar um toast de sucesso
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
@@ -229,15 +225,6 @@ export default function ObrigadoPage() {
                       <div>
                         <h3 className="font-semibold text-gray-900">Instalar N8N</h3>
                         <p className="text-sm text-gray-600">Baixe e instale o N8N no seu servidor</p>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="mt-2"
-                          onClick={() => handleCopyCode('npm install n8n -g')}
-                        >
-                          <Copy className="w-3 h-3 mr-1" />
-                          Copiar comando
-                        </Button>
                       </div>
                     </div>
 
@@ -246,15 +233,6 @@ export default function ObrigadoPage() {
                       <div>
                         <h3 className="font-semibold text-gray-900">Importar Workflow</h3>
                         <p className="text-sm text-gray-600">Importe o arquivo JSON no N8N</p>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="mt-2"
-                          onClick={() => handleCopyCode('n8n import:workflow --file=workflow.json')}
-                        >
-                          <Copy className="w-3 h-3 mr-1" />
-                          Copiar comando
-                        </Button>
                       </div>
                     </div>
 
@@ -282,15 +260,6 @@ export default function ObrigadoPage() {
                       <div>
                         <h3 className="font-semibold text-gray-900">Testar Workflow</h3>
                         <p className="text-sm text-gray-600">Execute um teste para verificar funcionamento</p>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="mt-2"
-                          onClick={() => handleCopyCode('n8n execute --workflow=blog-automation')}
-                        >
-                          <Play className="w-3 h-3 mr-1" />
-                          Executar teste
-                        </Button>
                       </div>
                     </div>
 
@@ -299,15 +268,6 @@ export default function ObrigadoPage() {
                       <div>
                         <h3 className="font-semibold text-gray-900">Agendar Execução</h3>
                         <p className="text-sm text-gray-600">Configure execução automática diária</p>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="mt-2"
-                          onClick={() => handleCopyCode('0 15 * * *')}
-                        >
-                          <Clock className="w-3 h-3 mr-1" />
-                          Copiar cron
-                        </Button>
                       </div>
                     </div>
 

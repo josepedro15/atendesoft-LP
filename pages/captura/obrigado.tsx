@@ -1,13 +1,22 @@
 import { useState, useEffect } from 'react';
 import { useAnalytics } from '@/hooks/use-analytics';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Download, CheckCircle, Zap, Search, FileText, Image, Send, Users, MessageCircle, ArrowRight, Star, Clock, TrendingUp, Target, Shield, Globe, Bot, Database, Smartphone, Copy, ExternalLink, Play, BookOpen, Code, Settings } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Download, CheckCircle, Zap, Search, FileText, Image, Send, Users, MessageCircle, ArrowRight, Star, Clock, TrendingUp, Target, Shield, Globe, Bot, Database, Smartphone, Copy, ExternalLink, Play, BookOpen, Code, Settings, Loader2, User, Phone } from 'lucide-react';
 
 export default function ObrigadoPage() {
   const [downloadCount, setDownloadCount] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalLoading, setModalLoading] = useState(false);
+  const [modalSuccess, setModalSuccess] = useState(false);
+  const [modalError, setModalError] = useState('');
+  const [modalNome, setModalNome] = useState('');
+  const [modalTelefone, setModalTelefone] = useState('');
   const { trackDownload, trackWhatsAppClick, trackConversion } = useAnalytics();
 
   useEffect(() => {
@@ -39,9 +48,83 @@ export default function ObrigadoPage() {
     setTimeout(() => setShowSuccess(false), 3000);
   };
 
+  // Máscara de telefone
+  const formatarTelefone = (valor: string) => {
+    const numeros = valor.replace(/\D/g, '');
+    if (numeros.length <= 10) {
+      return numeros.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+    } else {
+      return numeros.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    }
+  };
+
+  // Validação de telefone
+  const validarTelefone = (telefone: string) => {
+    const numeros = telefone.replace(/\D/g, '');
+    return numeros.length >= 10 && numeros.length <= 11;
+  };
+
   const handleJoinCommunity = () => {
     trackWhatsAppClick('community_join');
-    window.open('https://wa.me/5531994959512?text=Olá! Quero participar do Atendesoft DevHub por R$ 39,90/mês!', '_blank');
+    setModalOpen(true);
+  };
+
+  const handleModalSubmit = async () => {
+    if (!modalNome.trim() || !modalTelefone.trim()) {
+      setModalError('Nome e telefone são obrigatórios');
+      return;
+    }
+
+    if (!validarTelefone(modalTelefone)) {
+      setModalError('Por favor, insira um telefone válido');
+      return;
+    }
+
+    setModalLoading(true);
+    setModalError('');
+
+    try {
+      const webhookData = {
+        nome: modalNome.trim(),
+        telefone: modalTelefone.trim(),
+        valor: 'R$ 39,90',
+        produto: 'Atendesoft DevHub',
+        timestamp: new Date().toISOString(),
+        origem: 'captura_obrigado',
+        user_agent: navigator.userAgent,
+        referrer: document.referrer || 'direct'
+      };
+
+      const response = await fetch('https://webhook.aiensed.com/webhook/atendesoft-devhub', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(webhookData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao enviar dados');
+      }
+
+      setModalSuccess(true);
+      trackConversion('devhub_signup', 39.90);
+      
+      // Fechar modal após 2 segundos e abrir WhatsApp
+      setTimeout(() => {
+        setModalOpen(false);
+        setModalSuccess(false);
+        setModalNome('');
+        setModalTelefone('');
+        window.open('https://wa.me/5531994959512?text=Olá! Quero participar do Atendesoft DevHub por R$ 39,90/mês!', '_blank');
+      }, 2000);
+
+    } catch (error) {
+      console.error('Erro ao enviar para webhook:', error);
+      setModalError('Erro ao processar dados. Tente novamente.');
+    } finally {
+      setModalLoading(false);
+    }
   };
 
   const handleCopyCode = (code: string) => {
@@ -588,6 +671,121 @@ export default function ObrigadoPage() {
           </Card>
         </div>
       </div>
+
+      {/* Modal de Confirmação DevHub */}
+      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center text-2xl font-bold text-gray-900">
+              🚀 Confirmar Participação
+            </DialogTitle>
+            <DialogDescription className="text-center text-gray-600">
+              Confirme seus dados para participar do Atendesoft DevHub por R$ 39,90/mês
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            {modalSuccess ? (
+              <div className="text-center py-8">
+                <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                  <CheckCircle className="w-8 h-8 text-green-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  ✅ Dados Confirmados!
+                </h3>
+                <p className="text-gray-600">
+                  Você será redirecionado para o WhatsApp em instantes...
+                </p>
+                <div className="flex items-center justify-center space-x-2 mt-4">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                  <span className="text-sm text-gray-500">Redirecionando...</span>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="modal-nome" className="text-sm font-medium text-gray-700">
+                    Nome Completo *
+                  </Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Input
+                      id="modal-nome"
+                      type="text"
+                      value={modalNome}
+                      onChange={(e) => setModalNome(e.target.value)}
+                      placeholder="Seu nome completo"
+                      className="pl-10 h-12 border-gray-200 focus:border-primary focus:ring-primary"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="modal-telefone" className="text-sm font-medium text-gray-700">
+                    Telefone/WhatsApp *
+                  </Label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Input
+                      id="modal-telefone"
+                      type="tel"
+                      value={modalTelefone}
+                      onChange={(e) => setModalTelefone(formatarTelefone(e.target.value))}
+                      placeholder="(11) 99999-9999"
+                      className="pl-10 h-12 border-gray-200 focus:border-primary focus:ring-primary"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {modalError && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                    <p className="text-red-600 text-sm">{modalError}</p>
+                  </div>
+                )}
+
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center">
+                      <Star className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-blue-900">Atendesoft DevHub</p>
+                      <p className="text-sm text-blue-700">R$ 39,90/mês - Acesso completo</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex space-x-3">
+                  <Button
+                    variant="outline"
+                    onClick={() => setModalOpen(false)}
+                    className="flex-1"
+                    disabled={modalLoading}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    onClick={handleModalSubmit}
+                    className="flex-1 bg-primary hover:bg-primary/90"
+                    disabled={modalLoading || !modalNome.trim() || !modalTelefone.trim()}
+                  >
+                    {modalLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Confirmando...
+                      </>
+                    ) : (
+                      'Confirmar Participação'
+                    )}
+                  </Button>
+                </div>
+              </>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

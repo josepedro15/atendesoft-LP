@@ -1,50 +1,45 @@
 // API para listagem de posts do blog
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createClient } from '@supabase/supabase-js';
 import { BlogPostsResponse, BlogFilters } from '@/types/blog';
+import { blogFiltersSchema, validateQuery } from '@/lib/validations';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/errors';
+import { config } from '@/lib/config';
+import { createClient } from '@supabase/supabase-js';
 
 // Cliente Supabase
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://vlayangmpcogxoolcksc.supabase.co',
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsYXlhbmdtcGNvZ3hvb2xja3NjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5NzEwMDIsImV4cCI6MjA2OTU0NzAwMn0.U4jxKlTf_eCX6zochG6wZPxRBvWk90erSNY_IEuYqrY'
-);
+const supabase = createClient(config.supabase.url, config.supabase.anonKey);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<BlogPostsResponse>) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', ['GET']);
-    return res.status(405).json({ success: false, error: 'Method not allowed' });
+    return res.status(405).json(createErrorResponse(new Error('Method not allowed')));
   }
 
   try {
-    const { 
-      page = 1, 
-      limit = 10, 
-      keyword, 
-      search, 
-      status = 'published' 
-    } = req.query as BlogFilters;
+    // Validar parâmetros da query
+    const filters = validateQuery(blogFiltersSchema, req.query);
 
-    console.log('API: Buscando posts com filtros:', { page, limit, keyword, search, status });
+    console.log('API: Buscando posts com filtros:', filters);
 
     // Construir query base
     let query = supabase
       .from('blog_posts')
       .select('*', { count: 'exact' })
-      .eq('status', status)
+      .eq('status', filters.status)
       .order('timestamp', { ascending: false });
 
     // Aplicar filtros apenas se fornecidos e não vazios
-    if (keyword && keyword.trim() !== '') {
-      query = query.eq('keyword', keyword);
+    if (filters.keyword && filters.keyword.trim() !== '') {
+      query = query.eq('keyword', filters.keyword);
     }
 
-    if (search && search.trim() !== '') {
-      query = query.or(`title.ilike.%${search}%,summary.ilike.%${search}%`);
+    if (filters.search && filters.search.trim() !== '') {
+      query = query.or(`title.ilike.%${filters.search}%,summary.ilike.%${filters.search}%`);
     }
 
     // Aplicar paginação
-    const from = (Number(page) - 1) * Number(limit);
-    const to = from + Number(limit) - 1;
+    const from = (filters.page - 1) * filters.limit;
+    const to = from + filters.limit - 1;
     query = query.range(from, to);
 
     const { data: posts, error, count } = await query;
@@ -52,36 +47,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     console.log('API: Resultado da query:', { posts: posts?.length, error, count });
 
     if (error) {
-      console.error('Erro ao buscar posts:', error);
-      return res.status(500).json({ 
-        success: false, 
-        error: 'Erro interno do servidor' 
-      });
+      throw new Error(`Erro ao buscar posts: ${error.message}`);
     }
 
     const total = count || 0;
-    const pages = Math.ceil(total / Number(limit));
+    const pages = Math.ceil(total / filters.limit);
 
     console.log('API: Retornando dados:', { total, pages, postsCount: posts?.length });
 
-    res.status(200).json({
-      success: true,
-      data: {
-        posts: posts || [],
-        pagination: {
-          page: Number(page),
-          limit: Number(limit),
-          total,
-          pages
-        }
+    res.status(200).json(createSuccessResponse({
+      posts: posts || [],
+      pagination: {
+        page: filters.page,
+        limit: filters.limit,
+        total,
+        pages
       }
-    });
+    }));
 
   } catch (error) {
-    console.error('Erro inesperado:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Erro interno do servidor'
-    });
+    const { status } = handleApiError(error);
+    res.status(status).json(createErrorResponse(error));
   }
 }

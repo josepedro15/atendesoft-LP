@@ -1,13 +1,13 @@
 // API para gerenciamento de itens do catálogo
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createClient } from '@supabase/supabase-js';
 import { CatalogItem, ApiResponse } from '@/types/proposals';
+import { createCatalogItemSchema, validateData } from '@/lib/validations';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/errors';
+import { config } from '@/lib/config';
+import { createClient } from '@supabase/supabase-js';
 
-// Usa a mesma lógica do sistema de autenticação
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://vlayangmpcogxoolcksc.supabase.co',
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsYXlhbmdtcGNvZ3hvb2xja3NjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5NzEwMDIsImV4cCI6MjA2OTU0NzAwMn0.U4jxKlTf_eCX6zochG6wZPxRBvWk90erSNY_IEuYqrY'
-);
+// Cliente Supabase
+const supabase = createClient(config.supabase.url, config.supabase.anonKey);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {
   if (req.method === 'GET') {
@@ -19,157 +19,77 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 
   res.setHeader('Allow', ['GET', 'POST']);
-  res.status(405).json({ success: false, error: 'Method not allowed' });
+  res.status(405).json(createErrorResponse(new Error('Method not allowed')));
 }
 
 async function handleGetItems(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {
   try {
     const { search, category, active_only = 'true' } = req.query;
 
-    // Dados mockados temporários até resolver o RLS
-    const mockData = [
-      {
-        id: '1',
-        sku: 'AUTO-WA-001',
-        name: 'Automação WhatsApp Business API',
-        description: 'Implementação completa de automação WhatsApp com IA',
-        category: 'Automação',
-        unit_price: 2500.00,
-        currency: 'BRL',
-        is_active: true,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      },
-      {
-        id: '2',
-        sku: 'DASH-BI-001',
-        name: 'Dashboard BI com IA',
-        description: 'Dashboard personalizado com inteligência artificial',
-        category: 'Dashboard',
-        unit_price: 3500.00,
-        currency: 'BRL',
-        is_active: true,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      },
-      {
-        id: '3',
-        sku: 'TRAIN-001',
-        name: 'Treinamento da Equipe',
-        description: 'Capacitação completa da equipe no uso da plataforma',
-        category: 'Treinamento',
-        unit_price: 800.00,
-        currency: 'BRL',
-        is_active: true,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      },
-      {
-        id: '4',
-        sku: 'SUP-001',
-        name: 'Suporte Técnico Mensal',
-        description: 'Suporte técnico especializado por 30 dias',
-        category: 'Suporte',
-        unit_price: 500.00,
-        currency: 'BRL',
-        is_active: true,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      },
-      {
-        id: '5',
-        sku: 'DEV-001',
-        name: 'Desenvolvimento Customizado',
-        description: 'Desenvolvimento de funcionalidades específicas',
-        category: 'Desenvolvimento',
-        unit_price: 150.00,
-        currency: 'BRL',
-        is_active: true,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      }
-    ];
-
-    let filteredData = mockData;
+    // Construir query do Supabase
+    let query = supabase
+      .from('catalog_items')
+      .select('*')
+      .order('name', { ascending: true });
 
     // Aplicar filtros
     if (active_only === 'true') {
-      filteredData = filteredData.filter(item => item.is_active);
-    }
-
-    if (search) {
-      const searchLower = (search as string).toLowerCase();
-      filteredData = filteredData.filter(item => 
-        item.name.toLowerCase().includes(searchLower) ||
-        item.description.toLowerCase().includes(searchLower) ||
-        item.sku.toLowerCase().includes(searchLower)
-      );
+      query = query.eq('is_active', true);
     }
 
     if (category) {
-      filteredData = filteredData.filter(item => item.category === category);
+      query = query.eq('category', category);
     }
 
-    res.status(200).json({
-      success: true,
-      data: filteredData
-    });
+    if (search) {
+      query = query.or(`name.ilike.%${search}%,description.ilike.%${search}%,sku.ilike.%${search}%`);
+    }
+
+    const { data: items, error } = await query;
+
+    if (error) {
+      throw new Error(`Erro ao buscar itens: ${error.message}`);
+    }
+
+    res.status(200).json(createSuccessResponse(items || []));
 
   } catch (error) {
-    console.error('Erro inesperado:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Erro interno do servidor'
-    });
+    const { status } = handleApiError(error);
+    res.status(status).json(createErrorResponse(error));
   }
 }
 
 async function handleCreateItem(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {
   try {
-    const { sku, name, description, category, unit_price, currency = 'BRL' } = req.body;
+    // Validar dados de entrada
+    const itemData = validateData(createCatalogItemSchema, req.body);
 
-    // Validar dados obrigatórios
-    if (!name || unit_price === undefined) {
-      return res.status(400).json({
-        success: false,
-        error: 'Nome e preço são obrigatórios'
-      });
-    }
-
-    // Criar item
-    const { data: item, error } = await supabase
+    // Criar item no Supabase
+    const { data: newItem, error } = await supabase
       .from('catalog_items')
       .insert({
-        sku,
-        name,
-        description,
-        category,
-        unit_price: Number(unit_price),
-        currency,
-        is_active: true
+        sku: itemData.sku,
+        name: itemData.name,
+        description: itemData.description,
+        category: itemData.category,
+        unit_price: itemData.unit_price,
+        currency: itemData.currency,
+        is_active: itemData.is_active,
       })
       .select()
       .single();
 
     if (error) {
-      console.error('Erro ao criar item:', error);
-      return res.status(500).json({
-        success: false,
-        error: 'Erro ao criar item'
-      });
+      throw new Error(`Erro ao criar item: ${error.message}`);
     }
 
-    res.status(201).json({
-      success: true,
-      data: item,
-      message: 'Item criado com sucesso'
-    });
+    res.status(201).json(createSuccessResponse(
+      newItem,
+      'Item criado com sucesso'
+    ));
 
   } catch (error) {
-    console.error('Erro inesperado:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Erro interno do servidor'
-    });
+    const { status } = handleApiError(error);
+    res.status(status).json(createErrorResponse(error));
   }
 }

@@ -1,7 +1,13 @@
-// API para gerenciamento de propostas - Versão com Mock Storage
+// API para gerenciamento de propostas
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Proposal, CreateProposalData, ApiResponse, ProposalFilters } from '@/types/proposals';
-import { mockStorage } from '@/lib/mock-storage';
+import { createProposalSchema, proposalFiltersSchema, validateData, validateQuery } from '@/lib/validations';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/errors';
+import { config } from '@/lib/config';
+import { createClient } from '@supabase/supabase-js';
+
+// Cliente Supabase para operações do servidor
+const supabase = createClient(config.supabase.url, config.supabase.anonKey);
 
 // GET /api/proposals - Listar propostas
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {
@@ -19,113 +25,101 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
 async function handleGetProposals(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {
   try {
-    const { 
-      status, 
-      owner_id, 
-      client_id, 
-      date_from, 
-      date_to, 
-      search,
-      page = 1,
-      limit = 20
-    } = req.query;
+    // Validar parâmetros da query
+    const filters = validateQuery(proposalFiltersSchema, req.query);
 
-    // Para desenvolvimento, usar armazenamento mockado
-    let proposals = mockStorage.getAllProposals();
+    // Construir query do Supabase
+    let query = supabase
+      .from('proposals')
+      .select('*', { count: 'exact' })
+      .order('created_at', { ascending: false });
 
     // Aplicar filtros
-    if (status) {
-      const statusArray = Array.isArray(status) ? status : [status];
-      proposals = proposals.filter(p => statusArray.includes(p.status));
+    if (filters.status && filters.status.length > 0) {
+      query = query.in('status', filters.status);
     }
 
-    if (owner_id) {
-      proposals = proposals.filter(p => p.owner_id === owner_id);
+    if (filters.owner_id) {
+      query = query.eq('owner_id', filters.owner_id);
     }
 
-    if (client_id) {
-      proposals = proposals.filter(p => p.client_id === client_id);
+    if (filters.client_id) {
+      query = query.eq('client_id', filters.client_id);
     }
 
-    if (search) {
-      proposals = proposals.filter(p => 
-        p.title.toLowerCase().includes((search as string).toLowerCase())
-      );
+    if (filters.search) {
+      query = query.ilike('title', `%${filters.search}%`);
     }
 
-    // Ordenar por data de criação (mais recente primeiro)
-    proposals.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    if (filters.date_from) {
+      query = query.gte('created_at', filters.date_from);
+    }
+
+    if (filters.date_to) {
+      query = query.lte('created_at', filters.date_to);
+    }
 
     // Aplicar paginação
-    const from = (Number(page) - 1) * Number(limit);
-    const to = from + Number(limit);
-    const paginatedProposals = proposals.slice(from, to);
+    const from = (filters.page - 1) * filters.limit;
+    const to = from + filters.limit - 1;
+    query = query.range(from, to);
 
-    res.status(200).json({
-      success: true,
-      data: {
-        proposals: paginatedProposals,
-        pagination: {
-          page: Number(page),
-          limit: Number(limit),
-          total: proposals.length,
-          pages: Math.ceil(proposals.length / Number(limit))
-        }
+    const { data: proposals, error, count } = await query;
+
+    if (error) {
+      throw new Error(`Erro ao buscar propostas: ${error.message}`);
+    }
+
+    const total = count || 0;
+    const pages = Math.ceil(total / filters.limit);
+
+    res.status(200).json(createSuccessResponse({
+      proposals: proposals || [],
+      pagination: {
+        page: filters.page,
+        limit: filters.limit,
+        total,
+        pages
       }
-    });
+    }));
 
   } catch (error) {
-    console.error('Erro inesperado:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Erro interno do servidor' 
-    });
+    const { status, message } = handleApiError(error);
+    res.status(status).json(createErrorResponse(error));
   }
 }
 
 async function handleCreateProposal(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {
   try {
-    const proposalData: CreateProposalData = req.body;
+    // Validar dados de entrada
+    const proposalData = validateData(createProposalSchema, req.body);
 
-    // Validar dados obrigatórios
-    if (!proposalData.title) {
-      return res.status(400).json({
-        success: false,
-        error: 'Título é obrigatório'
-      });
+    // Criar proposta no Supabase
+    const { data: newProposal, error } = await supabase
+      .from('proposals')
+      .insert({
+        title: proposalData.title,
+        client_id: proposalData.client_id,
+        currency: proposalData.currency,
+        status: 'draft',
+        valid_until: proposalData.valid_until,
+        approval_required: false,
+        // owner_id será definido pelo RLS baseado no usuário autenticado
+      })
+      .select()
+      .single();
+
+    if (error) {
+      throw new Error(`Erro ao criar proposta: ${error.message}`);
     }
 
-    // Para desenvolvimento, usar armazenamento mockado
-    const mockProposal = {
-      id: `prop-${Date.now()}`,
-      title: proposalData.title,
-      client_id: proposalData.client_id || null,
-      owner_id: '550e8400-e29b-41d4-a716-446655440000',
-      currency: 'BRL',
-      status: 'draft',
-      valid_until: proposalData.valid_until || null,
-      approval_required: false,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-      versions: [],
-      latest_version: null
-    };
-
-    // Salvar no armazenamento mockado
-    const savedProposal = mockStorage.createProposal(mockProposal);
-    console.log('Proposta criada (mock):', savedProposal);
-
-    res.status(201).json({
-      success: true,
-      data: savedProposal,
-      message: 'Proposta criada com sucesso'
-    });
+    res.status(201).json(createSuccessResponse(
+      newProposal,
+      'Proposta criada com sucesso'
+    ));
 
   } catch (error) {
-    console.error('Erro inesperado:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Erro interno do servidor'
-    });
+    const { status } = handleApiError(error);
+    res.status(status).json(createErrorResponse(error));
   }
 }

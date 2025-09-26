@@ -1,13 +1,13 @@
 // API para gerenciamento de clientes
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createClient } from '@supabase/supabase-js';
 import { Client, ApiResponse } from '@/types/proposals';
+import { createClientSchema, validateData } from '@/lib/validations';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/errors';
+import { config } from '@/lib/config';
+import { createClient } from '@supabase/supabase-js';
 
-// Usa a mesma lógica do sistema de autenticação
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://vlayangmpcogxoolcksc.supabase.co',
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsYXlhbmdtcGNvZ3hvb2xja3NjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5NzEwMDIsImV4cCI6MjA2OTU0NzAwMn0.U4jxKlTf_eCX6zochG6wZPxRBvWk90erSNY_IEuYqrY'
-);
+// Cliente Supabase
+const supabase = createClient(config.supabase.url, config.supabase.anonKey);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {
   if (req.method === 'GET') {
@@ -24,119 +24,78 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
 async function handleGetClients(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {
   try {
-    const { search, limit = 50 } = req.query;
+    const { search, page = 1, limit = 20 } = req.query;
 
-    // Dados mockados temporários
-    const mockData = [
-      {
-        id: '1',
-        name: 'TechCorp Ltda',
-        document: '12.345.678/0001-90',
-        email: 'contato@techcorp.com',
-        phone: '(11) 99999-9999',
-        company_size: 'Média',
-        segment: 'Tecnologia',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      },
-      {
-        id: '2',
-        name: 'Camilotti Casa e Construção',
-        document: '98.765.432/0001-10',
-        email: 'vendas@camilotti.com',
-        phone: '(11) 88888-8888',
-        company_size: 'Grande',
-        segment: 'Construção',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      },
-      {
-        id: '3',
-        name: 'StartupXYZ',
-        document: '11.222.333/0001-44',
-        email: 'ceo@startupxyz.com',
-        phone: '(11) 77777-7777',
-        company_size: 'Pequena',
-        segment: 'SaaS',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      }
-    ];
+    // Construir query do Supabase
+    let query = supabase
+      .from('clients')
+      .select('*', { count: 'exact' })
+      .order('created_at', { ascending: false });
 
-    let filteredData = mockData;
-
-    // Aplicar filtros
+    // Aplicar filtro de busca se fornecido
     if (search) {
-      const searchLower = (search as string).toLowerCase();
-      filteredData = filteredData.filter(client => 
-        client.name.toLowerCase().includes(searchLower) ||
-        client.email.toLowerCase().includes(searchLower) ||
-        client.document.toLowerCase().includes(searchLower)
-      );
+      query = query.or(`name.ilike.%${search}%,email.ilike.%${search}%,company.ilike.%${search}%`);
     }
 
-    // Aplicar limite
-    filteredData = filteredData.slice(0, Number(limit));
+    // Aplicar paginação
+    const from = (Number(page) - 1) * Number(limit);
+    const to = from + Number(limit) - 1;
+    query = query.range(from, to);
 
-    res.status(200).json({
-      success: true,
-      data: filteredData
-    });
+    const { data: clients, error, count } = await query;
+
+    if (error) {
+      throw new Error(`Erro ao buscar clientes: ${error.message}`);
+    }
+
+    const total = count || 0;
+    const pages = Math.ceil(total / Number(limit));
+
+    res.status(200).json(createSuccessResponse({
+      clients: clients || [],
+      pagination: {
+        page: Number(page),
+        limit: Number(limit),
+        total,
+        pages
+      }
+    }));
 
   } catch (error) {
-    console.error('Erro inesperado:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Erro interno do servidor'
-    });
+    const { status } = handleApiError(error);
+    res.status(status).json(createErrorResponse(error));
   }
 }
 
 async function handleCreateClient(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {
   try {
-    const { name, document, email, phone, company_size, segment } = req.body;
+    // Validar dados de entrada
+    const clientData = validateData(createClientSchema, req.body);
 
-    // Validar dados obrigatórios
-    if (!name) {
-      return res.status(400).json({
-        success: false,
-        error: 'Nome é obrigatório'
-      });
-    }
-
-    // Criar cliente
-    const { data: client, error } = await supabase
+    // Criar cliente no Supabase
+    const { data: newClient, error } = await supabase
       .from('clients')
       .insert({
-        name,
-        document,
-        email,
-        phone,
-        company_size,
-        segment
+        name: clientData.name,
+        email: clientData.email,
+        phone: clientData.phone,
+        company: clientData.company,
+        document: clientData.document,
       })
       .select()
       .single();
 
     if (error) {
-      console.error('Erro ao criar cliente:', error);
-      return res.status(500).json({
-        success: false,
-        error: 'Erro ao criar cliente'
-      });
+      throw new Error(`Erro ao criar cliente: ${error.message}`);
     }
 
-    res.status(201).json({
-      success: true,
-      data: client,
-      message: 'Cliente criado com sucesso'
-    });
+    res.status(201).json(createSuccessResponse(
+      newClient,
+      'Cliente criado com sucesso'
+    ));
 
   } catch (error) {
-    console.error('Erro inesperado:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Erro interno do servidor'
-    });
+    const { status } = handleApiError(error);
+    res.status(status).json(createErrorResponse(error));
   }
 }

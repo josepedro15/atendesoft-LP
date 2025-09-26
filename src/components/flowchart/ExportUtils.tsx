@@ -3,28 +3,38 @@ import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
 
 export const exportAsPNG = async (reactFlowInstance: any, filename: string = 'fluxograma') => {
-  if (!reactFlowInstance) return
+  if (!reactFlowInstance) {
+    throw new Error('Instância do ReactFlow não encontrada')
+  }
 
   try {
     // Obter o elemento do ReactFlow
     const element = document.querySelector('.react-flow')
-    if (!element) return
+    if (!element) {
+      throw new Error('Elemento do ReactFlow não encontrado')
+    }
 
-    // Capturar como canvas
+    // Capturar como canvas com configurações otimizadas
     const canvas = await html2canvas(element as HTMLElement, {
       backgroundColor: '#ffffff',
       scale: 2,
       useCORS: true,
       allowTaint: true,
+      logging: false,
+      width: element.scrollWidth,
+      height: element.scrollHeight,
     })
 
     // Converter para PNG e baixar
     const link = document.createElement('a')
-    link.download = `${filename}.png`
-    link.href = canvas.toDataURL('image/png')
+    link.download = `${filename.replace(/[^a-z0-9]/gi, '_')}.png`
+    link.href = canvas.toDataURL('image/png', 1.0)
+    document.body.appendChild(link)
     link.click()
+    document.body.removeChild(link)
   } catch (error) {
     console.error('Erro ao exportar PNG:', error)
+    throw error
   }
 }
 

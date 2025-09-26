@@ -98,21 +98,18 @@ export const ProcessNode = ({ data, selected }: { data: any; selected: boolean }
 
 // Decision Node (Losango)
 export const DecisionNode = ({ data, selected }: { data: any; selected: boolean }) => (
-  <div className={`px-4 py-3 shadow-lg bg-white border-2 min-w-[140px] min-h-[80px] flex items-center justify-center transition-all ${
-    selected ? 'border-red-500 shadow-red-200' : 'border-gray-300 hover:border-gray-400'
-  }`} 
-  style={{ 
-    clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)',
-    transform: 'none'
-  }}>
+  <EditableNode data={data} selected={selected} className="bg-red-50">
     <Handle
       type="target"
       position={Position.Top}
       className="w-3 h-3 bg-red-500"
     />
-    <div className="font-semibold text-sm text-gray-800 text-center">
-      {data.label}
-    </div>
+    <div 
+      className="w-16 h-16 bg-red-200 flex items-center justify-center"
+      style={{ 
+        clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)'
+      }}
+    />
     <Handle
       type="source"
       position={Position.Bottom}
@@ -123,100 +120,91 @@ export const DecisionNode = ({ data, selected }: { data: any; selected: boolean 
       position={Position.Right}
       className="w-3 h-3 bg-red-500"
     />
-  </div>
+  </EditableNode>
 )
 
 // Start/End Node (Oval)
 export const StartEndNode = ({ data, selected }: { data: any; selected: boolean }) => (
-  <div className={`px-6 py-3 shadow-lg rounded-full bg-white border-2 min-w-[140px] transition-all ${
-    selected ? 'border-green-500 shadow-green-200' : 'border-gray-300 hover:border-gray-400'
-  }`}>
+  <EditableNode data={data} selected={selected} className="bg-green-50">
     <Handle
       type="target"
       position={Position.Top}
       className="w-3 h-3 bg-green-500"
     />
-    <div className="font-semibold text-sm text-gray-800 text-center">
-      {data.label}
+    <div className="w-16 h-12 bg-green-200 rounded-full flex items-center justify-center">
+      <div className="w-12 h-8 bg-green-300 rounded-full"></div>
     </div>
     <Handle
       type="source"
       position={Position.Bottom}
       className="w-3 h-3 bg-green-500"
     />
-  </div>
+  </EditableNode>
 )
 
 // Input/Output Node (Paralelogramo)
 export const InputOutputNode = ({ data, selected }: { data: any; selected: boolean }) => (
-  <div className={`px-4 py-3 shadow-lg bg-white border-2 min-w-[140px] transition-all ${
-    selected ? 'border-yellow-500 shadow-yellow-200' : 'border-gray-300 hover:border-gray-400'
-  }`} 
-  style={{ 
-    clipPath: 'polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%)'
-  }}>
+  <EditableNode data={data} selected={selected} className="bg-yellow-50">
     <Handle
       type="target"
       position={Position.Top}
       className="w-3 h-3 bg-yellow-500"
     />
-    <div className="font-semibold text-sm text-gray-800 text-center">
-      {data.label}
-    </div>
+    <div 
+      className="w-16 h-12 bg-yellow-200 flex items-center justify-center"
+      style={{ 
+        clipPath: 'polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%)'
+      }}
+    />
     <Handle
       type="source"
       position={Position.Bottom}
       className="w-3 h-3 bg-yellow-500"
     />
-  </div>
+  </EditableNode>
 )
 
 // Data Node (Cilindro)
 export const DataNode = ({ data, selected }: { data: any; selected: boolean }) => (
-  <div className={`px-4 py-3 shadow-lg bg-white border-2 min-w-[140px] transition-all ${
-    selected ? 'border-purple-500 shadow-purple-200' : 'border-gray-300 hover:border-gray-400'
-  }`} 
-  style={{ 
-    clipPath: 'ellipse(50% 100% at 50% 0%)',
-    borderRadius: '50% 50% 0 0'
-  }}>
+  <EditableNode data={data} selected={selected} className="bg-purple-50">
     <Handle
       type="target"
       position={Position.Top}
       className="w-3 h-3 bg-purple-500"
     />
-    <div className="font-semibold text-sm text-gray-800 text-center">
-      {data.label}
-    </div>
+    <div 
+      className="w-16 h-12 bg-purple-200 flex items-center justify-center"
+      style={{ 
+        clipPath: 'ellipse(50% 100% at 50% 0%)',
+        borderRadius: '50% 50% 0 0'
+      }}
+    />
     <Handle
       type="source"
       position={Position.Bottom}
       className="w-3 h-3 bg-purple-500"
     />
-  </div>
+  </EditableNode>
 )
 
 // Document Node (Retângulo com dobra)
 export const DocumentNode = ({ data, selected }: { data: any; selected: boolean }) => (
-  <div className={`px-4 py-3 shadow-lg bg-white border-2 min-w-[140px] transition-all relative ${
-    selected ? 'border-indigo-500 shadow-indigo-200' : 'border-gray-300 hover:border-gray-400'
-  }`}>
+  <EditableNode data={data} selected={selected} className="bg-indigo-50">
     <Handle
       type="target"
       position={Position.Top}
       className="w-3 h-3 bg-indigo-500"
     />
-    <div className="font-semibold text-sm text-gray-800 text-center">
-      {data.label}
+    <div className="w-16 h-12 bg-indigo-200 relative">
+      {/* Dobra do documento */}
+      <div className="absolute top-0 right-0 w-0 h-0 border-l-[12px] border-l-transparent border-t-[12px] border-t-indigo-300"></div>
     </div>
     <Handle
       type="source"
       position={Position.Bottom}
       className="w-3 h-3 bg-indigo-500"
     />
-    {/* Dobra do documento */}
-    <div className="absolute top-0 right-0 w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] border-t-gray-200"></div>
-  </div>
+  </EditableNode>
 )
 
 // Connector Node (Círculo pequeno)

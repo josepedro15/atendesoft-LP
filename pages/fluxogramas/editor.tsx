@@ -4,6 +4,7 @@ import ProtectedRoute from '@/components/ProtectedRoute'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 import { 
   Save, 
   Download, 
@@ -150,6 +151,8 @@ function EditorContent() {
   const [selectedColor, setSelectedColor] = useState('#3b82f6')
   const [isLocked, setIsLocked] = useState(false)
   const [showTemplates, setShowTemplates] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const saveToHistory = useCallback(() => {
     const newState = { nodes, edges }
@@ -194,10 +197,17 @@ function EditorContent() {
   }
 
   const addNode = (type: string) => {
+    // Calcular posição central da viewport
+    const centerX = window.innerWidth / 2 - 100
+    const centerY = window.innerHeight / 2 - 100
+    
     const newNode: Node = {
-      id: `${nodes.length + 1}`,
+      id: `${Date.now()}`, // Usar timestamp para IDs únicos
       type,
-      position: { x: Math.random() * 400, y: Math.random() * 400 },
+      position: { 
+        x: centerX + (Math.random() - 0.5) * 200, 
+        y: centerY + (Math.random() - 0.5) * 200 
+      },
       data: { label: `Novo ${type}` },
     }
     setNodes((nds) => [...nds, newNode])
@@ -210,24 +220,74 @@ function EditorContent() {
     saveToHistory()
   }
 
-  const handleExportPNG = () => {
-    exportAsPNG(reactFlowInstance, flowchartTitle)
+  const handleExportPNG = async () => {
+    try {
+      setIsLoading(true)
+      setError(null)
+      await exportAsPNG(reactFlowInstance, flowchartTitle)
+    } catch (error) {
+      setError('Erro ao exportar PNG')
+      console.error('Erro ao exportar PNG:', error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const handleExportPDF = () => {
-    exportAsPDF(reactFlowInstance, flowchartTitle)
+  const handleExportPDF = async () => {
+    try {
+      setIsLoading(true)
+      setError(null)
+      await exportAsPDF(reactFlowInstance, flowchartTitle)
+    } catch (error) {
+      setError('Erro ao exportar PDF')
+      console.error('Erro ao exportar PDF:', error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleExportSVG = () => {
-    exportAsSVG(nodes, edges, flowchartTitle)
+    try {
+      setError(null)
+      exportAsSVG(nodes, edges, flowchartTitle)
+    } catch (error) {
+      setError('Erro ao exportar SVG')
+      console.error('Erro ao exportar SVG:', error)
+    }
   }
 
   const handleExportJSON = () => {
-    exportAsJSON(nodes, edges, flowchartTitle)
+    try {
+      setError(null)
+      exportAsJSON(nodes, edges, flowchartTitle)
+    } catch (error) {
+      setError('Erro ao exportar JSON')
+      console.error('Erro ao exportar JSON:', error)
+    }
   }
 
-  const saveFlowchart = () => {
-    // Implementar salvamento
+  const saveFlowchart = async () => {
+    try {
+      const flowchartData = {
+        title: flowchartTitle,
+        nodes,
+        edges,
+        metadata: {
+          created_at: new Date().toISOString(),
+          version: '1.0'
+        }
+      }
+      
+      // Salvar no localStorage por enquanto
+      const savedFlowcharts = JSON.parse(localStorage.getItem('savedFlowcharts') || '[]')
+      savedFlowcharts.push(flowchartData)
+      localStorage.setItem('savedFlowcharts', JSON.stringify(savedFlowcharts))
+      
+      // TODO: Implementar salvamento no backend
+      console.log('Fluxograma salvo:', flowchartData)
+    } catch (error) {
+      console.error('Erro ao salvar fluxograma:', error)
+    }
   }
 
   const handleToolSelect = (tool: string) => {
@@ -260,11 +320,31 @@ function EditorContent() {
   }
 
   const handlePresent = () => {
-    // Implementar apresentação
+    // Implementar modo de apresentação
+    const flowchartElement = document.querySelector('.react-flow')
+    if (flowchartElement) {
+      flowchartElement.requestFullscreen()
+    }
   }
 
-  const handleShare = () => {
-    // Implementar compartilhamento
+  const handleShare = async () => {
+    try {
+      const shareData = {
+        title: flowchartTitle,
+        text: `Confira este fluxograma: ${flowchartTitle}`,
+        url: window.location.href
+      }
+      
+      if (navigator.share) {
+        await navigator.share(shareData)
+      } else {
+        // Fallback: copiar link para clipboard
+        await navigator.clipboard.writeText(window.location.href)
+        alert('Link copiado para a área de transferência!')
+      }
+    } catch (error) {
+      console.error('Erro ao compartilhar:', error)
+    }
   }
 
   return (
@@ -355,6 +435,25 @@ function EditorContent() {
         </div>
       </header>
 
+
+      {/* Error Alert */}
+      {error && (
+        <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 w-96">
+          <Alert variant="destructive">
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        </div>
+      )}
+
+      {/* Loading Overlay */}
+      {isLoading && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 flex items-center space-x-3">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+            <span>Processando...</span>
+          </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <div className="flex-1 flex">

@@ -9,7 +9,13 @@ import {
   Save, 
   Download, 
   ArrowLeft,
-  FileDown
+  FileDown,
+  Undo,
+  Redo,
+  Square,
+  Diamond,
+  Circle,
+  Trash2
 } from 'lucide-react'
 import Image from 'next/image'
 import ReactFlow, {
@@ -42,10 +48,7 @@ import {
   CloudNode,
   LoopNode
 } from '@/components/flowchart/CustomNodes'
-import FlowchartToolbar from '@/components/flowchart/FlowchartToolbar'
-import MiroToolbar from '@/components/flowchart/MiroToolbar'
-import MiroSidebar from '@/components/flowchart/MiroSidebar'
-import TemplatesPanel from '@/components/flowchart/TemplatesPanel'
+import SimpleSidebar from '@/components/flowchart/SimpleSidebar'
 import { exportAsPNG, exportAsPDF, exportAsSVG, exportAsJSON } from '@/components/flowchart/ExportUtils'
 
 const nodeTypes: NodeTypes = {
@@ -146,11 +149,7 @@ function EditorContent() {
   const [history, setHistory] = useState<{ nodes: Node[]; edges: Edge[] }[]>([{ nodes: initialNodes, edges: initialEdges }])
   const [historyIndex, setHistoryIndex] = useState(0)
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null)
-  const [selectedTool, setSelectedTool] = useState('select')
-  const [fontSize, setFontSize] = useState(16)
-  const [selectedColor, setSelectedColor] = useState('#3b82f6')
-  const [isLocked, setIsLocked] = useState(false)
-  const [showTemplates, setShowTemplates] = useState(false)
+  // Removidas variáveis não utilizadas
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -290,101 +289,105 @@ function EditorContent() {
     }
   }
 
-  const handleToolSelect = (tool: string) => {
-    setSelectedTool(tool)
-    if (tool === 'shapes') {
-      setShowTemplates(true)
-    }
-  }
-
-  const handleShapeSelect = () => {
-    // Implementar seleção de forma
-  }
-
-  const handleTemplateSelect = (template: any) => {
-    if (template.type === 'template') {
-      setNodes(template.template.nodes)
-      setEdges(template.template.edges)
-      setShowTemplates(false)
-    } else if (template.type === 'flowchart') {
-      addNode(template.shape.id)
-    }
-  }
-
-  const handleLock = () => {
-    setIsLocked(!isLocked)
-  }
-
-  const handleUnlock = () => {
-    setIsLocked(false)
-  }
-
-  const handlePresent = () => {
-    // Implementar modo de apresentação
-    const flowchartElement = document.querySelector('.react-flow')
-    if (flowchartElement) {
-      flowchartElement.requestFullscreen()
-    }
-  }
-
-  const handleShare = async () => {
-    try {
-      const shareData = {
-        title: flowchartTitle,
-        text: `Confira este fluxograma: ${flowchartTitle}`,
-        url: window.location.href
-      }
-      
-      if (navigator.share) {
-        await navigator.share(shareData)
-      } else {
-        // Fallback: copiar link para clipboard
-        await navigator.clipboard.writeText(window.location.href)
-        alert('Link copiado para a área de transferência!')
-      }
-    } catch (error) {
-      console.error('Erro ao compartilhar:', error)
-    }
-  }
+  // Removidas funções não utilizadas
 
   return (
     <div className="h-screen flex flex-col bg-gray-50 relative">
-      {/* Miro-style Toolbar */}
-      <MiroToolbar
-        onToolSelect={handleToolSelect}
-        onUndo={undo}
-        onRedo={redo}
-        onCopy={() => {}}
-        onDelete={deleteSelected}
-        onLock={handleLock}
-        onUnlock={handleUnlock}
-        onPresent={handlePresent}
-        onShare={handleShare}
-        canUndo={historyIndex > 0}
-        canRedo={historyIndex < history.length - 1}
-        hasSelection={nodes.some(node => node.selected) || edges.some(edge => edge.selected)}
-        isLocked={isLocked}
-        selectedTool={selectedTool}
-        fontSize={fontSize}
-        onFontSizeChange={setFontSize}
-        selectedColor={selectedColor}
-        onColorChange={setSelectedColor}
-      />
+      {/* Simplified Toolbar */}
+      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+        <div className="bg-white/95 backdrop-blur-lg rounded-xl shadow-lg border border-gray-200 p-3 flex items-center space-x-3">
+          {/* Undo/Redo */}
+          <div className="flex items-center space-x-1 border-r border-gray-200 pr-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={undo}
+              disabled={historyIndex <= 0}
+              className="w-8 h-8 p-0"
+            >
+              <Undo className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={redo}
+              disabled={historyIndex >= history.length - 1}
+              className="w-8 h-8 p-0"
+            >
+              <Redo className="h-4 w-4" />
+            </Button>
+          </div>
 
-      {/* Miro-style Sidebar */}
-      <MiroSidebar
-        onToolSelect={handleToolSelect}
-        onShapeSelect={handleShapeSelect}
-        selectedTool={selectedTool}
-        onAddNode={addNode}
-      />
+          {/* Add Node */}
+          <div className="flex items-center space-x-1 border-r border-gray-200 pr-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => addNode('process')}
+              className="w-8 h-8 p-0"
+              title="Adicionar Processo"
+            >
+              <Square className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => addNode('decision')}
+              className="w-8 h-8 p-0"
+              title="Adicionar Decisão"
+            >
+              <Diamond className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => addNode('startEnd')}
+              className="w-8 h-8 p-0"
+              title="Adicionar Início/Fim"
+            >
+              <Circle className="h-4 w-4" />
+            </Button>
+          </div>
 
-      {/* Templates Panel */}
-      <TemplatesPanel
-        isOpen={showTemplates}
-        onClose={() => setShowTemplates(false)}
-        onTemplateSelect={handleTemplateSelect}
-      />
+          {/* Actions */}
+          <div className="flex items-center space-x-1 border-r border-gray-200 pr-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={deleteSelected}
+              disabled={!nodes.some(node => node.selected) && !edges.some(edge => edge.selected)}
+              className="w-8 h-8 p-0"
+              title="Excluir Selecionado"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
+
+          {/* Export */}
+          <div className="flex items-center space-x-1">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleExportPNG}
+              disabled={isLoading}
+              className="h-8 px-3"
+            >
+              <Download className="h-4 w-4 mr-1" />
+              PNG
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleExportPDF}
+              disabled={isLoading}
+              className="h-8 px-3"
+            >
+              <FileDown className="h-4 w-4 mr-1" />
+              PDF
+            </Button>
+          </div>
+        </div>
+      </div>
 
       {/* Header */}
       <header className="border-b bg-white/70 backdrop-blur-lg flex-shrink-0 mt-16">
@@ -418,18 +421,6 @@ function EditorContent() {
                 className="w-64"
                 placeholder="Nome do fluxograma"
               />
-              <Button onClick={saveFlowchart} variant="outline" size="sm">
-                <Save className="h-4 w-4 mr-2" />
-                Salvar
-              </Button>
-              <Button onClick={handleExportPNG} variant="outline" size="sm">
-                <Download className="h-4 w-4 mr-2" />
-                PNG
-              </Button>
-              <Button onClick={handleExportPDF} variant="outline" size="sm">
-                <FileDown className="h-4 w-4 mr-2" />
-                PDF
-              </Button>
             </div>
           </div>
         </div>
@@ -458,7 +449,7 @@ function EditorContent() {
       {/* Main Content */}
       <div className="flex-1 flex">
         {/* Canvas */}
-        <div className="flex-1 relative ml-20">
+        <div className="flex-1 relative">
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -498,28 +489,14 @@ function EditorContent() {
           </ReactFlow>
         </div>
 
-        {/* Right Sidebar - Optional */}
-        <div className="w-80 border-l bg-white/50 backdrop-blur-sm">
-          <FlowchartToolbar
-            onAddNode={addNode}
-            onUndo={undo}
-            onRedo={redo}
-            onDelete={deleteSelected}
-            onCopy={() => {}}
-            onPaste={() => {}}
-            onSave={saveFlowchart}
-            onExport={(format) => {
-              if (format === 'png') handleExportPNG()
-              if (format === 'pdf') handleExportPDF()
-              if (format === 'svg') handleExportSVG()
-              if (format === 'json') handleExportJSON()
-            }}
-            onShare={() => {}}
-            canUndo={historyIndex > 0}
-            canRedo={historyIndex < history.length - 1}
-            hasSelection={nodes.some(node => node.selected) || edges.some(edge => edge.selected)}
-          />
-        </div>
+        {/* Clean Sidebar */}
+        <SimpleSidebar
+          onAddNode={addNode}
+          onSave={saveFlowchart}
+          onExportPNG={handleExportPNG}
+          onExportPDF={handleExportPDF}
+          isLoading={isLoading}
+        />
       </div>
     </div>
   )

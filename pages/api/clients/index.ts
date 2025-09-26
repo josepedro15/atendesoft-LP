@@ -38,8 +38,10 @@ async function handleGetClients(req: NextApiRequest, res: NextApiResponse<ApiRes
     }
 
     // Aplicar paginação
-    const from = (Number(page) - 1) * Number(limit);
-    const to = from + Number(limit) - 1;
+    const pageNum = Number(page) || 1;
+    const limitNum = Number(limit) || 20;
+    const from = (pageNum - 1) * limitNum;
+    const to = from + limitNum - 1;
     query = query.range(from, to);
 
     const { data: clients, error, count } = await query;
@@ -49,13 +51,13 @@ async function handleGetClients(req: NextApiRequest, res: NextApiResponse<ApiRes
     }
 
     const total = count || 0;
-    const pages = Math.ceil(total / Number(limit));
+    const pages = Math.ceil(total / limitNum);
 
     res.status(200).json(createSuccessResponse({
       clients: clients || [],
       pagination: {
-        page: Number(page),
-        limit: Number(limit),
+        page: pageNum,
+        limit: limitNum,
         total,
         pages
       }

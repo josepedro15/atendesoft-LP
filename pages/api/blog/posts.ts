@@ -38,8 +38,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     }
 
     // Aplicar paginação
-    const from = (filters.page - 1) * filters.limit;
-    const to = from + filters.limit - 1;
+    const page = filters.page || 1;
+    const limit = filters.limit || 10;
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
     query = query.range(from, to);
 
     const { data: posts, error, count } = await query;
@@ -51,15 +53,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     }
 
     const total = count || 0;
-    const pages = Math.ceil(total / filters.limit);
+    const pages = Math.ceil(total / limit);
 
     console.log('API: Retornando dados:', { total, pages, postsCount: posts?.length });
 
     res.status(200).json(createSuccessResponse({
       posts: posts || [],
       pagination: {
-        page: filters.page,
-        limit: filters.limit,
+        page,
+        limit,
         total,
         pages
       }

@@ -60,8 +60,10 @@ async function handleGetProposals(req: NextApiRequest, res: NextApiResponse<ApiR
     }
 
     // Aplicar paginação
-    const from = (filters.page - 1) * filters.limit;
-    const to = from + filters.limit - 1;
+    const page = filters.page || 1;
+    const limit = filters.limit || 20;
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
     query = query.range(from, to);
 
     const { data: proposals, error, count } = await query;
@@ -71,13 +73,13 @@ async function handleGetProposals(req: NextApiRequest, res: NextApiResponse<ApiR
     }
 
     const total = count || 0;
-    const pages = Math.ceil(total / filters.limit);
+    const pages = Math.ceil(total / limit);
 
     res.status(200).json(createSuccessResponse({
       proposals: proposals || [],
       pagination: {
-        page: filters.page,
-        limit: filters.limit,
+        page,
+        limit,
         total,
         pages
       }

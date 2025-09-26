@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 
 interface AnalyticsEvent {
@@ -10,7 +10,7 @@ interface AnalyticsEvent {
 export const useAnalytics = () => {
   const router = useRouter();
 
-  const trackEvent = async (event: string, properties?: Record<string, any>) => {
+  const trackEvent = useCallback(async (event: string, properties?: Record<string, any>) => {
     try {
       const analyticsEvent: AnalyticsEvent = {
         event,
@@ -39,11 +39,11 @@ export const useAnalytics = () => {
     } catch (error) {
       console.error('Erro ao enviar evento de analytics:', error);
     }
-  };
+  }, [router.asPath]);
 
-  const trackPageView = (page: string) => {
+  const trackPageView = useCallback((page: string) => {
     trackEvent('page_view', { page });
-  };
+  }, [trackEvent]);
 
   const trackConversion = (type: string, value?: number) => {
     trackEvent('conversion', { 

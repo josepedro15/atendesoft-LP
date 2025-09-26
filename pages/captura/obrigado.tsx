@@ -41,7 +41,7 @@ export default function ObrigadoPage() {
 
   const handleJoinCommunity = () => {
     trackWhatsAppClick('community_join');
-    window.open('https://wa.me/5531994959512?text=Olá! Quero participar do Atendesoft DevHub!', '_blank');
+    window.open('https://wa.me/5531994959512?text=Olá! Quero participar do Atendesoft DevHub por R$ 39,90/mês!', '_blank');
   };
 
   const handleCopyCode = (code: string) => {
@@ -519,10 +519,21 @@ export default function ObrigadoPage() {
                 <h2 className="text-4xl font-bold mb-4">
                   🚀 Junte-se ao Atendesoft DevHub
                 </h2>
-                <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
+                <p className="text-xl text-white/90 mb-6 max-w-3xl mx-auto leading-relaxed">
                   Conecte-se com outros profissionais que estão revolucionando a automação de conteúdo. 
                   Compartilhe experiências, aprenda novas técnicas e acelere seus resultados.
                 </p>
+                
+                {/* Pricing Badge */}
+                <div className="mb-8">
+                  <Badge className="bg-white/20 text-white border-white/30 px-6 py-3 text-lg font-semibold">
+                    <Star className="w-5 h-5 mr-2" />
+                    Apenas R$ 39,90/mês
+                  </Badge>
+                  <p className="text-white/80 text-sm mt-2">
+                    Acesso completo à comunidade + recursos exclusivos
+                  </p>
+                </div>
                 
                 <div className="grid md:grid-cols-3 gap-6 mb-8">
                   <div className="bg-white/10 rounded-lg p-6 backdrop-blur-sm">
@@ -542,6 +553,24 @@ export default function ObrigadoPage() {
                   </div>
                 </div>
 
+                {/* Value Proposition */}
+                <div className="bg-white/10 rounded-lg p-6 backdrop-blur-sm mb-8">
+                  <div className="flex items-center justify-center space-x-4">
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-white">R$ 39,90</div>
+                      <div className="text-white/80 text-sm">por mês</div>
+                    </div>
+                    <div className="text-white/60 text-2xl">vs</div>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-white line-through opacity-60">R$ 200+</div>
+                      <div className="text-white/80 text-sm">cursos individuais</div>
+                    </div>
+                  </div>
+                  <p className="text-white/90 text-center mt-4 font-medium">
+                    Economia de mais de 80% comparado a cursos individuais
+                  </p>
+                </div>
+
                 <Button
                   onClick={handleJoinCommunity}
                   className="bg-white text-indigo-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
@@ -552,7 +581,7 @@ export default function ObrigadoPage() {
                 </Button>
                 
                 <p className="text-white/70 text-sm mt-4">
-                  +500 profissionais já fazem parte da nossa comunidade
+                  +500 profissionais já fazem parte da nossa comunidade por apenas R$ 39,90/mês
                 </p>
               </CardContent>
             </div>

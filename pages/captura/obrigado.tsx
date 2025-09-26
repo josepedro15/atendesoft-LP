@@ -117,14 +117,13 @@ export default function ObrigadoPage() {
       setModalSuccess(true);
       trackConversion('devhub_signup', 39.90);
       
-      // Fechar modal após 2 segundos e abrir WhatsApp
+      // Fechar modal após 3 segundos
       setTimeout(() => {
         setModalOpen(false);
         setModalSuccess(false);
         setModalNome('');
         setModalTelefone('');
-        window.open('https://wa.me/5531994959512?text=Olá! Quero participar do Atendesoft DevHub por R$ 39,90/mês!', '_blank');
-      }, 2000);
+      }, 3000);
 
     } catch (error) {
       console.error('Erro ao enviar para webhook:', error);

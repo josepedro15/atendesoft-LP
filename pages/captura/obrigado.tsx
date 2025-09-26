@@ -429,10 +429,6 @@ export default function ObrigadoPage() {
                     </h3>
                     <ul className="space-y-3">
                       <li className="flex items-center text-gray-600">
-                        <Globe className="w-4 h-4 mr-3 text-blue-500" />
-                        15 páginas no sitemap
-                      </li>
-                      <li className="flex items-center text-gray-600">
                         <Clock className="w-4 h-4 mr-3 text-green-500" />
                         Post diário às 15:00
                       </li>

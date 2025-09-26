@@ -27,6 +27,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       console.log('Attempting to send to external webhook...');
       
+      // Criar AbortController para timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 segundos
+
       const response = await fetch('https://webhook.aiensed.com/webhook/atendesoft-devhub', {
         method: 'POST',
         headers: {
@@ -34,8 +38,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           'User-Agent': 'AtendeSoft-Webhook-Proxy/1.0',
         },
         body: JSON.stringify(webhookData),
-        timeout: 10000, // 10 segundos de timeout
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       console.log('Webhook response status:', response.status);
 

@@ -410,7 +410,7 @@ export default function ObrigadoPage() {
                         Google Trends (tendências)
                       </li>
                       <li className="flex items-center text-gray-600">
-                        <Image className="w-4 h-4 mr-3 text-orange-500" />
+                        <Image className="w-4 h-4 mr-3 text-orange-500" alt="" />
                         SerpAPI (imagens)
                       </li>
                       <li className="flex items-center text-gray-600">

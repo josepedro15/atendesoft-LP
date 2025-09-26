@@ -95,7 +95,7 @@ export const useAnalytics = () => {
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
-  }, [router]);
+  }, [router, trackPageView]);
 
   return {
     trackEvent,

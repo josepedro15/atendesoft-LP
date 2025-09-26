@@ -23,8 +23,8 @@ export const useAnalytics = () => {
         }
       };
 
-      // Enviar para API de tracking
-      await fetch('/api/track/event', {
+      // Enviar para API de analytics
+      await fetch('/api/analytics/event', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

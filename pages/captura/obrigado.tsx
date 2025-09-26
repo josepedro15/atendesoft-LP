@@ -12,6 +12,11 @@ export default function ObrigadoPage() {
   const [downloadCount, setDownloadCount] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  
+  // Debug: Log modal state changes
+  useEffect(() => {
+    console.log('Modal state changed:', modalOpen);
+  }, [modalOpen]);
   const [modalLoading, setModalLoading] = useState(false);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState('');
@@ -65,8 +70,10 @@ export default function ObrigadoPage() {
   };
 
   const handleJoinCommunity = () => {
+    console.log('handleJoinCommunity called'); // Debug
     trackWhatsAppClick('community_join');
     setModalOpen(true);
+    console.log('modalOpen set to true'); // Debug
   };
 
   const handleModalSubmit = async () => {
@@ -600,16 +607,28 @@ export default function ObrigadoPage() {
 
                 <Button
                   onClick={handleJoinCommunity}
-                  className="bg-white text-indigo-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+                  className="w-full sm:w-auto bg-white text-indigo-600 hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
                 >
-                  <Users className="w-5 h-5 mr-2" />
+                  <Users className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   Participar do DevHub
-                  <ArrowRight className="w-5 h-5 ml-2" />
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
                 </Button>
                 
                 <p className="text-white/70 text-sm mt-4">
                   +500 profissionais já fazem parte da nossa comunidade por apenas R$ 39,90/mês
                 </p>
+                
+                {/* Debug button - remove after testing */}
+                <Button
+                  onClick={() => {
+                    console.log('Debug button clicked');
+                    setModalOpen(true);
+                  }}
+                  className="w-full mt-2 bg-red-500 text-white hover:bg-red-600"
+                  size="sm"
+                >
+                  Debug: Abrir Modal
+                </Button>
               </CardContent>
             </div>
           </Card>
@@ -618,7 +637,7 @@ export default function ObrigadoPage() {
 
       {/* Modal de Confirmação DevHub */}
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <DialogContent className="sm:max-w-md mx-4">
+        <DialogContent className="sm:max-w-md mx-4 max-h-[90vh] overflow-y-auto z-50 fixed inset-4 sm:inset-auto">
           <DialogHeader className="px-2 sm:px-0">
             <DialogTitle className="text-center text-xl sm:text-2xl font-bold text-gray-900">
               🚀 Confirmar Participação

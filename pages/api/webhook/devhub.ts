@@ -32,13 +32,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 segundos
 
-      const response = await fetch('https://webhook.aiensed.com/webhook/atendesoft-devhub', {
-        method: 'POST',
+      // Construir URL com parâmetros para GET request
+      const url = new URL('https://webhook.aiensed.com/webhook/atendesoft-devhub');
+      url.searchParams.append('nome', webhookData.nome);
+      url.searchParams.append('telefone', webhookData.telefone);
+      url.searchParams.append('valor', webhookData.valor);
+      url.searchParams.append('produto', webhookData.produto);
+      url.searchParams.append('timestamp', webhookData.timestamp);
+      url.searchParams.append('origem', webhookData.origem);
+      url.searchParams.append('user_agent', webhookData.user_agent);
+      url.searchParams.append('referrer', webhookData.referrer);
+
+      const response = await fetch(url.toString(), {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
           'User-Agent': 'AtendeSoft-Webhook-Proxy/1.0',
         },
-        body: JSON.stringify(webhookData),
         signal: controller.signal,
       });
 

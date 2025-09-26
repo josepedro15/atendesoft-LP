@@ -622,7 +622,7 @@ export default function ObrigadoPage() {
       {/* Modal de Confirmação DevHub */}
       {modalOpen && (
         <div 
-          className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-16 sm:pt-20 bg-black/50 overflow-y-auto"
+          className="fixed inset-0 z-50 flex items-end justify-center p-4 pb-16 sm:pb-20 bg-black/50 overflow-y-auto"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               setModalOpen(false);

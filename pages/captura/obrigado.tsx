@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Download, CheckCircle, Zap, Search, FileText, Image, Send, Users, MessageCircle, ArrowRight, Star, Clock, TrendingUp, Target, Shield, Globe, Bot, Database, Smartphone, Copy, ExternalLink, Play, BookOpen, Code, Settings, Loader2, User, Phone } from 'lucide-react';
+import { Download, CheckCircle, Zap, Search, FileText, Image, ImageIcon, Send, Users, MessageCircle, ArrowRight, Star, Clock, TrendingUp, Target, Shield, Globe, Bot, Database, Smartphone, Copy, ExternalLink, Play, BookOpen, Code, Settings, Loader2, User, Phone } from 'lucide-react';
 
 export default function ObrigadoPage() {
   const [downloadCount, setDownloadCount] = useState(0);
@@ -409,7 +409,7 @@ export default function ObrigadoPage() {
                         Google Trends (tendências)
                       </li>
                       <li className="flex items-center text-gray-600">
-                        <Image className="w-4 h-4 mr-3 text-orange-500" alt="" />
+                        <ImageIcon className="w-4 h-4 mr-3 text-orange-500" />
                         SerpAPI (imagens)
                       </li>
                       <li className="flex items-center text-gray-600">

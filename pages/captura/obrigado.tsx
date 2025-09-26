@@ -95,7 +95,7 @@ export default function ObrigadoPage() {
         referrer: document.referrer || 'direct'
       };
 
-      const response = await fetch('https://webhook.aiensed.com/webhook/atendesoft-devhub', {
+      const response = await fetch('/api/webhook/devhub', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -104,7 +104,14 @@ export default function ObrigadoPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Erro ao enviar dados');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Erro ao enviar dados');
+      }
+
+      const result = await response.json();
+      
+      if (!result.success) {
+        throw new Error(result.error || 'Erro ao processar dados');
       }
 
       setModalSuccess(true);

@@ -64,7 +64,7 @@ export default function ObrigadoPage() {
     return numeros.length >= 10 && numeros.length <= 11;
   };
 
-  const handleJoinCommunity = (e) => {
+  const handleJoinCommunity = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     trackWhatsAppClick('community_join');

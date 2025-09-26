@@ -12,11 +12,6 @@ export default function ObrigadoPage() {
   const [downloadCount, setDownloadCount] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  
-  // Debug: Log modal state changes
-  useEffect(() => {
-    console.log('Modal state changed:', modalOpen);
-  }, [modalOpen]);
   const [modalLoading, setModalLoading] = useState(false);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState('');
@@ -69,11 +64,11 @@ export default function ObrigadoPage() {
     return numeros.length >= 10 && numeros.length <= 11;
   };
 
-  const handleJoinCommunity = () => {
-    console.log('handleJoinCommunity called'); // Debug
+  const handleJoinCommunity = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     trackWhatsAppClick('community_join');
     setModalOpen(true);
-    console.log('modalOpen set to true'); // Debug
   };
 
   const handleModalSubmit = async () => {
@@ -627,7 +622,7 @@ export default function ObrigadoPage() {
       {/* Modal de Confirmação DevHub */}
       {modalOpen && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+          className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-16 sm:pt-20 bg-black/50 overflow-y-auto"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               setModalOpen(false);

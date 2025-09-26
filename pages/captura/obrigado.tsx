@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Download, CheckCircle, Zap, Search, FileText, Image, ImageIcon, Send, Users, MessageCircle, ArrowRight, Star, Clock, TrendingUp, Target, Shield, Globe, Bot, Database, Smartphone, ExternalLink, Play, BookOpen, Code, Settings, Loader2, User, Phone } from 'lucide-react';
+import { Download, CheckCircle, Zap, Search, FileText, Image, ImageIcon, Send, Users, MessageCircle, ArrowRight, Star, Clock, TrendingUp, Target, Shield, Globe, Bot, Database, Smartphone, Play, BookOpen, Code, Loader2, User, Phone } from 'lucide-react';
 
 export default function ObrigadoPage() {
   const [downloadCount, setDownloadCount] = useState(0);
@@ -241,15 +241,6 @@ export default function ObrigadoPage() {
                       <div>
                         <h3 className="font-semibold text-gray-900">Configurar APIs</h3>
                         <p className="text-sm text-gray-600">Adicione suas chaves de API</p>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="mt-2"
-                          onClick={() => window.open('#config', '_blank')}
-                        >
-                          <Settings className="w-3 h-3 mr-1" />
-                          Ver configuração
-                        </Button>
                       </div>
                     </div>
                   </div>
@@ -276,15 +267,6 @@ export default function ObrigadoPage() {
                       <div>
                         <h3 className="font-semibold text-gray-900">Monitorar Resultados</h3>
                         <p className="text-sm text-gray-600">Acompanhe métricas e performance</p>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="mt-2"
-                          onClick={() => window.open('/dashboard', '_blank')}
-                        >
-                          <ExternalLink className="w-3 h-3 mr-1" />
-                          Ver dashboard
-                        </Button>
                       </div>
                     </div>
                   </div>

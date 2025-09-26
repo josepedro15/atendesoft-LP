@@ -618,17 +618,6 @@ export default function ObrigadoPage() {
                   +500 profissionais já fazem parte da nossa comunidade por apenas R$ 39,90/mês
                 </p>
                 
-                {/* Debug button - remove after testing */}
-                <Button
-                  onClick={() => {
-                    console.log('Debug button clicked');
-                    setModalOpen(true);
-                  }}
-                  className="w-full mt-2 bg-red-500 text-white hover:bg-red-600"
-                  size="sm"
-                >
-                  Debug: Abrir Modal
-                </Button>
               </CardContent>
             </div>
           </Card>
@@ -636,16 +625,38 @@ export default function ObrigadoPage() {
       </div>
 
       {/* Modal de Confirmação DevHub */}
-      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <DialogContent className="sm:max-w-md mx-4 max-h-[90vh] overflow-y-auto z-50 fixed inset-4 sm:inset-auto">
-          <DialogHeader className="px-2 sm:px-0">
-            <DialogTitle className="text-center text-xl sm:text-2xl font-bold text-gray-900">
-              🚀 Confirmar Participação
-            </DialogTitle>
-            <DialogDescription className="text-center text-gray-600 text-sm sm:text-base">
-              Confirme seus dados para participar do Atendesoft DevHub por R$ 39,90/mês
-            </DialogDescription>
-          </DialogHeader>
+      {modalOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setModalOpen(false);
+            }
+          }}
+        >
+          <div 
+            className="bg-white rounded-lg shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-4 sm:p-6">
+              <div className="flex justify-between items-start mb-6">
+                <div className="flex-1">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+                    🚀 Confirmar Participação
+                  </h2>
+                  <p className="text-gray-600 text-sm sm:text-base">
+                    Confirme seus dados para participar do Atendesoft DevHub por R$ 39,90/mês
+                  </p>
+                </div>
+                <button
+                  onClick={() => setModalOpen(false)}
+                  className="ml-4 text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
           
           <div className="space-y-4">
             {modalSuccess ? (
@@ -746,9 +757,11 @@ export default function ObrigadoPage() {
                 </div>
               </>
             )}
+              </div>
+            </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      )}
     </div>
   );
 }

@@ -139,15 +139,15 @@ export default function ObrigadoPage() {
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
           <div className="text-center">
-            <div className="mx-auto w-24 h-24 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center mb-8 shadow-lg">
-              <CheckCircle className="w-14 h-14 text-white" />
+            <div className="mx-auto w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center mb-4 sm:mb-6 lg:mb-8 shadow-lg">
+              <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 lg:w-14 lg:h-14 text-white" />
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 px-2">
               🚀 Sistema de Agentes N8N
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
               <span className="text-green-600 font-semibold">Sucesso!</span> Seus dados foram recebidos. 
               Agora você tem acesso ao sistema completo de automação de blog.
             </p>
@@ -156,31 +156,31 @@ export default function ObrigadoPage() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="grid lg:grid-cols-3 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 sm:pb-12 lg:pb-16">
+        <div className="grid lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {/* Left Column - Main Content */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6 lg:space-y-8">
             
             {/* Download Section */}
             <Card className="bg-white shadow-xl border-0">
-              <CardContent className="p-8">
+              <CardContent className="p-4 sm:p-6 lg:p-8">
                 <div className="text-center">
-                  <div className="mx-auto w-16 h-16 bg-gradient-to-r from-primary to-primary/80 rounded-full flex items-center justify-center mb-6">
-                    <Download className="w-8 h-8 text-white" />
+                  <div className="mx-auto w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-r from-primary to-primary/80 rounded-full flex items-center justify-center mb-4 sm:mb-6">
+                    <Download className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" />
                   </div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4 px-2">
                     Baixe o Workflow Completo
                   </h2>
-                  <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
+                  <p className="text-base sm:text-lg text-gray-600 mb-4 sm:mb-6 max-w-2xl mx-auto px-2">
                     Arquivo ZIP contendo o workflow N8N completo, documentação detalhada e instruções de implementação.
                   </p>
                   
-                  <div className="flex items-center justify-center space-x-4 mb-6">
-                    <Badge variant="secondary" className="bg-green-100 text-green-800">
+                  <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4 mb-4 sm:mb-6">
+                    <Badge variant="secondary" className="bg-green-100 text-green-800 text-xs sm:text-sm">
                       <Download className="w-3 h-3 mr-1" />
                       {downloadCount + 127} downloads hoje
                     </Badge>
-                    <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                    <Badge variant="secondary" className="bg-blue-100 text-blue-800 text-xs sm:text-sm">
                       <Star className="w-3 h-3 mr-1" />
                       Versão 2.1
                     </Badge>
@@ -188,9 +188,9 @@ export default function ObrigadoPage() {
 
                   <Button
                     onClick={handleDownload}
-                    className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+                    className="w-full sm:w-auto bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
-                    <Download className="w-5 h-5 mr-2" />
+                    <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                     Baixar Fluxo N8N Completo
                   </Button>
 
@@ -208,65 +208,65 @@ export default function ObrigadoPage() {
 
             {/* Quick Start Guide */}
             <Card className="bg-white shadow-xl border-0">
-              <CardHeader>
-                <CardTitle className="text-3xl font-bold text-gray-900 text-center flex items-center justify-center">
-                  <Play className="w-8 h-8 mr-3 text-primary" />
+              <CardHeader className="p-4 sm:p-6">
+                <CardTitle className="text-2xl sm:text-3xl font-bold text-gray-900 text-center flex items-center justify-center">
+                  <Play className="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 text-primary" />
                   Guia Rápido de Implementação
                 </CardTitle>
-                <CardDescription className="text-lg text-gray-600 text-center max-w-3xl mx-auto">
+                <CardDescription className="text-base sm:text-lg text-gray-600 text-center max-w-3xl mx-auto px-2">
                   Siga estes passos para implementar o sistema em menos de 30 minutos
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <div className="flex items-start space-x-3 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                      <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
+              <CardContent className="p-4 sm:p-6">
+                <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
+                  <div className="space-y-3 sm:space-y-4">
+                    <div className="flex items-start space-x-3 p-3 sm:p-4 bg-blue-50 rounded-lg border border-blue-200">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold">1</div>
                       <div>
-                        <h3 className="font-semibold text-gray-900">Instalar N8N</h3>
-                        <p className="text-sm text-gray-600">Baixe e instale o N8N no seu servidor</p>
+                        <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Instalar N8N</h3>
+                        <p className="text-xs sm:text-sm text-gray-600">Baixe e instale o N8N no seu servidor</p>
                       </div>
                     </div>
 
-                    <div className="flex items-start space-x-3 p-4 bg-green-50 rounded-lg border border-green-200">
-                      <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">2</div>
+                    <div className="flex items-start space-x-3 p-3 sm:p-4 bg-green-50 rounded-lg border border-green-200">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold">2</div>
                       <div>
-                        <h3 className="font-semibold text-gray-900">Importar Workflow</h3>
-                        <p className="text-sm text-gray-600">Importe o arquivo JSON no N8N</p>
+                        <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Importar Workflow</h3>
+                        <p className="text-xs sm:text-sm text-gray-600">Importe o arquivo JSON no N8N</p>
                       </div>
                     </div>
 
-                    <div className="flex items-start space-x-3 p-4 bg-purple-50 rounded-lg border border-purple-200">
-                      <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center text-sm font-bold">3</div>
+                    <div className="flex items-start space-x-3 p-3 sm:p-4 bg-purple-50 rounded-lg border border-purple-200">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-purple-500 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold">3</div>
                       <div>
-                        <h3 className="font-semibold text-gray-900">Configurar APIs</h3>
-                        <p className="text-sm text-gray-600">Adicione suas chaves de API</p>
+                        <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Configurar APIs</h3>
+                        <p className="text-xs sm:text-sm text-gray-600">Adicione suas chaves de API</p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="space-y-4">
-                    <div className="flex items-start space-x-3 p-4 bg-orange-50 rounded-lg border border-orange-200">
-                      <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold">4</div>
+                  <div className="space-y-3 sm:space-y-4">
+                    <div className="flex items-start space-x-3 p-3 sm:p-4 bg-orange-50 rounded-lg border border-orange-200">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-orange-500 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold">4</div>
                       <div>
-                        <h3 className="font-semibold text-gray-900">Testar Workflow</h3>
-                        <p className="text-sm text-gray-600">Execute um teste para verificar funcionamento</p>
+                        <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Testar Workflow</h3>
+                        <p className="text-xs sm:text-sm text-gray-600">Execute um teste para verificar funcionamento</p>
                       </div>
                     </div>
 
-                    <div className="flex items-start space-x-3 p-4 bg-indigo-50 rounded-lg border border-indigo-200">
-                      <div className="w-8 h-8 bg-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-bold">5</div>
+                    <div className="flex items-start space-x-3 p-3 sm:p-4 bg-indigo-50 rounded-lg border border-indigo-200">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-indigo-500 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold">5</div>
                       <div>
-                        <h3 className="font-semibold text-gray-900">Agendar Execução</h3>
-                        <p className="text-sm text-gray-600">Configure execução automática diária</p>
+                        <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Agendar Execução</h3>
+                        <p className="text-xs sm:text-sm text-gray-600">Configure execução automática diária</p>
                       </div>
                     </div>
 
-                    <div className="flex items-start space-x-3 p-4 bg-pink-50 rounded-lg border border-pink-200">
-                      <div className="w-8 h-8 bg-pink-500 text-white rounded-full flex items-center justify-center text-sm font-bold">6</div>
+                    <div className="flex items-start space-x-3 p-3 sm:p-4 bg-pink-50 rounded-lg border border-pink-200">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-pink-500 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold">6</div>
                       <div>
-                        <h3 className="font-semibold text-gray-900">Monitorar Resultados</h3>
-                        <p className="text-sm text-gray-600">Acompanhe métricas e performance</p>
+                        <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Monitorar Resultados</h3>
+                        <p className="text-xs sm:text-sm text-gray-600">Acompanhe métricas e performance</p>
                       </div>
                     </div>
                   </div>
@@ -398,16 +398,16 @@ export default function ObrigadoPage() {
           </div>
 
           {/* Right Column - Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* CTA Principal */}
             <Card className="bg-gradient-to-br from-primary to-primary/80 text-white shadow-xl border-0">
-              <CardContent className="p-6">
+              <CardContent className="p-4 sm:p-6">
                 <div className="text-center">
-                  <div className="mx-auto w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
-                    <Zap className="w-8 h-8 text-white" />
+                  <div className="mx-auto w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-white/20 rounded-full flex items-center justify-center mb-3 sm:mb-4">
+                    <Zap className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-3">Pronto para Automatizar?</h3>
-                  <p className="text-white/90 mb-6 text-sm">
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3">Pronto para Automatizar?</h3>
+                  <p className="text-white/90 mb-4 sm:mb-6 text-xs sm:text-sm">
                     Implemente este sistema na sua operação e tenha conteúdo SEO-otimizado todos os dias.
                   </p>
                   <Button
@@ -618,12 +618,12 @@ export default function ObrigadoPage() {
 
       {/* Modal de Confirmação DevHub */}
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-center text-2xl font-bold text-gray-900">
+        <DialogContent className="sm:max-w-md mx-4">
+          <DialogHeader className="px-2 sm:px-0">
+            <DialogTitle className="text-center text-xl sm:text-2xl font-bold text-gray-900">
               🚀 Confirmar Participação
             </DialogTitle>
-            <DialogDescription className="text-center text-gray-600">
+            <DialogDescription className="text-center text-gray-600 text-sm sm:text-base">
               Confirme seus dados para participar do Atendesoft DevHub por R$ 39,90/mês
             </DialogDescription>
           </DialogHeader>

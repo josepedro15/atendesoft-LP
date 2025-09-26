@@ -35,12 +35,16 @@ class ApiClient {
   ): Promise<ApiResponse<T>> {
     const url = `${this.baseUrl}${endpoint}`;
     
+    // Criar AbortController para timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), this.timeout);
+    
     const defaultOptions: RequestInit = {
       headers: {
         'Content-Type': 'application/json',
         ...options.headers,
       },
-      timeout: this.timeout,
+      signal: controller.signal,
     };
 
     try {
@@ -48,6 +52,8 @@ class ApiClient {
         ...defaultOptions,
         ...options,
       });
+
+      clearTimeout(timeoutId);
 
       const data = await response.json();
 
@@ -57,6 +63,7 @@ class ApiClient {
 
       return data;
     } catch (error) {
+      clearTimeout(timeoutId);
       console.error('API Request Error:', error);
       throw error;
     }

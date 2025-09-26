@@ -46,7 +46,7 @@ export default function ObrigadoPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="text-center p-4 bg-blue-50 rounded-lg">
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Search className="w-6 h-6 text-blue-600" alt="Ícone de pesquisa" />
+                  <Search className="w-6 h-6 text-blue-600" />
                 </div>
                 <h4 className="font-semibold text-gray-900 mb-2">1. Pesquisa</h4>
                 <p className="text-sm text-gray-600">Agentes analisam Google Trends e selecionam tópicos com +30% de crescimento</p>

@@ -6,17 +6,12 @@
   "scripts": {
     "dev": "next dev",
     "dev:domain": "next dev -H 0.0.0.0 -p 3000",
-    "dev:watch": "node dev-simple.mjs",
-    "dev:hot": "concurrently \"npm run dev\" \"npm run dev:watch\"",
     "build": "next build",
     "start": "next start",
     "start:domain": "next start -H 0.0.0.0 -p 3000",
     "lint": "next lint",
     "deploy": "vercel --prod",
     "deploy:preview": "vercel",
-    "dev:commit": "git add . && git commit -m \"dev: $(date '+%H:%M:%S') - Testando edições\"",
-    "dev:push": "git push origin dev-editor-fixes",
-    "dev:deploy": "npm run dev:commit && npm run dev:push"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -85,7 +80,6 @@
     "@types/react": "18.3.24",
     "@types/react-dom": "^18.3.7",
     "autoprefixer": "^10.4.21",
-    "concurrently": "^9.2.1",
     "eslint": "^8.57.0",
     "eslint-config-next": "^15.1.0",
     "postcss": "^8.5.6",

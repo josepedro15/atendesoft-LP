@@ -30,27 +30,6 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react', 'motion/react'],
   },
   
-  // Configurações de desenvolvimento
-  ...(process.env.NODE_ENV === 'development' && {
-    // Desabilitar Fast Refresh problemático
-    reactStrictMode: false,
-    // Desabilitar hot reload completamente
-    webpack: (config, { dev }) => {
-      if (dev) {
-        config.watchOptions = {
-          poll: false,
-          aggregateTimeout: 1000,
-          ignored: ['**/node_modules/**', '**/.git/**', '**/.next/**']
-        }
-        // Desabilitar hot reload
-        config.optimization = {
-          ...config.optimization,
-          splitChunks: false
-        }
-      }
-      return config
-    },
-  }),
   
   // Compressão e otimizações (swcMinify é padrão no Next.js 15)
   

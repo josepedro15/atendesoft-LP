@@ -7,10 +7,27 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { FlowchartsProvider } from "@/contexts/FlowchartsContext";
 import PageTransition from "@/components/PageTransition";
 import "@/index.css";
+import { useState } from 'react';
 
-const queryClient = new QueryClient();
+// Criar QueryClient apenas uma vez
+let queryClient: QueryClient | undefined = undefined;
+
+function getQueryClient() {
+  if (typeof window === 'undefined') {
+    // Server: sempre criar um novo
+    return new QueryClient();
+  } else {
+    // Browser: criar apenas uma vez
+    if (!queryClient) {
+      queryClient = new QueryClient();
+    }
+    return queryClient;
+  }
+}
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [queryClient] = useState(() => getQueryClient());
+  
   return (
     <div style={{ overflow: 'visible' }}>
       <QueryClientProvider client={queryClient}>

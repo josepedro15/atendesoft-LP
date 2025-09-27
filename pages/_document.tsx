@@ -5,7 +5,6 @@ export default function Document() {
     <Html lang="pt-BR">
       <Head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="Automação Comercial, Apps e Dashboards com IA - AtendeSoft" />
         <meta name="keywords" content="automação, IA, WhatsApp, dashboards, BI, vendas" />
         <meta name="author" content="AtendeSoft" />

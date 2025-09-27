@@ -17,12 +17,17 @@ export default function ProtectedRoute({
   const router = useRouter()
 
   useEffect(() => {
+    // Para desenvolvimento, permitir acesso sem autenticação
+    if (process.env.NODE_ENV === 'development') {
+      return
+    }
+    
     if (!loading && !user) {
       router.push(redirectTo)
     }
   }, [user, loading, router, redirectTo])
 
-  if (loading) {
+  if (loading && process.env.NODE_ENV !== 'development') {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
@@ -33,7 +38,7 @@ export default function ProtectedRoute({
     )
   }
 
-  if (!user) {
+  if (!user && process.env.NODE_ENV !== 'development') {
     return null
   }
 

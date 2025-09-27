@@ -20,7 +20,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
 
+  // Em desenvolvimento, criar um usuário mock
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      const mockUser = {
+        id: '00000000-0000-0000-0000-000000000000',
+        email: 'dev@atendesoft.com',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        aud: 'authenticated',
+        role: 'authenticated',
+        user_metadata: {},
+        app_metadata: {},
+        identities: []
+      } as User
+
+      setUser(mockUser)
+      setLoading(false)
+      return
+    }
+  }, [])
+
+  useEffect(() => {
+    // Em desenvolvimento, não executar autenticação real
+    if (process.env.NODE_ENV === 'development') {
+      return
+    }
+
     // Obter sessão inicial
     const getInitialSession = async () => {
       const { data: { session } } = await supabase.auth.getSession()

@@ -364,12 +364,12 @@ export const ConnectorNode = ({ data, selected, onLabelChange, onColorChange }: 
   const currentColor = colors.find(c => c.value === data.color) || colors[7] // Default cinza
   
   return (
-    <div className={`w-8 h-8 shadow-lg rounded-full bg-white border-2 flex items-center justify-center transition-all ${
-      selected ? `${currentColor.border} shadow-gray-200` : 'border-gray-300 hover:border-gray-400'
-    }`}>
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange} onColorChange={onColorChange}>
       <AllSideHandles color={currentColor.handle} />
-      <div className={`w-2 h-2 ${currentColor.handle} rounded-full`}></div>
-    </div>
+      <div className={`w-8 h-8 ${currentColor.shape} rounded-full flex items-center justify-center`}>
+        <div className={`w-2 h-2 ${currentColor.handle} rounded-full`}></div>
+      </div>
+    </EditableNode>
   )
 }
 

@@ -103,10 +103,12 @@ const EditableNode = ({
     if (onLabelChange) {
       console.log('📞 Chamando onLabelChange com:', editLabel)
       onLabelChange(editLabel)
+      setIsEditing(false)
     } else {
       console.error('❌ onLabelChange não está definido!')
+      // Mesmo sem callback, sair do modo de edição
+      setIsEditing(false)
     }
-    setIsEditing(false)
   }
 
   const handleCancel = () => {
@@ -139,58 +141,67 @@ const EditableNode = ({
         <Button
           size="sm"
           variant="ghost"
-          className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50 z-50"
+          className="w-7 h-7 p-0 bg-white border-2 border-blue-500 shadow-lg hover:bg-blue-50 hover:border-blue-600 z-50 transition-all duration-200"
           onClick={(e) => {
             e.stopPropagation()
             console.log('✏️ Botão de editar clicado')
             setIsEditing(true)
           }}
+          title="Editar nome"
         >
-          <Edit2 className="w-3 h-3" />
+          <Edit2 className="w-4 h-4 text-blue-600" />
         </Button>
         <Button
           size="sm"
           variant="ghost"
-          className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50 z-50"
+          className="w-7 h-7 p-0 bg-white border-2 border-purple-500 shadow-lg hover:bg-purple-50 hover:border-purple-600 z-50 transition-all duration-200"
           onClick={(e) => {
             e.stopPropagation()
             console.log('🎨 Botão de cor clicado')
             setShowColorPicker(!showColorPicker)
           }}
+          title="Mudar cor"
         >
-          <Palette className="w-3 h-3" />
+          <Palette className="w-4 h-4 text-purple-600" />
         </Button>
       </div>
 
       {/* Color Picker */}
       {showColorPicker && (
-        <div className="color-picker-container absolute top-8 right-0 bg-white border border-gray-300 rounded-lg shadow-lg p-2 z-50">
-          <div className="grid grid-cols-4 gap-1">
+        <div className="color-picker-container absolute top-10 right-0 bg-white border-2 border-purple-300 rounded-lg shadow-xl p-3 z-50">
+          <div className="text-xs font-semibold text-gray-700 mb-2 text-center">Escolher Cor</div>
+          <div className="grid grid-cols-4 gap-2">
             {colors.map((color) => (
               <button
                 key={color.value}
-                className={`w-6 h-6 rounded border-2 ${
-                  currentColor.value === color.value ? 'border-gray-800' : 'border-gray-300'
+                className={`w-8 h-8 rounded-lg border-2 transition-all duration-200 hover:scale-110 ${
+                  currentColor.value === color.value 
+                    ? 'border-gray-800 shadow-lg ring-2 ring-purple-300' 
+                    : 'border-gray-300 hover:border-gray-500'
                 } ${color.bg}`}
                 onClick={() => handleColorSelect(color)}
                 title={color.name}
               />
             ))}
           </div>
+          <div className="text-xs text-gray-500 mt-2 text-center">
+            Clique em uma cor para aplicar
+          </div>
         </div>
       )}
 
       {/* Editable Label */}
       {isEditing ? (
-        <div className="flex items-center space-x-1 mt-2">
+        <div className="flex items-center space-x-2 mt-2 bg-white p-2 rounded border-2 border-blue-300 shadow-lg">
           <Input
             value={editLabel}
             onChange={(e) => {
               console.log('📝 Input mudou para:', e.target.value)
               setEditLabel(e.target.value)
             }}
-            className="text-xs h-6"
+            className="text-sm h-8 flex-1 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
             autoFocus
+            placeholder="Digite o nome..."
             onKeyDown={(e) => {
               console.log('⌨️ Tecla pressionada:', e.key)
               if (e.key === 'Enter') {
@@ -203,21 +214,33 @@ const EditableNode = ({
               }
             }}
           />
-          <Button size="sm" variant="ghost" className="w-4 h-4 p-0" onClick={() => {
-            console.log('✅ Botão salvar clicado')
-            handleSave()
-          }}>
-            <Check className="w-3 h-3 text-green-600" />
+          <Button 
+            size="sm" 
+            variant="ghost" 
+            className="w-8 h-8 p-0 bg-green-100 hover:bg-green-200 border border-green-300" 
+            onClick={() => {
+              console.log('✅ Botão salvar clicado')
+              handleSave()
+            }}
+            title="Salvar"
+          >
+            <Check className="w-4 h-4 text-green-600" />
           </Button>
-          <Button size="sm" variant="ghost" className="w-4 h-4 p-0" onClick={() => {
-            console.log('❌ Botão cancelar clicado')
-            handleCancel()
-          }}>
-            <X className="w-3 h-3 text-red-600" />
+          <Button 
+            size="sm" 
+            variant="ghost" 
+            className="w-8 h-8 p-0 bg-red-100 hover:bg-red-200 border border-red-300" 
+            onClick={() => {
+              console.log('❌ Botão cancelar clicado')
+              handleCancel()
+            }}
+            title="Cancelar"
+          >
+            <X className="w-4 h-4 text-red-600" />
           </Button>
         </div>
       ) : (
-        <div className="font-semibold text-sm text-gray-800 text-center">
+        <div className="font-semibold text-sm text-gray-800 text-center cursor-pointer hover:text-gray-600 transition-colors" onClick={() => setIsEditing(true)}>
           {data.label}
         </div>
       )}

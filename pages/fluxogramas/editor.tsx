@@ -34,21 +34,7 @@ import ReactFlow, {
   MarkerType,
 } from 'reactflow'
 import 'reactflow/dist/style.css'
-import { 
-  ProcessNode, 
-  DecisionNode, 
-  StartEndNode, 
-  InputOutputNode,
-  DataNode,
-  DocumentNode,
-  ConnectorNode,
-  DatabaseNode,
-  ApiNode,
-  TimerNode,
-  UserNode,
-  CloudNode,
-  LoopNode
-} from '@/components/flowchart/CustomNodes'
+import { createNodeTypes } from '@/components/flowchart/NodeTypes'
 import SimpleSidebar from '@/components/flowchart/SimpleSidebar'
 import { exportAsPNG, exportAsPDF, exportAsSVG, exportAsJSON } from '@/components/flowchart/ExportUtils'
 
@@ -145,14 +131,16 @@ function EditorContent() {
   const [isNewFlowchart, setIsNewFlowchart] = useState(true)
 
   const saveToHistory = useCallback(() => {
-    const newState = { nodes, edges }
-    const newHistory = history.slice(0, historyIndex + 1)
-    newHistory.push(newState)
-    setHistory(newHistory)
-    setHistoryIndex(newHistory.length - 1)
-  }, [nodes, edges, history, historyIndex])
+    setHistory(prevHistory => {
+      const newState = { nodes, edges }
+      const newHistory = prevHistory.slice(0, historyIndex + 1)
+      newHistory.push(newState)
+      return newHistory
+    })
+    setHistoryIndex(prevIndex => prevIndex + 1)
+  }, [nodes, edges, historyIndex])
 
-  // Função para lidar com mudanças de label
+  // Função para lidar com mudanças de label - SEM dependências problemáticas
   const handleLabelChange = useCallback((nodeId: string, newLabel: string) => {
     console.log('🔄 Mudando label do nó:', nodeId, 'para:', newLabel)
     setNodes((nds) =>
@@ -160,10 +148,9 @@ function EditorContent() {
         node.id === nodeId ? { ...node, data: { ...node.data, label: newLabel } } : node
       )
     )
-    saveToHistory()
-  }, [setNodes, saveToHistory])
+  }, [setNodes])
 
-  // Função para lidar com mudanças de cor
+  // Função para lidar com mudanças de cor - SEM dependências problemáticas
   const handleColorChange = useCallback((nodeId: string, newColor: string) => {
     console.log('🎨 Mudando cor do nó:', nodeId, 'para:', newColor)
     setNodes((nds) =>
@@ -171,41 +158,10 @@ function EditorContent() {
         node.id === nodeId ? { ...node, data: { ...node.data, color: newColor } } : node
       )
     )
-    saveToHistory()
-  }, [setNodes, saveToHistory])
+  }, [setNodes])
 
-  // NodeTypes dinâmico com callbacks - SIMPLIFICADO
-  const nodeTypes: NodeTypes = useMemo(() => {
-    console.log('🔄 Recriando nodeTypes com callbacks:', { handleLabelChange: !!handleLabelChange, handleColorChange: !!handleColorChange })
-    
-    // Função helper para criar callbacks
-    const createCallbacks = (id: string) => ({
-      onLabelChange: (label: string) => {
-        console.log('🔥 CALLBACK onLabelChange chamado para ID:', id, 'label:', label)
-        handleLabelChange(id, label)
-      },
-      onColorChange: (color: string) => {
-        console.log('🔥 CALLBACK onColorChange chamado para ID:', id, 'color:', color)
-        handleColorChange(id, color)
-      }
-    })
-
-    return {
-      process: (props) => <ProcessNode {...props} {...createCallbacks(props.id)} />,
-      decision: (props) => <DecisionNode {...props} {...createCallbacks(props.id)} />,
-      startEnd: (props) => <StartEndNode {...props} {...createCallbacks(props.id)} />,
-      inputOutput: (props) => <InputOutputNode {...props} {...createCallbacks(props.id)} />,
-      data: (props) => <DataNode {...props} {...createCallbacks(props.id)} />,
-      document: (props) => <DocumentNode {...props} {...createCallbacks(props.id)} />,
-      connector: (props) => <ConnectorNode {...props} {...createCallbacks(props.id)} />,
-      database: (props) => <DatabaseNode {...props} {...createCallbacks(props.id)} />,
-      api: (props) => <ApiNode {...props} {...createCallbacks(props.id)} />,
-      timer: (props) => <TimerNode {...props} {...createCallbacks(props.id)} />,
-      user: (props) => <UserNode {...props} {...createCallbacks(props.id)} />,
-      cloud: (props) => <CloudNode {...props} {...createCallbacks(props.id)} />,
-      loop: (props) => <LoopNode {...props} {...createCallbacks(props.id)} />,
-    }
-  }, [handleLabelChange, handleColorChange])
+  // NodeTypes estável usando função externa
+  const nodeTypes = useMemo(() => createNodeTypes(handleLabelChange, handleColorChange), [handleLabelChange, handleColorChange])
 
   const onConnect = useCallback(
     (params: Connection) => {

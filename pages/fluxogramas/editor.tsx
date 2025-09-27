@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import ProtectedRoute from '@/components/ProtectedRoute'
+import { useFlowcharts } from '@/contexts/FlowchartsContext'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
@@ -143,15 +144,19 @@ const initialEdges: Edge[] = [
 
 function EditorContent() {
   const router = useRouter()
+  const { query } = router
+  const { createFlowchart, updateFlowchart, loadFlowchart, loading: flowchartsLoading, error: flowchartsError } = useFlowcharts()
+  
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
   const [flowchartTitle, setFlowchartTitle] = useState('Novo Fluxograma')
   const [history, setHistory] = useState<{ nodes: Node[]; edges: Edge[] }[]>([{ nodes: initialNodes, edges: initialEdges }])
   const [historyIndex, setHistoryIndex] = useState(0)
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null)
-  // Removidas variáveis não utilizadas
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [currentFlowchartId, setCurrentFlowchartId] = useState<string | null>(null)
+  const [isNewFlowchart, setIsNewFlowchart] = useState(true)
 
   const saveToHistory = useCallback(() => {
     const newState = { nodes, edges }
@@ -265,27 +270,103 @@ function EditorContent() {
     }
   }
 
-  const saveFlowchart = async () => {
-    try {
-      const flowchartData = {
-        title: flowchartTitle,
-        nodes,
-        edges,
-        metadata: {
-          created_at: new Date().toISOString(),
-          version: '1.0'
+  // Carregar fluxograma existente se ID for fornecido
+  useEffect(() => {
+    const loadExistingFlowchart = async () => {
+      if (query.id && typeof query.id === 'string') {
+        setIsLoading(true)
+        setError(null)
+        
+        try {
+          const flowchart = await loadFlowchart(query.id)
+          if (flowchart) {
+            setFlowchartTitle(flowchart.title)
+            setNodes(flowchart.data.nodes || initialNodes)
+            setEdges(flowchart.data.edges || initialEdges)
+            setCurrentFlowchartId(flowchart.id)
+            setIsNewFlowchart(false)
+            
+            // Resetar histórico
+            setHistory([{ nodes: flowchart.data.nodes || initialNodes, edges: flowchart.data.edges || initialEdges }])
+            setHistoryIndex(0)
+          } else {
+            setError('Fluxograma não encontrado')
+          }
+        } catch (err) {
+          setError('Erro ao carregar fluxograma')
+          console.error('Erro ao carregar fluxograma:', err)
+        } finally {
+          setIsLoading(false)
         }
       }
-      
-      // Salvar no localStorage por enquanto
-      const savedFlowcharts = JSON.parse(localStorage.getItem('savedFlowcharts') || '[]')
-      savedFlowcharts.push(flowchartData)
-      localStorage.setItem('savedFlowcharts', JSON.stringify(savedFlowcharts))
-      
-      // TODO: Implementar salvamento no backend
-      console.log('Fluxograma salvo:', flowchartData)
-    } catch (error) {
-      console.error('Erro ao salvar fluxograma:', error)
+    }
+
+    loadExistingFlowchart()
+  }, [query.id, loadFlowchart, setNodes, setEdges])
+
+  const saveFlowchart = async () => {
+    if (!flowchartTitle.trim()) {
+      setError('Título é obrigatório')
+      return
+    }
+
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const flowchartData = {
+        title: flowchartTitle.trim(),
+        data: {
+          nodes,
+          edges,
+          metadata: {
+            created_at: new Date().toISOString(),
+            version: '1.0',
+            nodeCount: nodes.length,
+            edgeCount: edges.length
+          }
+        }
+      }
+
+      let savedFlowchart
+      if (isNewFlowchart) {
+        // Criar novo fluxograma
+        console.log('Criando novo fluxograma:', flowchartData)
+        savedFlowchart = await createFlowchart(flowchartData)
+        if (savedFlowchart) {
+          console.log('Fluxograma criado com sucesso:', savedFlowchart)
+          setCurrentFlowchartId(savedFlowchart.id)
+          setIsNewFlowchart(false)
+          // Atualizar URL sem recarregar a página
+          router.replace(`/fluxogramas/editor?id=${savedFlowchart.id}`, undefined, { shallow: true })
+        } else {
+          console.error('Falha ao criar fluxograma')
+        }
+      } else if (currentFlowchartId) {
+        // Atualizar fluxograma existente
+        console.log('Atualizando fluxograma existente:', currentFlowchartId, flowchartData)
+        savedFlowchart = await updateFlowchart(currentFlowchartId, flowchartData)
+        if (savedFlowchart) {
+          console.log('Fluxograma atualizado com sucesso:', savedFlowchart)
+        } else {
+          console.error('Falha ao atualizar fluxograma')
+        }
+      }
+
+      if (savedFlowchart) {
+        // Mostrar feedback de sucesso
+        setError(null)
+        console.log('✅ Fluxograma salvo com sucesso!')
+        // Aqui você pode adicionar um toast de sucesso
+      } else {
+        setError('Erro ao salvar fluxograma')
+        console.error('❌ Erro ao salvar fluxograma')
+      }
+    } catch (err) {
+      setError('Erro ao salvar fluxograma')
+      console.error('Erro ao salvar fluxograma:', err)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -428,23 +509,26 @@ function EditorContent() {
 
 
       {/* Error Alert */}
-      {error && (
+      {(error || flowchartsError) && (
         <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 w-96">
           <Alert variant="destructive">
-            <AlertDescription>{error}</AlertDescription>
+            <AlertDescription>{error || flowchartsError}</AlertDescription>
           </Alert>
         </div>
       )}
 
       {/* Loading Overlay */}
-      {isLoading && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 flex items-center space-x-3">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-            <span>Processando...</span>
+      {(isLoading || flowchartsLoading) && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <div className="flex items-center space-x-3">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+              <span>Salvando fluxograma...</span>
+            </div>
           </div>
         </div>
       )}
+
 
       {/* Main Content */}
       <div className="flex-1 flex">
@@ -496,6 +580,7 @@ function EditorContent() {
           onExportPNG={handleExportPNG}
           onExportPDF={handleExportPDF}
           isLoading={isLoading}
+          onBackToList={() => router.push('/fluxogramas')}
         />
       </div>
     </div>

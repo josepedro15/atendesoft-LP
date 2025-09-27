@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { FlowchartsProvider } from "@/contexts/FlowchartsContext";
 import PageTransition from "@/components/PageTransition";
 import "@/index.css";
 
@@ -14,13 +15,15 @@ export default function App({ Component, pageProps }: AppProps) {
     <div style={{ overflow: 'visible' }}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <PageTransition>
-              <Component {...pageProps} />
-            </PageTransition>
-          </TooltipProvider>
+          <FlowchartsProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <PageTransition>
+                <Component {...pageProps} />
+              </PageTransition>
+            </TooltipProvider>
+          </FlowchartsProvider>
         </AuthProvider>
       </QueryClientProvider>
     </div>

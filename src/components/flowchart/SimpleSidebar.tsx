@@ -10,7 +10,8 @@ import {
   Clock,
   User,
   Cloud,
-  RotateCcw
+  RotateCcw,
+  ArrowLeft
 } from 'lucide-react'
 
 interface SimpleSidebarProps {
@@ -19,6 +20,7 @@ interface SimpleSidebarProps {
   onExportPNG: () => void
   onExportPDF: () => void
   isLoading: boolean
+  onBackToList?: () => void
 }
 
 const nodeTypes = [
@@ -99,7 +101,8 @@ export default function SimpleSidebar({
   onSave, 
   onExportPNG, 
   onExportPDF, 
-  isLoading 
+  isLoading,
+  onBackToList
 }: SimpleSidebarProps) {
   return (
     <div className="w-64 border-l bg-white/50 backdrop-blur-sm p-4 h-full overflow-y-auto">
@@ -130,6 +133,18 @@ export default function SimpleSidebar({
         {/* Ações */}
         <div className="pt-4 border-t border-gray-200 space-y-2">
           <h3 className="font-semibold text-sm text-gray-700 mb-3">Ações</h3>
+          
+          {onBackToList && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onBackToList}
+              className="w-full mb-2"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Voltar à Lista
+            </Button>
+          )}
           
           <Button
             variant="outline"

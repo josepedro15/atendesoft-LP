@@ -47,7 +47,20 @@ import {
   TimerNode,
   UserNode,
   CloudNode,
-  LoopNode
+  LoopNode,
+  BlogNode,
+  SiteNode,
+  GoogleNode,
+  GoogleAdsNode,
+  FacebookNode,
+  MetaAdsNode,
+  YoutubeNode,
+  TikTokNode,
+  InstagramNode,
+  IANode,
+  CRMNode,
+  WhatsappNode,
+  ConteudoNode
 } from '@/components/flowchart/CustomNodes'
 import SimpleSidebar from '@/components/flowchart/SimpleSidebar'
 import { exportAsPNG, exportAsPDF, exportAsSVG, exportAsJSON } from '@/components/flowchart/ExportUtils'
@@ -190,6 +203,19 @@ function EditorContent() {
       user: (props) => <UserNode {...props} {...createCallbacks(props.id)} />,
       cloud: (props) => <CloudNode {...props} {...createCallbacks(props.id)} />,
       loop: (props) => <LoopNode {...props} {...createCallbacks(props.id)} />,
+      blog: (props) => <BlogNode {...props} {...createCallbacks(props.id)} />,
+      site: (props) => <SiteNode {...props} {...createCallbacks(props.id)} />,
+      google: (props) => <GoogleNode {...props} {...createCallbacks(props.id)} />,
+      googleAds: (props) => <GoogleAdsNode {...props} {...createCallbacks(props.id)} />,
+      facebook: (props) => <FacebookNode {...props} {...createCallbacks(props.id)} />,
+      metaAds: (props) => <MetaAdsNode {...props} {...createCallbacks(props.id)} />,
+      youtube: (props) => <YoutubeNode {...props} {...createCallbacks(props.id)} />,
+      tiktok: (props) => <TikTokNode {...props} {...createCallbacks(props.id)} />,
+      instagram: (props) => <InstagramNode {...props} {...createCallbacks(props.id)} />,
+      ia: (props) => <IANode {...props} {...createCallbacks(props.id)} />,
+      crm: (props) => <CRMNode {...props} {...createCallbacks(props.id)} />,
+      whatsapp: (props) => <WhatsappNode {...props} {...createCallbacks(props.id)} />,
+      conteudo: (props) => <ConteudoNode {...props} {...createCallbacks(props.id)} />,
     }
   }, [handleLabelChange])
 
@@ -619,6 +645,19 @@ function EditorContent() {
                   case 'user': return '#22c55e'
                   case 'cloud': return '#0ea5e9'
                   case 'loop': return '#6366f1'
+                  case 'blog': return '#3b82f6'
+                  case 'site': return '#3b82f6'
+                  case 'google': return '#f59e0b'
+                  case 'googleAds': return '#f59e0b'
+                  case 'facebook': return '#8b5cf6'
+                  case 'metaAds': return '#8b5cf6'
+                  case 'youtube': return '#ef4444'
+                  case 'tiktok': return '#6b7280'
+                  case 'instagram': return '#f97316'
+                  case 'ia': return '#ec4899'
+                  case 'crm': return '#10b981'
+                  case 'whatsapp': return '#10b981'
+                  case 'conteudo': return '#3b82f6'
                   default: return '#6b7280'
                 }
               }}

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Handle, Position } from 'reactflow'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Edit2, Check, X } from 'lucide-react'
+import { Edit2, Check, X, FileText, Globe, Search, Target, Facebook, Instagram, Youtube, Bot, Users, MessageSquare, Type } from 'lucide-react'
 
 // Helper function para cores
 const getColors = () => [
@@ -423,6 +423,253 @@ export const LoopNode = ({ data, selected, onLabelChange }: {
         <div className={`w-8 h-8 border-2 ${currentColor.handle} rounded-full relative`}>
           <div className={`absolute top-0 left-1/2 w-0 h-0 border-l-2 border-r-2 border-b-4 border-transparent border-b-${currentColor.handle.replace('bg-', '')} transform -translate-x-1/2`}></div>
         </div>
+      </div>
+    </EditableNode>
+  )
+}
+
+// Blog Node
+export const BlogNode = ({ data, selected, onLabelChange }: { 
+  data: any; 
+  selected: boolean; 
+  onLabelChange?: (label: string) => void;
+}) => {
+  const colors = getColors()
+  const currentColor = colors.find(c => c.value === data.color) || colors[0] // Default azul
+  
+  return (
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
+      <AllSideHandles color={currentColor.handle} />
+      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
+        <FileText className={`w-6 h-6 ${currentColor.handle}`} />
+      </div>
+    </EditableNode>
+  )
+}
+
+// Site Node
+export const SiteNode = ({ data, selected, onLabelChange }: { 
+  data: any; 
+  selected: boolean; 
+  onLabelChange?: (label: string) => void;
+}) => {
+  const colors = getColors()
+  const currentColor = colors.find(c => c.value === data.color) || colors[0] // Default azul
+  
+  return (
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
+      <AllSideHandles color={currentColor.handle} />
+      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
+        <Globe className={`w-6 h-6 ${currentColor.handle}`} />
+      </div>
+    </EditableNode>
+  )
+}
+
+// Google Node
+export const GoogleNode = ({ data, selected, onLabelChange }: { 
+  data: any; 
+  selected: boolean; 
+  onLabelChange?: (label: string) => void;
+}) => {
+  const colors = getColors()
+  const currentColor = colors.find(c => c.value === data.color) || colors[3] // Default amarelo
+  
+  return (
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
+      <AllSideHandles color={currentColor.handle} />
+      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
+        <Search className={`w-6 h-6 ${currentColor.handle}`} />
+      </div>
+    </EditableNode>
+  )
+}
+
+// Google ADS Node
+export const GoogleAdsNode = ({ data, selected, onLabelChange }: { 
+  data: any; 
+  selected: boolean; 
+  onLabelChange?: (label: string) => void;
+}) => {
+  const colors = getColors()
+  const currentColor = colors.find(c => c.value === data.color) || colors[3] // Default amarelo
+  
+  return (
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
+      <AllSideHandles color={currentColor.handle} />
+      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
+        <Target className={`w-6 h-6 ${currentColor.handle}`} />
+      </div>
+    </EditableNode>
+  )
+}
+
+// Facebook Node
+export const FacebookNode = ({ data, selected, onLabelChange }: { 
+  data: any; 
+  selected: boolean; 
+  onLabelChange?: (label: string) => void;
+}) => {
+  const colors = getColors()
+  const currentColor = colors.find(c => c.value === data.color) || colors[4] // Default roxo
+  
+  return (
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
+      <AllSideHandles color={currentColor.handle} />
+      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
+        <Facebook className={`w-6 h-6 ${currentColor.handle}`} />
+      </div>
+    </EditableNode>
+  )
+}
+
+// Meta ADS Node
+export const MetaAdsNode = ({ data, selected, onLabelChange }: { 
+  data: any; 
+  selected: boolean; 
+  onLabelChange?: (label: string) => void;
+}) => {
+  const colors = getColors()
+  const currentColor = colors.find(c => c.value === data.color) || colors[4] // Default roxo
+  
+  return (
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
+      <AllSideHandles color={currentColor.handle} />
+      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
+        <Target className={`w-6 h-6 ${currentColor.handle}`} />
+      </div>
+    </EditableNode>
+  )
+}
+
+// Youtube Node
+export const YoutubeNode = ({ data, selected, onLabelChange }: { 
+  data: any; 
+  selected: boolean; 
+  onLabelChange?: (label: string) => void;
+}) => {
+  const colors = getColors()
+  const currentColor = colors.find(c => c.value === data.color) || colors[2] // Default vermelho
+  
+  return (
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
+      <AllSideHandles color={currentColor.handle} />
+      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
+        <Youtube className={`w-6 h-6 ${currentColor.handle}`} />
+      </div>
+    </EditableNode>
+  )
+}
+
+// TikTok Node (usando ícone genérico)
+export const TikTokNode = ({ data, selected, onLabelChange }: { 
+  data: any; 
+  selected: boolean; 
+  onLabelChange?: (label: string) => void;
+}) => {
+  const colors = getColors()
+  const currentColor = colors.find(c => c.value === data.color) || colors[7] // Default cinza
+  
+  return (
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
+      <AllSideHandles color={currentColor.handle} />
+      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
+        <div className={`w-6 h-6 ${currentColor.handle} rounded-full`}></div>
+      </div>
+    </EditableNode>
+  )
+}
+
+// Instagram Node
+export const InstagramNode = ({ data, selected, onLabelChange }: { 
+  data: any; 
+  selected: boolean; 
+  onLabelChange?: (label: string) => void;
+}) => {
+  const colors = getColors()
+  const currentColor = colors.find(c => c.value === data.color) || colors[5] // Default laranja
+  
+  return (
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
+      <AllSideHandles color={currentColor.handle} />
+      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
+        <Instagram className={`w-6 h-6 ${currentColor.handle}`} />
+      </div>
+    </EditableNode>
+  )
+}
+
+// IA Node
+export const IANode = ({ data, selected, onLabelChange }: { 
+  data: any; 
+  selected: boolean; 
+  onLabelChange?: (label: string) => void;
+}) => {
+  const colors = getColors()
+  const currentColor = colors.find(c => c.value === data.color) || colors[6] // Default rosa
+  
+  return (
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
+      <AllSideHandles color={currentColor.handle} />
+      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
+        <Bot className={`w-6 h-6 ${currentColor.handle}`} />
+      </div>
+    </EditableNode>
+  )
+}
+
+// CRM Node
+export const CRMNode = ({ data, selected, onLabelChange }: { 
+  data: any; 
+  selected: boolean; 
+  onLabelChange?: (label: string) => void;
+}) => {
+  const colors = getColors()
+  const currentColor = colors.find(c => c.value === data.color) || colors[1] // Default verde
+  
+  return (
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
+      <AllSideHandles color={currentColor.handle} />
+      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
+        <Users className={`w-6 h-6 ${currentColor.handle}`} />
+      </div>
+    </EditableNode>
+  )
+}
+
+// Whatsapp Node
+export const WhatsappNode = ({ data, selected, onLabelChange }: { 
+  data: any; 
+  selected: boolean; 
+  onLabelChange?: (label: string) => void;
+}) => {
+  const colors = getColors()
+  const currentColor = colors.find(c => c.value === data.color) || colors[1] // Default verde
+  
+  return (
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
+      <AllSideHandles color={currentColor.handle} />
+      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
+        <MessageSquare className={`w-6 h-6 ${currentColor.handle}`} />
+      </div>
+    </EditableNode>
+  )
+}
+
+// Conteúdo Node (nó de texto editável)
+export const ConteudoNode = ({ data, selected, onLabelChange }: { 
+  data: any; 
+  selected: boolean; 
+  onLabelChange?: (label: string) => void;
+}) => {
+  const colors = getColors()
+  const currentColor = colors.find(c => c.value === data.color) || colors[0] // Default azul
+  
+  return (
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
+      <AllSideHandles color={currentColor.handle} />
+      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
+        <Type className={`w-6 h-6 ${currentColor.handle}`} />
       </div>
     </EditableNode>
   )

@@ -11,7 +11,17 @@ import {
   User,
   Cloud,
   RotateCcw,
-  ArrowLeft
+  ArrowLeft,
+  Globe,
+  Search,
+  Target,
+  Facebook,
+  Instagram,
+  Youtube,
+  Bot,
+  Users,
+  MessageSquare,
+  Type
 } from 'lucide-react'
 
 interface SimpleSidebarProps {
@@ -94,6 +104,97 @@ const nodeTypes = [
     color: 'bg-indigo-600',
     description: 'Repetição ou ciclo'
   },
+  { 
+    type: 'blog', 
+    icon: FileText, 
+    label: 'Blog', 
+    color: 'bg-blue-500',
+    description: 'Blog ou artigos'
+  },
+  { 
+    type: 'site', 
+    icon: Globe, 
+    label: 'Site', 
+    color: 'bg-blue-500',
+    description: 'Site web'
+  },
+  { 
+    type: 'google', 
+    icon: Search, 
+    label: 'Google', 
+    color: 'bg-yellow-500',
+    description: 'Google Search'
+  },
+  { 
+    type: 'googleAds', 
+    icon: Target, 
+    label: 'Google ADS', 
+    color: 'bg-yellow-500',
+    description: 'Google Ads'
+  },
+  { 
+    type: 'facebook', 
+    icon: Facebook, 
+    label: 'Facebook', 
+    color: 'bg-purple-500',
+    description: 'Facebook'
+  },
+  { 
+    type: 'metaAds', 
+    icon: Target, 
+    label: 'Meta ADS', 
+    color: 'bg-purple-500',
+    description: 'Meta Ads'
+  },
+  { 
+    type: 'youtube', 
+    icon: Youtube, 
+    label: 'Youtube', 
+    color: 'bg-red-500',
+    description: 'YouTube'
+  },
+  { 
+    type: 'tiktok', 
+    icon: Circle, 
+    label: 'TikTok', 
+    color: 'bg-gray-500',
+    description: 'TikTok'
+  },
+  { 
+    type: 'instagram', 
+    icon: Instagram, 
+    label: 'Instagram', 
+    color: 'bg-orange-500',
+    description: 'Instagram'
+  },
+  { 
+    type: 'ia', 
+    icon: Bot, 
+    label: 'IA', 
+    color: 'bg-pink-500',
+    description: 'Inteligência Artificial'
+  },
+  { 
+    type: 'crm', 
+    icon: Users, 
+    label: 'CRM', 
+    color: 'bg-green-500',
+    description: 'Sistema CRM'
+  },
+  { 
+    type: 'whatsapp', 
+    icon: MessageSquare, 
+    label: 'Whatsapp', 
+    color: 'bg-green-500',
+    description: 'WhatsApp'
+  },
+  { 
+    type: 'conteudo', 
+    icon: Type, 
+    label: 'Conteúdo', 
+    color: 'bg-blue-500',
+    description: 'Nó de texto editável'
+  },
 ]
 
 export default function SimpleSidebar({ 
@@ -111,14 +212,14 @@ export default function SimpleSidebar({
         {/* Biblioteca de Formas */}
         <div>
           <h3 className="font-semibold text-sm text-gray-700 mb-3">Biblioteca de Formas</h3>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             {nodeTypes.map((nodeType) => (
               <Button
                 key={nodeType.type}
                 variant="outline"
                 size="sm"
                 onClick={() => onAddNode(nodeType.type)}
-                className="h-16 flex flex-col items-center justify-center space-y-1 hover:bg-gray-50"
+                className="h-12 flex flex-col items-center justify-center space-y-1 hover:bg-gray-50"
                 title={nodeType.description}
               >
                 <div className={`w-6 h-6 rounded flex items-center justify-center ${nodeType.color}`}>

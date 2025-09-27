@@ -98,8 +98,12 @@ const EditableNode = ({
 
   const handleSave = () => {
     console.log('💾 Salvando label:', editLabel)
+    console.log('🔗 onLabelChange existe?', !!onLabelChange)
     if (onLabelChange) {
+      console.log('📞 Chamando onLabelChange com:', editLabel)
       onLabelChange(editLabel)
+    } else {
+      console.error('❌ onLabelChange não está definido!')
     }
     setIsEditing(false)
   }
@@ -112,8 +116,12 @@ const EditableNode = ({
 
   const handleColorSelect = (color: any) => {
     console.log('🎨 Selecionando cor:', color.value)
+    console.log('🔗 onColorChange existe?', !!onColorChange)
     if (onColorChange) {
+      console.log('📞 Chamando onColorChange com:', color.value)
       onColorChange(color.value)
+    } else {
+      console.error('❌ onColorChange não está definido!')
     }
     setShowColorPicker(false)
   }
@@ -124,33 +132,35 @@ const EditableNode = ({
     }`}>
       {children}
       
-      {/* Action Buttons - Sempre visíveis para debug */}
-      <div className="absolute -top-2 -right-2 flex space-x-1 z-50">
-        <Button
-          size="sm"
-          variant="ghost"
-          className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50 z-50"
-          onClick={(e) => {
-            e.stopPropagation()
-            console.log('✏️ Botão de editar clicado')
-            setIsEditing(true)
-          }}
-        >
-          <Edit2 className="w-3 h-3" />
-        </Button>
-        <Button
-          size="sm"
-          variant="ghost"
-          className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50 z-50"
-          onClick={(e) => {
-            e.stopPropagation()
-            console.log('🎨 Botão de cor clicado')
-            setShowColorPicker(!showColorPicker)
-          }}
-        >
-          <Palette className="w-3 h-3" />
-        </Button>
-      </div>
+      {/* Action Buttons */}
+      {selected && (
+        <div className="absolute -top-2 -right-2 flex space-x-1 z-50">
+          <Button
+            size="sm"
+            variant="ghost"
+            className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50 z-50"
+            onClick={(e) => {
+              e.stopPropagation()
+              console.log('✏️ Botão de editar clicado')
+              setIsEditing(true)
+            }}
+          >
+            <Edit2 className="w-3 h-3" />
+          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50 z-50"
+            onClick={(e) => {
+              e.stopPropagation()
+              console.log('🎨 Botão de cor clicado')
+              setShowColorPicker(!showColorPicker)
+            }}
+          >
+            <Palette className="w-3 h-3" />
+          </Button>
+        </div>
+      )}
 
       {/* Color Picker */}
       {showColorPicker && selected && (

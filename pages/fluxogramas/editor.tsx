@@ -175,21 +175,24 @@ function EditorContent() {
   }, [setNodes, saveToHistory])
 
   // NodeTypes dinâmico com callbacks
-  const nodeTypes: NodeTypes = useMemo(() => ({
-    process: (props) => <ProcessNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-    decision: (props) => <DecisionNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-    startEnd: (props) => <StartEndNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-    inputOutput: (props) => <InputOutputNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-    data: (props) => <DataNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-    document: (props) => <DocumentNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-    connector: (props) => <ConnectorNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-    database: (props) => <DatabaseNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-    api: (props) => <ApiNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-    timer: (props) => <TimerNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-    user: (props) => <UserNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-    cloud: (props) => <CloudNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-    loop: (props) => <LoopNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-  }), [handleLabelChange, handleColorChange])
+  const nodeTypes: NodeTypes = useMemo(() => {
+    console.log('🔄 Recriando nodeTypes com callbacks:', { handleLabelChange: !!handleLabelChange, handleColorChange: !!handleColorChange })
+    return {
+      process: (props) => <ProcessNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+      decision: (props) => <DecisionNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+      startEnd: (props) => <StartEndNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+      inputOutput: (props) => <InputOutputNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+      data: (props) => <DataNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+      document: (props) => <DocumentNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+      connector: (props) => <ConnectorNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+      database: (props) => <DatabaseNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+      api: (props) => <ApiNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+      timer: (props) => <TimerNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+      user: (props) => <UserNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+      cloud: (props) => <CloudNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+      loop: (props) => <LoopNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+    }
+  }, [handleLabelChange, handleColorChange])
 
   const onConnect = useCallback(
     (params: Connection) => {

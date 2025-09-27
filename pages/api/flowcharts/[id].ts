@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { createClient } from '@supabase/supabase-js'
-import { tempStorage } from '@/lib/temp-storage'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -21,9 +20,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log('🆔 Buscando fluxograma com ID:', id)
 
     if (req.method === 'GET') {
-      console.log('📋 Buscando fluxograma específico (armazenamento temporário)')
+      console.log('📋 Buscando fluxograma específico no banco de dados')
       
-      const flowchart = tempStorage.getById(id)
+      const { data: flowchart, error } = await supabase
+        .from('flowcharts')
+        .select('*')
+        .eq('id', id)
+        .single()
+      
+      if (error) {
+        console.error('❌ Erro na query:', error)
+        return res.status(500).json({ success: false, error: error.message })
+      }
       
       if (!flowchart) {
         return res.status(404).json({ success: false, error: 'Fluxograma não encontrado' })
@@ -34,32 +42,48 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     
     if (req.method === 'PUT') {
-      console.log('📝 Atualizando fluxograma (armazenamento temporário)')
+      console.log('📝 Atualizando fluxograma no banco de dados')
       const { title, description, data } = req.body
       
-      const updatedFlowchart = tempStorage.update(id, {
-        title: title || undefined,
-        description: description || undefined,
-        data: data || undefined
-      })
+      const { data: updatedFlowchart, error } = await supabase
+        .from('flowcharts')
+        .update({
+          title: title || undefined,
+          description: description || undefined,
+          data: data || undefined,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', id)
+        .select()
+        .single()
+      
+      if (error) {
+        console.error('❌ Erro ao atualizar:', error)
+        return res.status(500).json({ success: false, error: error.message })
+      }
       
       if (!updatedFlowchart) {
         return res.status(404).json({ success: false, error: 'Fluxograma não encontrado' })
       }
       
-      console.log('✅ Fluxograma atualizado (temporário):', id)
+      console.log('✅ Fluxograma atualizado no banco:', id)
       return res.status(200).json({ success: true, data: updatedFlowchart })
     }
     
     if (req.method === 'DELETE') {
-      console.log('🗑️ Deletando fluxograma (armazenamento temporário)')
+      console.log('🗑️ Deletando fluxograma do banco de dados')
       
-      const success = tempStorage.delete(id)
-      if (!success) {
-        return res.status(404).json({ success: false, error: 'Fluxograma não encontrado' })
+      const { error } = await supabase
+        .from('flowcharts')
+        .delete()
+        .eq('id', id)
+      
+      if (error) {
+        console.error('❌ Erro ao deletar:', error)
+        return res.status(500).json({ success: false, error: error.message })
       }
       
-      console.log('✅ Fluxograma deletado (temporário):', id)
+      console.log('✅ Fluxograma deletado do banco:', id)
       return res.status(200).json({ success: true, message: 'Fluxograma deletado com sucesso' })
     }
     

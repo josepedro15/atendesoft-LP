@@ -472,14 +472,16 @@ export const GoogleNode = ({ data, selected, onLabelChange }: {
   selected: boolean; 
   onLabelChange?: (label: string) => void;
 }) => {
-  const colors = getColors()
-  const currentColor = colors.find(c => c.value === data.color) || colors[3] // Default amarelo
-  
   return (
     <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
-      <AllSideHandles color={currentColor.handle} />
-      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
-        <Search className={`w-6 h-6 ${currentColor.handle}`} />
+      <AllSideHandles color="bg-blue-500" />
+      <div className="w-16 h-12 bg-white rounded-lg flex items-center justify-center border-2 border-blue-100 shadow-sm">
+        <div className="flex items-center space-x-1">
+          <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+          <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+        </div>
       </div>
     </EditableNode>
   )
@@ -491,14 +493,19 @@ export const GoogleAdsNode = ({ data, selected, onLabelChange }: {
   selected: boolean; 
   onLabelChange?: (label: string) => void;
 }) => {
-  const colors = getColors()
-  const currentColor = colors.find(c => c.value === data.color) || colors[3] // Default amarelo
-  
   return (
     <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
-      <AllSideHandles color={currentColor.handle} />
-      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
-        <Target className={`w-6 h-6 ${currentColor.handle}`} />
+      <AllSideHandles color="bg-blue-500" />
+      <div className="w-16 h-12 bg-white rounded-lg flex items-center justify-center border-2 border-blue-100 shadow-sm">
+        <div className="flex flex-col items-center">
+          <div className="flex items-center space-x-1 mb-1">
+            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+            <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+          </div>
+          <Target className="w-3 h-3 text-blue-500" />
+        </div>
       </div>
     </EditableNode>
   )
@@ -510,14 +517,11 @@ export const FacebookNode = ({ data, selected, onLabelChange }: {
   selected: boolean; 
   onLabelChange?: (label: string) => void;
 }) => {
-  const colors = getColors()
-  const currentColor = colors.find(c => c.value === data.color) || colors[4] // Default roxo
-  
   return (
     <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
-      <AllSideHandles color={currentColor.handle} />
-      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
-        <Facebook className={`w-6 h-6 ${currentColor.handle}`} />
+      <AllSideHandles color="bg-blue-600" />
+      <div className="w-16 h-12 bg-blue-600 rounded-lg flex items-center justify-center shadow-sm">
+        <Facebook className="w-6 h-6 text-white" />
       </div>
     </EditableNode>
   )
@@ -529,14 +533,14 @@ export const MetaAdsNode = ({ data, selected, onLabelChange }: {
   selected: boolean; 
   onLabelChange?: (label: string) => void;
 }) => {
-  const colors = getColors()
-  const currentColor = colors.find(c => c.value === data.color) || colors[4] // Default roxo
-  
   return (
     <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
-      <AllSideHandles color={currentColor.handle} />
-      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
-        <Target className={`w-6 h-6 ${currentColor.handle}`} />
+      <AllSideHandles color="bg-blue-600" />
+      <div className="w-16 h-12 bg-blue-600 rounded-lg flex items-center justify-center shadow-sm">
+        <div className="flex flex-col items-center">
+          <Facebook className="w-4 h-4 text-white" />
+          <Target className="w-2 h-2 text-white" />
+        </div>
       </div>
     </EditableNode>
   )
@@ -548,33 +552,27 @@ export const YoutubeNode = ({ data, selected, onLabelChange }: {
   selected: boolean; 
   onLabelChange?: (label: string) => void;
 }) => {
-  const colors = getColors()
-  const currentColor = colors.find(c => c.value === data.color) || colors[2] // Default vermelho
-  
   return (
     <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
-      <AllSideHandles color={currentColor.handle} />
-      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
-        <Youtube className={`w-6 h-6 ${currentColor.handle}`} />
+      <AllSideHandles color="bg-red-600" />
+      <div className="w-16 h-12 bg-red-600 rounded-lg flex items-center justify-center shadow-sm">
+        <Youtube className="w-6 h-6 text-white" />
       </div>
     </EditableNode>
   )
 }
 
-// TikTok Node (usando ícone genérico)
+// TikTok Node
 export const TikTokNode = ({ data, selected, onLabelChange }: { 
   data: any; 
   selected: boolean; 
   onLabelChange?: (label: string) => void;
 }) => {
-  const colors = getColors()
-  const currentColor = colors.find(c => c.value === data.color) || colors[7] // Default cinza
-  
   return (
     <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
-      <AllSideHandles color={currentColor.handle} />
-      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
-        <div className={`w-6 h-6 ${currentColor.handle} rounded-full`}></div>
+      <AllSideHandles color="bg-black" />
+      <div className="w-16 h-12 bg-black rounded-lg flex items-center justify-center shadow-sm">
+        <div className="text-white font-bold text-lg">T</div>
       </div>
     </EditableNode>
   )
@@ -586,14 +584,11 @@ export const InstagramNode = ({ data, selected, onLabelChange }: {
   selected: boolean; 
   onLabelChange?: (label: string) => void;
 }) => {
-  const colors = getColors()
-  const currentColor = colors.find(c => c.value === data.color) || colors[5] // Default laranja
-  
   return (
     <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
-      <AllSideHandles color={currentColor.handle} />
-      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
-        <Instagram className={`w-6 h-6 ${currentColor.handle}`} />
+      <AllSideHandles color="bg-gradient-to-br from-purple-500 to-pink-500" />
+      <div className="w-16 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center shadow-sm">
+        <Instagram className="w-6 h-6 text-white" />
       </div>
     </EditableNode>
   )
@@ -605,14 +600,11 @@ export const IANode = ({ data, selected, onLabelChange }: {
   selected: boolean; 
   onLabelChange?: (label: string) => void;
 }) => {
-  const colors = getColors()
-  const currentColor = colors.find(c => c.value === data.color) || colors[6] // Default rosa
-  
   return (
     <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
-      <AllSideHandles color={currentColor.handle} />
-      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
-        <Bot className={`w-6 h-6 ${currentColor.handle}`} />
+      <AllSideHandles color="bg-purple-600" />
+      <div className="w-16 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center shadow-sm">
+        <Bot className="w-6 h-6 text-white" />
       </div>
     </EditableNode>
   )
@@ -643,14 +635,11 @@ export const WhatsappNode = ({ data, selected, onLabelChange }: {
   selected: boolean; 
   onLabelChange?: (label: string) => void;
 }) => {
-  const colors = getColors()
-  const currentColor = colors.find(c => c.value === data.color) || colors[1] // Default verde
-  
   return (
     <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
-      <AllSideHandles color={currentColor.handle} />
-      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
-        <MessageSquare className={`w-6 h-6 ${currentColor.handle}`} />
+      <AllSideHandles color="bg-green-500" />
+      <div className="w-16 h-12 bg-green-500 rounded-lg flex items-center justify-center shadow-sm">
+        <MessageSquare className="w-6 h-6 text-white" />
       </div>
     </EditableNode>
   )
@@ -664,13 +653,85 @@ export const ConteudoNode = ({ data, selected, onLabelChange }: {
 }) => {
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[0] // Default azul
-  
+  const [isEditing, setIsEditing] = useState(false)
+  const [editLabel, setEditLabel] = useState(data.label || 'Digite o texto...')
+
+  // Atualizar editLabel quando data.label mudar
+  React.useEffect(() => {
+    setEditLabel(data.label || 'Digite o texto...')
+  }, [data.label])
+
+  const handleSave = () => {
+    if (onLabelChange) {
+      onLabelChange(editLabel)
+    }
+    setIsEditing(false)
+  }
+
+  const handleCancel = () => {
+    setEditLabel(data.label || 'Digite o texto...')
+    setIsEditing(false)
+  }
+
   return (
-    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
+    <div className={`px-4 py-3 shadow-lg rounded-lg border-2 min-w-[200px] transition-all relative group ${currentColor.bg} ${
+      selected ? `${currentColor.border} shadow-blue-200` : 'border-gray-300 hover:border-gray-400'
+    }`}>
       <AllSideHandles color={currentColor.handle} />
-      <div className={`w-16 h-12 ${currentColor.shape} rounded-lg flex items-center justify-center`}>
-        <Type className={`w-6 h-6 ${currentColor.handle}`} />
-      </div>
-    </EditableNode>
+      
+      {/* Botão de editar - apenas quando não estiver editando */}
+      {!isEditing && (
+        <div className="absolute -top-2 -right-2 flex space-x-1 z-50">
+          <Button
+            size="sm"
+            variant="ghost"
+            className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50 z-50"
+            onClick={(e) => {
+              e.stopPropagation()
+              setIsEditing(true)
+            }}
+            title="Editar texto"
+          >
+            <Edit2 className="w-3 h-3" />
+          </Button>
+        </div>
+      )}
+
+      {/* Área de texto editável */}
+      {isEditing ? (
+        <div className="space-y-2">
+          <Input
+            value={editLabel}
+            onChange={(e) => setEditLabel(e.target.value)}
+            className="text-sm h-8 w-full"
+            autoFocus
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                handleSave()
+              }
+              if (e.key === 'Escape') {
+                handleCancel()
+              }
+            }}
+            placeholder="Digite o texto..."
+          />
+          <div className="flex justify-end space-x-1">
+            <Button size="sm" variant="ghost" className="w-6 h-6 p-0" onClick={handleSave}>
+              <Check className="w-3 h-3 text-green-600" />
+            </Button>
+            <Button size="sm" variant="ghost" className="w-6 h-6 p-0" onClick={handleCancel}>
+              <X className="w-3 h-3 text-red-600" />
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="min-h-[40px] flex items-center justify-center">
+          <div className="text-sm text-gray-800 text-center break-words max-w-full">
+            {data.label || 'Digite o texto...'}
+          </div>
+        </div>
+      )}
+    </div>
   )
 }

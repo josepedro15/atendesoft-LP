@@ -110,9 +110,14 @@ const EditableNode = ({
           variant="ghost"
           className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50 z-50"
           onClick={(e) => {
+            e.preventDefault()
             e.stopPropagation()
-            // console.log('✏️ Botão de editar clicado')
+            console.log('🔥 Botão de editar NOME clicado!')
             setIsEditing(true)
+          }}
+          onMouseDown={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
           }}
           title="Editar nome"
         >
@@ -144,14 +149,18 @@ const EditableNode = ({
               }
             }}
           />
-          <Button size="sm" variant="ghost" className="w-4 h-4 p-0" onClick={() => {
-            // console.log('✅ Botão salvar clicado')
+          <Button size="sm" variant="ghost" className="w-4 h-4 p-0" onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            console.log('✅ Botão salvar NOME clicado')
             handleSave()
           }}>
             <Check className="w-3 h-3 text-green-600" />
           </Button>
-          <Button size="sm" variant="ghost" className="w-4 h-4 p-0" onClick={() => {
-            // console.log('❌ Botão cancelar clicado')
+          <Button size="sm" variant="ghost" className="w-4 h-4 p-0" onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            console.log('❌ Botão cancelar NOME clicado')
             handleCancel()
           }}>
             <X className="w-3 h-3 text-red-600" />
@@ -696,8 +705,14 @@ export const ConteudoNode = ({ data, selected, onLabelChange }: {
             variant="ghost"
             className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50"
             onClick={(e) => {
+              e.preventDefault()
               e.stopPropagation()
+              console.log('🔥 Botão de editar clicado!')
               handleStartEdit()
+            }}
+            onMouseDown={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
             }}
             title="Editar texto"
           >
@@ -757,7 +772,19 @@ export const ConteudoNode = ({ data, selected, onLabelChange }: {
           </div>
         </div>
       ) : (
-        <div className="min-h-[40px] flex items-center justify-center cursor-pointer" onClick={handleStartEdit}>
+        <div 
+          className="min-h-[40px] flex items-center justify-center cursor-pointer hover:bg-blue-100 rounded p-1" 
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            console.log('🔥 Área de texto clicada!')
+            handleStartEdit()
+          }}
+          onMouseDown={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+          }}
+        >
           <div className="text-sm text-gray-800 text-center break-words max-w-full">
             {data.label || 'Digite o texto...'}
           </div>

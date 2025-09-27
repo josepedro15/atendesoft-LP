@@ -1,171 +1,131 @@
-# AtendeSoft - Landing Page
+# AtendeSoft Landing Page
 
-Landing page moderna para a AtendeSoft, empresa especializada em automações comerciais com inteligência artificial.
+Landing page moderna e responsiva para a AtendeSoft, empresa especializada em automação comercial, aplicativos e dashboards com IA.
 
-## 🎨 Design
+## 🚀 Tecnologias
 
-Interface inspirada no Apple HIG (Human Interface Guidelines) com:
-- Cores: Azul #4A90E2, Laranja #F39C12, Verde #2ECC71, Off-white #F5F5F5
-- Tipografia: Inter com fallback para system-ui
-- Componentes com backdrop blur e shadow sutis
-- Animações suaves (150-250ms, ease-out)
+- **Next.js 15** - Framework React
+- **TypeScript** - Tipagem estática
+- **Tailwind CSS** - Estilização
+- **Supabase** - Backend e autenticação
+- **Framer Motion** - Animações
+- **React Flow** - Editor de fluxogramas
+- **Radix UI** - Componentes acessíveis
 
-## 📁 Estrutura de Conteúdo
+## 📁 Estrutura do Projeto
 
-Todos os conteúdos são gerenciados através de arquivos JSON na pasta `src/content/`:
-
-### Como Editar Conteúdo
-
-#### Benefícios/Pilares (`beneficios.json`)
-```json
-{
-  "id": "identificador-unico",
-  "titulo": "Nome do benefício",
-  "descricao": "Descrição do benefício",
-  "icone": "NomeDoIconeLucide",
-  "beneficios": ["Lista", "de", "benefícios"]
-}
+```
+├── docs/                    # Documentação
+│   ├── AUTHENTICATION.md
+│   ├── DEPLOY.md
+│   ├── MELHORIAS-IMPLEMENTADAS.md
+│   └── PROPOSALS-SYSTEM.md
+├── database/                # Scripts SQL
+│   ├── supabase-*.sql
+│   └── ...
+├── pages/                   # Páginas Next.js
+│   ├── api/                 # API Routes
+│   ├── blog/                # Blog
+│   ├── captura/             # Páginas de captura
+│   ├── fluxogramas/         # Editor de fluxogramas
+│   └── ...
+├── public/                  # Arquivos estáticos
+├── src/
+│   ├── components/          # Componentes React
+│   │   ├── ui/              # Componentes base
+│   │   ├── blog/            # Componentes do blog
+│   │   └── flowchart/       # Componentes de fluxograma
+│   ├── contexts/            # Contextos React
+│   ├── hooks/               # Hooks customizados
+│   ├── lib/                 # Utilitários e configurações
+│   ├── styles/              # Estilos CSS
+│   └── types/               # Definições TypeScript
+└── ...
 ```
 
-#### Passos do Processo (`passos.json`)
-```json
-{
-  "id": 1,
-  "titulo": "Nome do passo",
-  "descricao": "Descrição detalhada",
-  "icone": "NomeDoIconeLucide",
-  "tempo": "Tempo estimado"
-}
+## 🛠️ Instalação
+
+1. Clone o repositório:
+```bash
+git clone <repository-url>
+cd atendesoft-LP-13
 ```
 
-#### Produtos (`produtos.json`)
-```json
-{
-  "id": "id-produto",
-  "titulo": "Nome do produto",
-  "descricao": "Descrição do produto",
-  "features": ["Lista", "de", "funcionalidades"],
-  "cta_texto": "Texto do botão WhatsApp"
-}
+2. Instale as dependências:
+```bash
+npm install
 ```
 
-#### Dashboards (`dashboards.json`)
-```json
-{
-  "id": "id-dashboard",
-  "titulo": "Nome do dashboard",
-  "descricao": "Descrição",
-  "kpis": ["Lista", "de", "KPIs"]
-}
+3. Configure as variáveis de ambiente:
+```bash
+cp env.example .env.local
 ```
 
-#### Ferramentas/Integrações (`ferramentas.json`)
-```json
-{
-  "nome": "Nome da ferramenta",
-  "categoria": "Categoria",
-  "descricao": "Descrição",
-  "logo": "/logos/logo.svg",
-  "link": "https://link.com"
-}
+4. Execute o projeto:
+```bash
+npm run dev
 ```
 
-#### Cases de Sucesso (`cases.json`)
-```json
-{
-  "id": "id-case",
-  "setor": "Setor do cliente",
-  "cliente": "Nome do cliente",
-  "problema": "Problema enfrentado",
-  "solucao": "Solução implementada",
-  "resultado_antes": "Métrica antes",
-  "resultado_depois": "Métrica depois",
-  "aumento": "+XX%",
-  "tipo": "percentual|numerico|monetario"
-}
+## 🔧 Scripts Disponíveis
+
+- `npm run dev` - Executa em modo desenvolvimento
+- `npm run build` - Gera build de produção
+- `npm run start` - Executa build de produção
+- `npm run lint` - Executa linter
+- `npm run deploy` - Deploy para produção
+
+## 📱 Funcionalidades
+
+### ✅ Implementado
+- Landing page responsiva
+- Sistema de autenticação com Supabase
+- Blog com SEO otimizado
+- Editor de fluxogramas
+- Sistema de propostas comerciais
+- Dashboard administrativo
+- Páginas de captura de leads
+- Analytics e tracking
+
+### 🔐 Autenticação
+- Login/registro com Supabase
+- Proteção de rotas
+- Middleware de autenticação
+- Persistência de sessão
+
+### 📊 Analytics
+- Tracking de eventos
+- Métricas de conversão
+- Pixel de rastreamento
+- Webhooks para integração
+
+## 🌐 Deploy
+
+O projeto está configurado para deploy na Vercel:
+
+```bash
+npm run deploy
 ```
 
-#### Planos (`planos.json`)
-```json
-{
-  "id": "id-plano",
-  "nome": "Nome do plano",
-  "descricao": "Descrição",
-  "preco": "Valor ou 'Sob consulta'",
-  "features": ["Lista", "de", "funcionalidades"],
-  "popular": true/false,
-  "cta_texto": "Texto do WhatsApp"
-}
-```
+## 📚 Documentação
 
-#### FAQ (`faq.json`)
-```json
-{
-  "id": "id-pergunta",
-  "pergunta": "Pergunta frequente",
-  "resposta": "Resposta detalhada"
-}
-```
+Consulte a pasta `docs/` para documentação detalhada sobre:
+- Sistema de autenticação
+- Sistema de propostas
+- Deploy e configuração
+- Melhorias implementadas
 
-## 🔗 Configurações
+## 🤝 Contribuição
 
-### WhatsApp
-Para alterar o link do WhatsApp, edite o número nos componentes:
-- Substitua `5511999999999` pelo seu número no formato internacional
-- Exemplo: `5511987654321` para (11) 98765-4321
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature
+3. Commit suas mudanças
+4. Push para a branch
+5. Abra um Pull Request
 
-### Trust Badges
-Para adicionar logos reais das ferramentas:
-1. Adicione os arquivos SVG em `public/logos/`
-2. Atualize os caminhos em `ferramentas.json`
+## 📄 Licença
 
-### Novas Ferramentas
-Para adicionar uma nova ferramenta em `ferramentas.json`:
-```json
-{
-  "nome": "Nova Ferramenta",
-  "categoria": "Categoria",
-  "descricao": "Descrição da ferramenta",
-  "logo": "/logos/nova-ferramenta.svg",
-  "link": "https://site-da-ferramenta.com"
-}
-```
+Este projeto é privado e proprietário da AtendeSoft.
 
-## 📊 Analytics
+---
 
-O sistema de eventos está configurado em `src/lib/events.ts`. Eventos rastreados:
-- `cta_whatsapp_click` - Cliques nos botões WhatsApp
-- `pricing_click` - Cliques nos planos
-- `scroll_75` - Usuário rolou 75% da página
-- `faq_open` - Abertura de perguntas FAQ
-- `video_play` - Reprodução de vídeos
-
-Para integrar com Google Analytics, descomente e configure no arquivo de eventos.
-
-## 🚀 Deploy
-
-Esta é uma aplicação React + Vite otimizada para performance:
-- Lighthouse Score ≥ 90
-- LCP < 2.5s
-- Totalmente responsiva (mobile-first)
-- SEO otimizado com structured data
-- Acessibilidade AA compliant
-
-## 🛠 Tecnologias
-
-- **Frontend**: React 18 + TypeScript
-- **Styling**: Tailwind CSS + Design System customizado
-- **Componentes**: shadcn/ui customizados
-- **Ícones**: Lucide React
-- **Roteamento**: React Router DOM
-- **Build**: Vite
-- **Fonts**: Inter via next/font
-
-## 📱 Responsividade
-
-Layout mobile-first com breakpoints:
-- Mobile: < 768px
-- Tablet: 768px - 1024px  
-- Desktop: > 1024px
-
-Todos os componentes são totalmente responsivos e otimizados para diferentes dispositivos.
+**AtendeSoft** - Automação Comercial, Apps e Dashboards com IA

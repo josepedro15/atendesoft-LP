@@ -517,15 +517,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     // Para desenvolvimento, usar mock storage
     // TODO: Implementar com Supabase quando RLS estiver configurado
-    console.log('Buscando versão com slug:', slug);
+    // Buscando versão com slug
     
     // Buscar versão no mock storage pelo slug
     const version = mockStorage.getVersionBySlug(slug as string);
-    console.log('Versão encontrada no mock storage:', version);
+    // Versão encontrada no mock storage
     
     if (!version) {
-      console.log('Versão não encontrada para slug:', slug);
-      console.log('Slugs disponíveis:', mockStorage.getAllSlugs());
+      // Versão não encontrada para slug
       return {
         props: {
           version: null,
@@ -561,7 +560,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       proposal: proposal
     };
 
-    console.log('Versão encontrada:', versionWithProposal);
+    // Versão encontrada
 
     return {
       props: {
@@ -571,7 +570,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
 
   } catch (error) {
-    console.error('Erro ao carregar proposta:', error);
+    // Erro ao carregar proposta
     return {
       props: {
         version: null,

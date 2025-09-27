@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { createClient } from '@supabase/supabase-js'
-
-// Armazenamento temporário em memória (será perdido quando o servidor reiniciar)
-let tempFlowcharts: any[] = []
+import { tempStorage } from '@/lib/temp-storage'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -21,29 +19,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === 'GET') {
       console.log('📋 Buscando fluxogramas (armazenamento temporário)')
       
-      // Por enquanto, usar armazenamento temporário
-      console.log('✅ Fluxogramas encontrados:', tempFlowcharts.length)
-      return res.status(200).json({ success: true, data: tempFlowcharts })
+      const flowcharts = tempStorage.getAll()
+      console.log('✅ Fluxogramas encontrados:', flowcharts.length)
+      return res.status(200).json({ success: true, data: flowcharts })
     }
     
     if (req.method === 'POST') {
       console.log('📝 Criando novo fluxograma (armazenamento temporário)')
       const { title, description, data } = req.body
       
-      // Criar novo fluxograma no armazenamento temporário
-      const newFlowchart = {
-        id: `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      const newFlowchart = tempStorage.create({
         title: title || 'Novo Fluxograma',
         description: description || '',
         data: data || { nodes: [], edges: [] },
         user_id: userId,
         is_template: false,
-        is_public: false,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      }
-      
-      tempFlowcharts.push(newFlowchart)
+        is_public: false
+      })
       
       console.log('✅ Fluxograma criado (temporário):', newFlowchart.id)
       return res.status(201).json({ success: true, data: newFlowchart })
@@ -54,33 +46,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const { id } = req.query
       const { title, description, data } = req.body
       
-      const index = tempFlowcharts.findIndex(f => f.id === id)
-      if (index === -1) {
+      if (!id || typeof id !== 'string') {
+        return res.status(400).json({ success: false, error: 'ID do fluxograma é obrigatório' })
+      }
+      
+      const updatedFlowchart = tempStorage.update(id, {
+        title: title || undefined,
+        description: description || undefined,
+        data: data || undefined
+      })
+      
+      if (!updatedFlowchart) {
         return res.status(404).json({ success: false, error: 'Fluxograma não encontrado' })
       }
       
-      tempFlowcharts[index] = {
-        ...tempFlowcharts[index],
-        title: title || tempFlowcharts[index].title,
-        description: description || tempFlowcharts[index].description,
-        data: data || tempFlowcharts[index].data,
-        updated_at: new Date().toISOString()
-      }
-      
       console.log('✅ Fluxograma atualizado (temporário):', id)
-      return res.status(200).json({ success: true, data: tempFlowcharts[index] })
+      return res.status(200).json({ success: true, data: updatedFlowchart })
     }
     
     if (req.method === 'DELETE') {
       console.log('🗑️ Deletando fluxograma (armazenamento temporário)')
       const { id } = req.query
       
-      const index = tempFlowcharts.findIndex(f => f.id === id)
-      if (index === -1) {
-        return res.status(404).json({ success: false, error: 'Fluxograma não encontrado' })
+      if (!id || typeof id !== 'string') {
+        return res.status(400).json({ success: false, error: 'ID do fluxograma é obrigatório' })
       }
       
-      tempFlowcharts.splice(index, 1)
+      const success = tempStorage.delete(id)
+      if (!success) {
+        return res.status(404).json({ success: false, error: 'Fluxograma não encontrado' })
+      }
       
       console.log('✅ Fluxograma deletado (temporário):', id)
       return res.status(200).json({ success: true, message: 'Fluxograma deletado com sucesso' })

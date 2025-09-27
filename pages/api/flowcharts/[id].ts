@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { createClient } from '@supabase/supabase-js'
-
-// Armazenamento temporário em memória (será perdido quando o servidor reiniciar)
-let tempFlowcharts: any[] = []
+import { tempStorage } from '@/lib/temp-storage'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -25,8 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === 'GET') {
       console.log('📋 Buscando fluxograma específico (armazenamento temporário)')
       
-      // Buscar no armazenamento temporário
-      const flowchart = tempFlowcharts.find(f => f.id === id)
+      const flowchart = tempStorage.getById(id)
       
       if (!flowchart) {
         return res.status(404).json({ success: false, error: 'Fluxograma não encontrado' })
@@ -40,32 +37,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.log('📝 Atualizando fluxograma (armazenamento temporário)')
       const { title, description, data } = req.body
       
-      const index = tempFlowcharts.findIndex(f => f.id === id)
-      if (index === -1) {
+      const updatedFlowchart = tempStorage.update(id, {
+        title: title || undefined,
+        description: description || undefined,
+        data: data || undefined
+      })
+      
+      if (!updatedFlowchart) {
         return res.status(404).json({ success: false, error: 'Fluxograma não encontrado' })
       }
       
-      tempFlowcharts[index] = {
-        ...tempFlowcharts[index],
-        title: title || tempFlowcharts[index].title,
-        description: description || tempFlowcharts[index].description,
-        data: data || tempFlowcharts[index].data,
-        updated_at: new Date().toISOString()
-      }
-      
       console.log('✅ Fluxograma atualizado (temporário):', id)
-      return res.status(200).json({ success: true, data: tempFlowcharts[index] })
+      return res.status(200).json({ success: true, data: updatedFlowchart })
     }
     
     if (req.method === 'DELETE') {
       console.log('🗑️ Deletando fluxograma (armazenamento temporário)')
       
-      const index = tempFlowcharts.findIndex(f => f.id === id)
-      if (index === -1) {
+      const success = tempStorage.delete(id)
+      if (!success) {
         return res.status(404).json({ success: false, error: 'Fluxograma não encontrado' })
       }
-      
-      tempFlowcharts.splice(index, 1)
       
       console.log('✅ Fluxograma deletado (temporário):', id)
       return res.status(200).json({ success: true, message: 'Fluxograma deletado com sucesso' })

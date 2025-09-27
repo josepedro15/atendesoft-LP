@@ -225,11 +225,11 @@ export function FlowchartsProvider({ children }: { children: React.ReactNode }) 
     await fetchFlowcharts()
   }, [fetchFlowcharts])
 
-  // Carregar fluxogramas apenas uma vez
-  useEffect(() => {
-    console.log('🔄 Carregando fluxogramas públicos...')
-    fetchFlowcharts()
-  }, []) // Remover fetchFlowcharts da dependência
+  // DESABILITADO: Carregamento automático que causa refresh constante
+  // useEffect(() => {
+  //   console.log('🔄 Carregando fluxogramas públicos...')
+  //   fetchFlowcharts()
+  // }, [])
 
   const value = {
     flowcharts,

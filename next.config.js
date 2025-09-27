@@ -34,12 +34,18 @@ const nextConfig = {
   ...(process.env.NODE_ENV === 'development' && {
     // Desabilitar Fast Refresh problemático
     reactStrictMode: false,
-    // Configurações de hot reload
+    // Desabilitar hot reload completamente
     webpack: (config, { dev }) => {
       if (dev) {
         config.watchOptions = {
-          poll: 1000,
-          aggregateTimeout: 300,
+          poll: false,
+          aggregateTimeout: 1000,
+          ignored: ['**/node_modules/**', '**/.git/**', '**/.next/**']
+        }
+        // Desabilitar hot reload
+        config.optimization = {
+          ...config.optimization,
+          splitChunks: false
         }
       }
       return config

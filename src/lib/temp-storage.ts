@@ -87,7 +87,7 @@ export const tempStorage = {
 
   // Limpar todos os fluxogramas (para testes)
   clear: (): void => {
-    tempFlowcharts = []
+    tempFlowcharts.length = 0
     console.log('🧹 Armazenamento temporário limpo')
   },
 

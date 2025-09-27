@@ -69,6 +69,11 @@ const EditableNode = ({
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[0]
 
+  // Debug: verificar se o nó está selecionado
+  React.useEffect(() => {
+    console.log('🔍 Nó selecionado:', selected, 'ID:', data.id)
+  }, [selected, data.id])
+
   // Atualizar editLabel quando data.label mudar
   React.useEffect(() => {
     setEditLabel(data.label)
@@ -121,20 +126,28 @@ const EditableNode = ({
       
       {/* Action Buttons */}
       {selected && (
-        <div className="absolute -top-2 -right-2 flex space-x-1">
+        <div className="absolute -top-2 -right-2 flex space-x-1 z-50">
           <Button
             size="sm"
             variant="ghost"
-            className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50"
-            onClick={() => setIsEditing(true)}
+            className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50 z-50"
+            onClick={(e) => {
+              e.stopPropagation()
+              console.log('✏️ Botão de editar clicado')
+              setIsEditing(true)
+            }}
           >
             <Edit2 className="w-3 h-3" />
           </Button>
           <Button
             size="sm"
             variant="ghost"
-            className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50"
-            onClick={() => setShowColorPicker(!showColorPicker)}
+            className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50 z-50"
+            onClick={(e) => {
+              e.stopPropagation()
+              console.log('🎨 Botão de cor clicado')
+              setShowColorPicker(!showColorPicker)
+            }}
           >
             <Palette className="w-3 h-3" />
           </Button>

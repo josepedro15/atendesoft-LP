@@ -592,6 +592,10 @@ function EditorContent() {
             onInit={setReactFlowInstance}
             fitView
             className="bg-gray-50"
+            nodesDraggable={true}
+            nodesConnectable={true}
+            elementsSelectable={true}
+            selectNodesOnDrag={false}
           >
             <Controls />
             <MiniMap 

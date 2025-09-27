@@ -1,96 +1,80 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { createClient } from '@supabase/supabase-js'
 
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  try {
-    console.log('🔍 API /api/flowcharts/[id] chamada:', req.method)
-    
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://vlayangmpcogxoolcksc.supabase.co',
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsYXlhbmdtcGNvZ3hvb2xja3NjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5NzEwMDIsImV4cCI6MjA2OTU0NzAwMn0.U4jxKlTf_eCX6zochG6wZPxRBvWk90erSNY_IEuYqrY'
-    )
-    console.log('✅ Cliente Supabase criado')
-    
-    const { id } = req.query
+  const { id } = req.query
 
-    if (!id || typeof id !== 'string') {
-      return res.status(400).json({ success: false, error: 'ID do fluxograma é obrigatório' })
-    }
+  if (!id || typeof id !== 'string') {
+    return res.status(400).json({ error: 'ID é obrigatório' })
+  }
 
-    console.log('🆔 Buscando fluxograma com ID:', id)
-
-    if (req.method === 'GET') {
-      console.log('📋 Buscando fluxograma específico no banco de dados')
-      
-      const { data: flowchart, error } = await supabase
+  if (req.method === 'GET') {
+    // Buscar fluxograma específico
+    try {
+      const { data, error } = await supabase
         .from('flowcharts')
         .select('*')
         .eq('id', id)
         .single()
-      
-      if (error) {
-        console.error('❌ Erro na query:', error)
-        return res.status(500).json({ success: false, error: error.message })
+
+      if (error) throw error
+      if (!data) {
+        return res.status(404).json({ error: 'Fluxograma não encontrado' })
       }
-      
-      if (!flowchart) {
-        return res.status(404).json({ success: false, error: 'Fluxograma não encontrado' })
-      }
-      
-      console.log('✅ Fluxograma encontrado:', flowchart.title)
-      return res.status(200).json({ success: true, data: flowchart })
+
+      res.status(200).json(data)
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao buscar fluxograma' })
     }
-    
-    if (req.method === 'PUT') {
-      console.log('📝 Atualizando fluxograma no banco de dados')
-      const { title, description, data } = req.body
-      
-      const { data: updatedFlowchart, error } = await supabase
+  } else if (req.method === 'PUT') {
+    // Atualizar fluxograma
+    try {
+      const { title, description, data, is_template, is_public } = req.body
+
+      const updates: any = {
+        updated_at: new Date().toISOString(),
+      }
+
+      if (title !== undefined) updates.title = title
+      if (description !== undefined) updates.description = description
+      if (data !== undefined) updates.data = data
+      if (is_template !== undefined) updates.is_template = is_template
+      if (is_public !== undefined) updates.is_public = is_public
+
+      const { data: result, error } = await supabase
         .from('flowcharts')
-        .update({
-          title: title || undefined,
-          description: description || undefined,
-          data: data || undefined,
-          updated_at: new Date().toISOString()
-        })
+        .update(updates)
         .eq('id', id)
         .select()
         .single()
-      
-      if (error) {
-        console.error('❌ Erro ao atualizar:', error)
-        return res.status(500).json({ success: false, error: error.message })
-      }
-      
-      if (!updatedFlowchart) {
-        return res.status(404).json({ success: false, error: 'Fluxograma não encontrado' })
-      }
-      
-      console.log('✅ Fluxograma atualizado no banco:', id)
-      return res.status(200).json({ success: true, data: updatedFlowchart })
+
+      if (error) throw error
+
+      res.status(200).json(result)
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao atualizar fluxograma' })
     }
-    
-    if (req.method === 'DELETE') {
-      console.log('🗑️ Deletando fluxograma do banco de dados')
-      
+  } else if (req.method === 'DELETE') {
+    // Deletar fluxograma
+    try {
       const { error } = await supabase
         .from('flowcharts')
         .delete()
         .eq('id', id)
-      
-      if (error) {
-        console.error('❌ Erro ao deletar:', error)
-        return res.status(500).json({ success: false, error: error.message })
-      }
-      
-      console.log('✅ Fluxograma deletado do banco:', id)
-      return res.status(200).json({ success: true, message: 'Fluxograma deletado com sucesso' })
+
+      if (error) throw error
+
+      res.status(200).json({ message: 'Fluxograma deletado com sucesso' })
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao deletar fluxograma' })
     }
-    
-    return res.status(405).json({ success: false, error: 'Método não permitido' })
-    
-  } catch (error) {
-    console.error('❌ Erro geral:', error)
-    return res.status(500).json({ success: false, error: 'Erro interno do servidor' })
+  } else {
+    res.setHeader('Allow', ['GET', 'PUT', 'DELETE'])
+    res.status(405).json({ error: 'Método não permitido' })
   }
 }

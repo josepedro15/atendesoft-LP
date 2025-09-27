@@ -1,196 +1,80 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { createClient } from '@/lib/supabase-server'
-import { createSuccessResponse, createErrorResponse, handleApiError } from '@/lib/errors'
+import { createClient } from '@supabase/supabase-js'
 
-interface FlowchartData {
-  title?: string
-  description?: string
-  data?: {
-    nodes: any[]
-    edges: any[]
-    metadata?: any
-  }
-  is_template?: boolean
-  is_public?: boolean
-}
+// Armazenamento temporário em memória (será perdido quando o servidor reiniciar)
+let tempFlowcharts: any[] = []
 
-interface ApiResponse {
-  success: boolean
-  data?: any
-  error?: string
-  message?: string
-}
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse<ApiResponse>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const supabase = await createClient()
+    console.log('🔍 API /api/flowcharts/[id] chamada:', req.method)
+    
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://vlayangmpcogxoolcksc.supabase.co',
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsYXlhbmdtcGNvZ3hvb2xja3NjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5NzEwMDIsImV4cCI6MjA2OTU0NzAwMn0.U4jxKlTf_eCX6zochG6wZPxRBvWk90erSNY_IEuYqrY'
+    )
+    console.log('✅ Cliente Supabase criado')
+    
     const { id } = req.query
 
     if (!id || typeof id !== 'string') {
-      return res.status(400).json(createErrorResponse('ID do fluxograma é obrigatório'))
+      return res.status(400).json({ success: false, error: 'ID do fluxograma é obrigatório' })
     }
 
-    // Verificar autenticação
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    console.log('🆔 Buscando fluxograma com ID:', id)
+
+    if (req.method === 'GET') {
+      console.log('📋 Buscando fluxograma específico (armazenamento temporário)')
+      
+      // Buscar no armazenamento temporário
+      const flowchart = tempFlowcharts.find(f => f.id === id)
+      
+      if (!flowchart) {
+        return res.status(404).json({ success: false, error: 'Fluxograma não encontrado' })
+      }
+      
+      console.log('✅ Fluxograma encontrado:', flowchart.title)
+      return res.status(200).json({ success: true, data: flowchart })
+    }
     
-    if (authError || !user) {
-      return res.status(401).json(createErrorResponse('Usuário não autenticado'))
-    }
-
-    switch (req.method) {
-      case 'GET':
-        return await handleGetFlowchart(req, res, supabase, id, user.id)
-      case 'PUT':
-        return await handleUpdateFlowchart(req, res, supabase, id, user.id)
-      case 'DELETE':
-        return await handleDeleteFlowchart(req, res, supabase, id, user.id)
-      default:
-        return res.status(405).json(createErrorResponse('Método não permitido'))
-    }
-  } catch (error) {
-    const { status } = handleApiError(error)
-    return res.status(status).json(createErrorResponse(error))
-  }
-}
-
-async function handleGetFlowchart(
-  req: NextApiRequest, 
-  res: NextApiResponse<ApiResponse>, 
-  supabase: any, 
-  flowchartId: string,
-  userId: string
-) {
-  try {
-    const { data: flowchart, error } = await supabase
-      .from('flowcharts')
-      .select('*')
-      .eq('id', flowchartId)
-      .single()
-
-    if (error) {
-      if (error.code === 'PGRST116') {
-        return res.status(404).json(createErrorResponse('Fluxograma não encontrado'))
+    if (req.method === 'PUT') {
+      console.log('📝 Atualizando fluxograma (armazenamento temporário)')
+      const { title, description, data } = req.body
+      
+      const index = tempFlowcharts.findIndex(f => f.id === id)
+      if (index === -1) {
+        return res.status(404).json({ success: false, error: 'Fluxograma não encontrado' })
       }
-      throw new Error(`Erro ao buscar fluxograma: ${error.message}`)
-    }
-
-    // Verificar se o usuário tem permissão para ver o fluxograma
-    if (flowchart.user_id !== userId && !flowchart.is_public) {
-      return res.status(403).json(createErrorResponse('Acesso negado'))
-    }
-
-    return res.status(200).json(createSuccessResponse(
-      flowchart,
-      'Fluxograma carregado com sucesso'
-    ))
-
-  } catch (error) {
-    const { status } = handleApiError(error)
-    return res.status(status).json(createErrorResponse(error))
-  }
-}
-
-async function handleUpdateFlowchart(
-  req: NextApiRequest, 
-  res: NextApiResponse<ApiResponse>, 
-  supabase: any, 
-  flowchartId: string,
-  userId: string
-) {
-  try {
-    const flowchartData: FlowchartData = req.body
-
-    // Verificar se o fluxograma existe e pertence ao usuário
-    const { data: existingFlowchart, error: fetchError } = await supabase
-      .from('flowcharts')
-      .select('user_id')
-      .eq('id', flowchartId)
-      .single()
-
-    if (fetchError) {
-      if (fetchError.code === 'PGRST116') {
-        return res.status(404).json(createErrorResponse('Fluxograma não encontrado'))
+      
+      tempFlowcharts[index] = {
+        ...tempFlowcharts[index],
+        title: title || tempFlowcharts[index].title,
+        description: description || tempFlowcharts[index].description,
+        data: data || tempFlowcharts[index].data,
+        updated_at: new Date().toISOString()
       }
-      throw new Error(`Erro ao buscar fluxograma: ${fetchError.message}`)
+      
+      console.log('✅ Fluxograma atualizado (temporário):', id)
+      return res.status(200).json({ success: true, data: tempFlowcharts[index] })
     }
-
-    if (existingFlowchart.user_id !== userId) {
-      return res.status(403).json(createErrorResponse('Acesso negado'))
-    }
-
-    // Atualizar fluxograma
-    const updateData: any = {}
-    if (flowchartData.title !== undefined) updateData.title = flowchartData.title
-    if (flowchartData.description !== undefined) updateData.description = flowchartData.description
-    if (flowchartData.data !== undefined) updateData.data = flowchartData.data
-    if (flowchartData.is_template !== undefined) updateData.is_template = flowchartData.is_template
-    if (flowchartData.is_public !== undefined) updateData.is_public = flowchartData.is_public
-
-    const { data: updatedFlowchart, error } = await supabase
-      .from('flowcharts')
-      .update(updateData)
-      .eq('id', flowchartId)
-      .select()
-      .single()
-
-    if (error) {
-      throw new Error(`Erro ao atualizar fluxograma: ${error.message}`)
-    }
-
-    return res.status(200).json(createSuccessResponse(
-      updatedFlowchart,
-      'Fluxograma atualizado com sucesso'
-    ))
-
-  } catch (error) {
-    const { status } = handleApiError(error)
-    return res.status(status).json(createErrorResponse(error))
-  }
-}
-
-async function handleDeleteFlowchart(
-  req: NextApiRequest, 
-  res: NextApiResponse<ApiResponse>, 
-  supabase: any, 
-  flowchartId: string,
-  userId: string
-) {
-  try {
-    // Verificar se o fluxograma existe e pertence ao usuário
-    const { data: existingFlowchart, error: fetchError } = await supabase
-      .from('flowcharts')
-      .select('user_id')
-      .eq('id', flowchartId)
-      .single()
-
-    if (fetchError) {
-      if (fetchError.code === 'PGRST116') {
-        return res.status(404).json(createErrorResponse('Fluxograma não encontrado'))
+    
+    if (req.method === 'DELETE') {
+      console.log('🗑️ Deletando fluxograma (armazenamento temporário)')
+      
+      const index = tempFlowcharts.findIndex(f => f.id === id)
+      if (index === -1) {
+        return res.status(404).json({ success: false, error: 'Fluxograma não encontrado' })
       }
-      throw new Error(`Erro ao buscar fluxograma: ${fetchError.message}`)
+      
+      tempFlowcharts.splice(index, 1)
+      
+      console.log('✅ Fluxograma deletado (temporário):', id)
+      return res.status(200).json({ success: true, message: 'Fluxograma deletado com sucesso' })
     }
-
-    if (existingFlowchart.user_id !== userId) {
-      return res.status(403).json(createErrorResponse('Acesso negado'))
-    }
-
-    // Deletar fluxograma
-    const { error } = await supabase
-      .from('flowcharts')
-      .delete()
-      .eq('id', flowchartId)
-
-    if (error) {
-      throw new Error(`Erro ao deletar fluxograma: ${error.message}`)
-    }
-
-    return res.status(200).json(createSuccessResponse(
-      null,
-      'Fluxograma deletado com sucesso'
-    ))
-
+    
+    return res.status(405).json({ success: false, error: 'Método não permitido' })
+    
   } catch (error) {
-    const { status } = handleApiError(error)
-    return res.status(status).json(createErrorResponse(error))
+    console.error('❌ Erro geral:', error)
+    return res.status(500).json({ success: false, error: 'Erro interno do servidor' })
   }
 }

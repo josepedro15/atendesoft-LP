@@ -185,18 +185,34 @@ const EditableNode = ({
         <div className="flex items-center space-x-1 mt-2">
           <Input
             value={editLabel}
-            onChange={(e) => setEditLabel(e.target.value)}
+            onChange={(e) => {
+              console.log('📝 Input mudou para:', e.target.value)
+              setEditLabel(e.target.value)
+            }}
             className="text-xs h-6"
             autoFocus
             onKeyDown={(e) => {
-              if (e.key === 'Enter') handleSave()
-              if (e.key === 'Escape') handleCancel()
+              console.log('⌨️ Tecla pressionada:', e.key)
+              if (e.key === 'Enter') {
+                console.log('✅ Enter pressionado, salvando...')
+                handleSave()
+              }
+              if (e.key === 'Escape') {
+                console.log('❌ Escape pressionado, cancelando...')
+                handleCancel()
+              }
             }}
           />
-          <Button size="sm" variant="ghost" className="w-4 h-4 p-0" onClick={handleSave}>
+          <Button size="sm" variant="ghost" className="w-4 h-4 p-0" onClick={() => {
+            console.log('✅ Botão salvar clicado')
+            handleSave()
+          }}>
             <Check className="w-3 h-3 text-green-600" />
           </Button>
-          <Button size="sm" variant="ghost" className="w-4 h-4 p-0" onClick={handleCancel}>
+          <Button size="sm" variant="ghost" className="w-4 h-4 p-0" onClick={() => {
+            console.log('❌ Botão cancelar clicado')
+            handleCancel()
+          }}>
             <X className="w-3 h-3 text-red-600" />
           </Button>
         </div>

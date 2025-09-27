@@ -300,7 +300,9 @@ export function FlowchartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  const autoSave = useCallback(debounce(save, 30000), [save])
+  const autoSave = useCallback(debounce(() => {
+    save()
+  }, 30000), [save])
 
   const exportFlowchart = useCallback(async (options: ExportOptions) => {
     // Implementar export logic

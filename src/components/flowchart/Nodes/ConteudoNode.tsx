@@ -30,7 +30,7 @@ export default function ConteudoNode({ data, selected }: ConteudoNodeProps) {
   const handleCancel = useCallback(() => {
     setEditLabel(data.label || 'Digite o texto...')
     setIsEditing(false)
-  }, [data.label])
+  }, [data])
 
   const handleStartEdit = useCallback(() => {
     setIsEditing(true)

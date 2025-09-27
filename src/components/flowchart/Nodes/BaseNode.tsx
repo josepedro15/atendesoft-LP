@@ -33,7 +33,7 @@ export default function BaseNode({ data, selected }: BaseNodeProps) {
   const handleCancel = useCallback(() => {
     setEditLabel(data.label)
     setIsEditing(false)
-  }, [data.label])
+  }, [data])
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {

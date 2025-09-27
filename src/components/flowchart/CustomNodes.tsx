@@ -651,8 +651,6 @@ export const ConteudoNode = ({ data, selected, onLabelChange }: {
   selected: boolean; 
   onLabelChange?: (label: string) => void;
 }) => {
-  const colors = getColors()
-  const currentColor = colors.find(c => c.value === data.color) || colors[0] // Default azul
   const [isEditing, setIsEditing] = useState(false)
   const [editLabel, setEditLabel] = useState(data.label || 'Digite o texto...')
 
@@ -662,33 +660,44 @@ export const ConteudoNode = ({ data, selected, onLabelChange }: {
   }, [data.label])
 
   const handleSave = () => {
+    console.log('💾 Salvando conteúdo:', editLabel)
+    console.log('🔗 onLabelChange existe?', !!onLabelChange)
     if (onLabelChange) {
+      console.log('📞 Chamando onLabelChange com:', editLabel)
       onLabelChange(editLabel)
+    } else {
+      console.error('❌ onLabelChange não está definido!')
     }
     setIsEditing(false)
   }
 
   const handleCancel = () => {
+    console.log('❌ Cancelando edição de conteúdo')
     setEditLabel(data.label || 'Digite o texto...')
     setIsEditing(false)
   }
 
+  const handleStartEdit = () => {
+    console.log('✏️ Iniciando edição de conteúdo')
+    setIsEditing(true)
+  }
+
   return (
-    <div className={`px-4 py-3 shadow-lg rounded-lg border-2 min-w-[200px] transition-all relative group ${currentColor.bg} ${
-      selected ? `${currentColor.border} shadow-blue-200` : 'border-gray-300 hover:border-gray-400'
+    <div className={`px-4 py-3 shadow-lg rounded-lg border-2 min-w-[200px] transition-all relative group bg-blue-50 ${
+      selected ? 'border-blue-500 shadow-blue-200' : 'border-gray-300 hover:border-gray-400'
     }`}>
-      <AllSideHandles color={currentColor.handle} />
+      <AllSideHandles color="bg-blue-500" />
       
-      {/* Botão de editar - apenas quando não estiver editando */}
+      {/* Botão de editar - sempre visível quando não editando */}
       {!isEditing && (
-        <div className="absolute -top-2 -right-2 flex space-x-1 z-50">
+        <div className="absolute -top-2 -right-2 z-50">
           <Button
             size="sm"
             variant="ghost"
-            className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50 z-50"
+            className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50"
             onClick={(e) => {
               e.stopPropagation()
-              setIsEditing(true)
+              handleStartEdit()
             }}
             title="Editar texto"
           >
@@ -702,31 +711,53 @@ export const ConteudoNode = ({ data, selected, onLabelChange }: {
         <div className="space-y-2">
           <Input
             value={editLabel}
-            onChange={(e) => setEditLabel(e.target.value)}
+            onChange={(e) => {
+              console.log('📝 Conteúdo mudou para:', e.target.value)
+              setEditLabel(e.target.value)
+            }}
             className="text-sm h-8 w-full"
             autoFocus
             onKeyDown={(e) => {
+              console.log('⌨️ Tecla pressionada:', e.key)
               if (e.key === 'Enter') {
                 e.preventDefault()
+                console.log('✅ Enter - salvando conteúdo')
                 handleSave()
               }
               if (e.key === 'Escape') {
+                console.log('❌ Escape - cancelando conteúdo')
                 handleCancel()
               }
             }}
             placeholder="Digite o texto..."
           />
           <div className="flex justify-end space-x-1">
-            <Button size="sm" variant="ghost" className="w-6 h-6 p-0" onClick={handleSave}>
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              className="w-6 h-6 p-0" 
+              onClick={() => {
+                console.log('✅ Botão salvar conteúdo clicado')
+                handleSave()
+              }}
+            >
               <Check className="w-3 h-3 text-green-600" />
             </Button>
-            <Button size="sm" variant="ghost" className="w-6 h-6 p-0" onClick={handleCancel}>
+            <Button 
+              size="sm" 
+              variant="ghost" 
+              className="w-6 h-6 p-0" 
+              onClick={() => {
+                console.log('❌ Botão cancelar conteúdo clicado')
+                handleCancel()
+              }}
+            >
               <X className="w-3 h-3 text-red-600" />
             </Button>
           </div>
         </div>
       ) : (
-        <div className="min-h-[40px] flex items-center justify-center">
+        <div className="min-h-[40px] flex items-center justify-center cursor-pointer" onClick={handleStartEdit}>
           <div className="text-sm text-gray-800 text-center break-words max-w-full">
             {data.label || 'Digite o texto...'}
           </div>

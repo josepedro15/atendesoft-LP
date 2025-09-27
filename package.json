@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "dev:domain": "next dev -H 0.0.0.0 -p 3000",
-    "dev:watch": "node dev-simple.js",
+    "dev:watch": "node dev-simple.mjs",
     "dev:hot": "concurrently \"npm run dev\" \"npm run dev:watch\"",
     "build": "next build",
     "start": "next start",

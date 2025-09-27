@@ -69,9 +69,11 @@ const EditableNode = ({
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[0]
 
-  // Debug: verificar se o nó está selecionado
+  // Debug: verificar se o nó está selecionado (apenas quando selecionado)
   React.useEffect(() => {
-    console.log('🔍 Nó selecionado:', selected, 'ID:', data.id)
+    if (selected) {
+      console.log('🔍 Nó selecionado:', selected, 'ID:', data.id)
+    }
   }, [selected, data.id])
 
   // Atualizar editLabel quando data.label mudar
@@ -97,11 +99,10 @@ const EditableNode = ({
   }, [showColorPicker])
 
   const handleSave = () => {
-    console.log('💾 Salvando label:', editLabel)
-    console.log('🔗 onLabelChange existe?', !!onLabelChange)
-    console.log('📊 Props recebidas:', { onLabelChange, onColorChange })
+    // console.log('💾 Salvando label:', editLabel)
+    // console.log('🔗 onLabelChange existe?', !!onLabelChange)
     if (onLabelChange) {
-      console.log('📞 Chamando onLabelChange com:', editLabel)
+      // console.log('📞 Chamando onLabelChange com:', editLabel)
       onLabelChange(editLabel)
     } else {
       console.error('❌ onLabelChange não está definido!')
@@ -110,17 +111,15 @@ const EditableNode = ({
   }
 
   const handleCancel = () => {
-    console.log('❌ Cancelando edição')
+    // console.log('❌ Cancelando edição')
     setEditLabel(data.label)
     setIsEditing(false)
   }
 
   const handleColorSelect = (color: any) => {
-    console.log('🎨 Selecionando cor:', color.value)
-    console.log('🔗 onColorChange existe?', !!onColorChange)
-    console.log('📊 Props recebidas:', { onLabelChange, onColorChange })
+    // console.log('🎨 Selecionando cor:', color.value)
     if (onColorChange) {
-      console.log('📞 Chamando onColorChange com:', color.value)
+      // console.log('📞 Chamando onColorChange com:', color.value)
       onColorChange(color.value)
     } else {
       console.error('❌ onColorChange não está definido!')
@@ -142,7 +141,7 @@ const EditableNode = ({
           className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50 z-50"
           onClick={(e) => {
             e.stopPropagation()
-            console.log('✏️ Botão de editar clicado')
+            // console.log('✏️ Botão de editar clicado')
             setIsEditing(true)
           }}
         >
@@ -154,7 +153,7 @@ const EditableNode = ({
           className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50 z-50"
           onClick={(e) => {
             e.stopPropagation()
-            console.log('🎨 Botão de cor clicado')
+            // console.log('🎨 Botão de cor clicado')
             setShowColorPicker(!showColorPicker)
           }}
         >
@@ -186,31 +185,31 @@ const EditableNode = ({
           <Input
             value={editLabel}
             onChange={(e) => {
-              console.log('📝 Input mudou para:', e.target.value)
+              // console.log('📝 Input mudou para:', e.target.value)
               setEditLabel(e.target.value)
             }}
             className="text-xs h-6"
             autoFocus
             onKeyDown={(e) => {
-              console.log('⌨️ Tecla pressionada:', e.key)
+              // console.log('⌨️ Tecla pressionada:', e.key)
               if (e.key === 'Enter') {
-                console.log('✅ Enter pressionado, salvando...')
+                // console.log('✅ Enter pressionado, salvando...')
                 handleSave()
               }
               if (e.key === 'Escape') {
-                console.log('❌ Escape pressionado, cancelando...')
+                // console.log('❌ Escape pressionado, cancelando...')
                 handleCancel()
               }
             }}
           />
           <Button size="sm" variant="ghost" className="w-4 h-4 p-0" onClick={() => {
-            console.log('✅ Botão salvar clicado')
+            // console.log('✅ Botão salvar clicado')
             handleSave()
           }}>
             <Check className="w-3 h-3 text-green-600" />
           </Button>
           <Button size="sm" variant="ghost" className="w-4 h-4 p-0" onClick={() => {
-            console.log('❌ Botão cancelar clicado')
+            // console.log('❌ Botão cancelar clicado')
             handleCancel()
           }}>
             <X className="w-3 h-3 text-red-600" />

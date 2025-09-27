@@ -176,16 +176,16 @@ function EditorContent() {
 
   // NodeTypes dinâmico com callbacks - SIMPLIFICADO
   const nodeTypes: NodeTypes = useMemo(() => {
-    console.log('🔄 Recriando nodeTypes com callbacks:', { handleLabelChange: !!handleLabelChange, handleColorChange: !!handleColorChange })
+    // console.log('🔄 Recriando nodeTypes com callbacks:', { handleLabelChange: !!handleLabelChange, handleColorChange: !!handleColorChange })
     
     // Função helper para criar callbacks
     const createCallbacks = (id: string) => ({
       onLabelChange: (label: string) => {
-        console.log('🔥 CALLBACK onLabelChange chamado para ID:', id, 'label:', label)
+        // console.log('🔥 CALLBACK onLabelChange chamado para ID:', id, 'label:', label)
         handleLabelChange(id, label)
       },
       onColorChange: (color: string) => {
-        console.log('🔥 CALLBACK onColorChange chamado para ID:', id, 'color:', color)
+        // console.log('🔥 CALLBACK onColorChange chamado para ID:', id, 'color:', color)
         handleColorChange(id, color)
       }
     })

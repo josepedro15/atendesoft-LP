@@ -69,7 +69,30 @@ const EditableNode = ({
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[0]
 
+  // Atualizar editLabel quando data.label mudar
+  React.useEffect(() => {
+    setEditLabel(data.label)
+  }, [data.label])
+
+  // Fechar color picker quando clicar fora
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (showColorPicker) {
+        const target = event.target as Element
+        if (!target.closest('.color-picker-container')) {
+          setShowColorPicker(false)
+        }
+      }
+    }
+
+    if (showColorPicker) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [showColorPicker])
+
   const handleSave = () => {
+    console.log('💾 Salvando label:', editLabel)
     if (onLabelChange) {
       onLabelChange(editLabel)
     }
@@ -77,11 +100,13 @@ const EditableNode = ({
   }
 
   const handleCancel = () => {
+    console.log('❌ Cancelando edição')
     setEditLabel(data.label)
     setIsEditing(false)
   }
 
   const handleColorSelect = (color: any) => {
+    console.log('🎨 Selecionando cor:', color.value)
     if (onColorChange) {
       onColorChange(color.value)
     }
@@ -118,7 +143,7 @@ const EditableNode = ({
 
       {/* Color Picker */}
       {showColorPicker && selected && (
-        <div className="absolute top-8 right-0 bg-white border border-gray-300 rounded-lg shadow-lg p-2 z-50">
+        <div className="color-picker-container absolute top-8 right-0 bg-white border border-gray-300 rounded-lg shadow-lg p-2 z-50">
           <div className="grid grid-cols-4 gap-1">
             {colors.map((color) => (
               <button

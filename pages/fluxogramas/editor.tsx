@@ -154,6 +154,7 @@ function EditorContent() {
 
   // Função para lidar com mudanças de label
   const handleLabelChange = useCallback((nodeId: string, newLabel: string) => {
+    console.log('🔄 Mudando label do nó:', nodeId, 'para:', newLabel)
     setNodes((nds) =>
       nds.map((node) =>
         node.id === nodeId ? { ...node, data: { ...node.data, label: newLabel } } : node
@@ -164,6 +165,7 @@ function EditorContent() {
 
   // Função para lidar com mudanças de cor
   const handleColorChange = useCallback((nodeId: string, newColor: string) => {
+    console.log('🎨 Mudando cor do nó:', nodeId, 'para:', newColor)
     setNodes((nds) =>
       nds.map((node) =>
         node.id === nodeId ? { ...node, data: { ...node.data, color: newColor } } : node

@@ -16,12 +16,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log('🆔 Usando userId fixo para teste:', userId)
 
     if (req.method === 'GET') {
-      console.log('📋 Buscando fluxogramas no banco de dados')
+      console.log('📋 Buscando TODOS os fluxogramas no banco de dados')
       
       const { data: flowcharts, error } = await supabase
         .from('flowcharts')
         .select('*')
-        .eq('user_id', userId)
         .order('updated_at', { ascending: false })
 
       if (error) {
@@ -29,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(500).json({ success: false, error: error.message })
       }
 
-      console.log('✅ Fluxogramas encontrados:', flowcharts?.length || 0)
+      console.log('✅ Fluxogramas encontrados (todos):', flowcharts?.length || 0)
       return res.status(200).json({ success: true, data: flowcharts })
     }
     
@@ -77,7 +76,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           updated_at: new Date().toISOString()
         })
         .eq('id', id)
-        .eq('user_id', userId)
         .select()
         .single()
       
@@ -106,7 +104,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         .from('flowcharts')
         .delete()
         .eq('id', id)
-        .eq('user_id', userId)
       
       if (error) {
         console.error('❌ Erro ao deletar:', error)

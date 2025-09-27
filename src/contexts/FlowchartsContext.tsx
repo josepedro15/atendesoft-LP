@@ -66,9 +66,7 @@ export function FlowchartsProvider({ children }: { children: React.ReactNode }) 
   }, [])
 
   const fetchFlowcharts = useCallback(async () => {
-    if (!user) return
-
-    console.log('🔄 Buscando fluxogramas...')
+    console.log('🔄 Buscando TODOS os fluxogramas...')
     setLoading(true)
     setError(null)
 
@@ -81,7 +79,7 @@ export function FlowchartsProvider({ children }: { children: React.ReactNode }) 
       }
 
       const flowchartsData = result.data || []
-      console.log('📋 Fluxogramas carregados:', flowchartsData)
+      console.log('📋 Fluxogramas carregados (todos):', flowchartsData)
       setFlowcharts(flowchartsData)
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erro desconhecido'
@@ -90,14 +88,9 @@ export function FlowchartsProvider({ children }: { children: React.ReactNode }) 
     } finally {
       setLoading(false)
     }
-  }, [user])
+  }, [])
 
   const createFlowchart = useCallback(async (data: CreateFlowchartData): Promise<Flowchart | null> => {
-    if (!user) {
-      setError('Usuário não autenticado')
-      return null
-    }
-
     console.log('➕ Criando fluxograma:', data)
     setLoading(true)
     setError(null)
@@ -133,14 +126,9 @@ export function FlowchartsProvider({ children }: { children: React.ReactNode }) 
     } finally {
       setLoading(false)
     }
-  }, [user])
+  }, [])
 
   const updateFlowchart = useCallback(async (id: string, data: UpdateFlowchartData): Promise<Flowchart | null> => {
-    if (!user) {
-      setError('Usuário não autenticado')
-      return null
-    }
-
     console.log('✏️ Atualizando fluxograma:', id, data)
     setLoading(true)
     setError(null)
@@ -176,14 +164,9 @@ export function FlowchartsProvider({ children }: { children: React.ReactNode }) 
     } finally {
       setLoading(false)
     }
-  }, [user])
+  }, [])
 
   const deleteFlowchart = useCallback(async (id: string): Promise<boolean> => {
-    if (!user) {
-      setError('Usuário não autenticado')
-      return false
-    }
-
     console.log('🗑️ Deletando fluxograma:', id)
     setLoading(true)
     setError(null)
@@ -210,14 +193,9 @@ export function FlowchartsProvider({ children }: { children: React.ReactNode }) 
     } finally {
       setLoading(false)
     }
-  }, [user])
+  }, [])
 
   const loadFlowchart = useCallback(async (id: string): Promise<Flowchart | null> => {
-    if (!user) {
-      setError('Usuário não autenticado')
-      return null
-    }
-
     console.log('📖 Carregando fluxograma:', id)
     setLoading(true)
     setError(null)
@@ -240,23 +218,18 @@ export function FlowchartsProvider({ children }: { children: React.ReactNode }) 
     } finally {
       setLoading(false)
     }
-  }, [user])
+  }, [])
 
   const refreshFlowcharts = useCallback(async () => {
     console.log('🔄 Refreshing fluxogramas...')
     await fetchFlowcharts()
   }, [fetchFlowcharts])
 
-  // Carregar fluxogramas quando o usuário estiver autenticado
+  // Carregar fluxogramas sempre (públicos)
   useEffect(() => {
-    if (user) {
-      console.log('👤 Usuário autenticado, carregando fluxogramas...')
-      fetchFlowcharts()
-    } else {
-      console.log('👤 Usuário não autenticado, limpando fluxogramas...')
-      setFlowcharts([])
-    }
-  }, [user, fetchFlowcharts])
+    console.log('🔄 Carregando fluxogramas públicos...')
+    fetchFlowcharts()
+  }, [fetchFlowcharts])
 
   const value = {
     flowcharts,

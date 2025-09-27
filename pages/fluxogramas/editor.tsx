@@ -193,11 +193,14 @@ function EditorContent() {
     (params: Connection) => {
       const newEdge = {
         ...params,
-        id: `e${params.source}-${params.target}`,
+        id: `e${params.source}-${params.target}-${params.sourceHandle || 'default'}-${params.targetHandle || 'default'}`,
         type: 'smoothstep',
         markerEnd: {
           type: MarkerType.ArrowClosed,
         },
+        // Preservar os handles específicos
+        sourceHandle: params.sourceHandle,
+        targetHandle: params.targetHandle,
       }
       setEdges((eds) => addEdge(newEdge, eds))
       saveToHistory()

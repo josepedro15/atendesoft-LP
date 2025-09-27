@@ -19,10 +19,30 @@ const getColors = () => [
 // Helper component para handles em todos os lados
 const AllSideHandles = ({ color }: { color: string }) => (
   <>
-    <Handle type="target" position={Position.Top} className={`w-3 h-3 ${color}`} />
-    <Handle type="source" position={Position.Bottom} className={`w-3 h-3 ${color}`} />
-    <Handle type="target" position={Position.Left} className={`w-3 h-3 ${color}`} />
-    <Handle type="source" position={Position.Right} className={`w-3 h-3 ${color}`} />
+    <Handle 
+      type="target" 
+      position={Position.Top} 
+      className={`w-3 h-3 ${color}`}
+      id="top"
+    />
+    <Handle 
+      type="source" 
+      position={Position.Bottom} 
+      className={`w-3 h-3 ${color}`}
+      id="bottom"
+    />
+    <Handle 
+      type="target" 
+      position={Position.Left} 
+      className={`w-3 h-3 ${color}`}
+      id="left"
+    />
+    <Handle 
+      type="source" 
+      position={Position.Right} 
+      className={`w-3 h-3 ${color}`}
+      id="right"
+    />
   </>
 )
 

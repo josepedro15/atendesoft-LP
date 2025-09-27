@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import { useFlowcharts } from '@/contexts/FlowchartsContext'
@@ -52,52 +52,38 @@ import {
 import SimpleSidebar from '@/components/flowchart/SimpleSidebar'
 import { exportAsPNG, exportAsPDF, exportAsSVG, exportAsJSON } from '@/components/flowchart/ExportUtils'
 
-const nodeTypes: NodeTypes = {
-  process: ProcessNode,
-  decision: DecisionNode,
-  startEnd: StartEndNode,
-  inputOutput: InputOutputNode,
-  data: DataNode,
-  document: DocumentNode,
-  connector: ConnectorNode,
-  database: DatabaseNode,
-  api: ApiNode,
-  timer: TimerNode,
-  user: UserNode,
-  cloud: CloudNode,
-  loop: LoopNode,
-}
+// NodeTypes será definido dentro do componente para ter acesso aos callbacks
 
 const initialNodes: Node[] = [
   {
     id: '1',
     type: 'startEnd',
     position: { x: 250, y: 25 },
-    data: { label: 'Início' },
+    data: { label: 'Início', color: 'green' },
   },
   {
     id: '2',
     type: 'process',
     position: { x: 100, y: 125 },
-    data: { label: 'Processo 1' },
+    data: { label: 'Processo 1', color: 'blue' },
   },
   {
     id: '3',
     type: 'decision',
     position: { x: 400, y: 125 },
-    data: { label: 'Decisão?' },
+    data: { label: 'Decisão?', color: 'red' },
   },
   {
     id: '4',
     type: 'process',
     position: { x: 100, y: 250 },
-    data: { label: 'Processo 2' },
+    data: { label: 'Processo 2', color: 'blue' },
   },
   {
     id: '5',
     type: 'startEnd',
     position: { x: 400, y: 250 },
-    data: { label: 'Fim' },
+    data: { label: 'Fim', color: 'green' },
   },
 ]
 
@@ -166,6 +152,43 @@ function EditorContent() {
     setHistoryIndex(newHistory.length - 1)
   }, [nodes, edges, history, historyIndex])
 
+  // Função para lidar com mudanças de label
+  const handleLabelChange = useCallback((nodeId: string, newLabel: string) => {
+    setNodes((nds) =>
+      nds.map((node) =>
+        node.id === nodeId ? { ...node, data: { ...node.data, label: newLabel } } : node
+      )
+    )
+    saveToHistory()
+  }, [setNodes, saveToHistory])
+
+  // Função para lidar com mudanças de cor
+  const handleColorChange = useCallback((nodeId: string, newColor: string) => {
+    setNodes((nds) =>
+      nds.map((node) =>
+        node.id === nodeId ? { ...node, data: { ...node.data, color: newColor } } : node
+      )
+    )
+    saveToHistory()
+  }, [setNodes, saveToHistory])
+
+  // NodeTypes dinâmico com callbacks
+  const nodeTypes: NodeTypes = useMemo(() => ({
+    process: (props) => <ProcessNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+    decision: (props) => <DecisionNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+    startEnd: (props) => <StartEndNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+    inputOutput: (props) => <InputOutputNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+    data: (props) => <DataNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+    document: (props) => <DocumentNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+    connector: (props) => <ConnectorNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+    database: (props) => <DatabaseNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+    api: (props) => <ApiNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+    timer: (props) => <TimerNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+    user: (props) => <UserNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+    cloud: (props) => <CloudNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+    loop: (props) => <LoopNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+  }), [handleLabelChange, handleColorChange])
+
   const onConnect = useCallback(
     (params: Connection) => {
       const newEdge = {
@@ -205,6 +228,23 @@ function EditorContent() {
     const centerX = window.innerWidth / 2 - 100
     const centerY = window.innerHeight / 2 - 100
     
+    // Cores padrão para cada tipo de nó
+    const defaultColors: { [key: string]: string } = {
+      process: 'blue',
+      decision: 'red',
+      startEnd: 'green',
+      inputOutput: 'yellow',
+      data: 'purple',
+      document: 'blue',
+      connector: 'gray',
+      database: 'purple',
+      api: 'orange',
+      timer: 'yellow',
+      user: 'green',
+      cloud: 'blue',
+      loop: 'blue',
+    }
+    
     const newNode: Node = {
       id: `${Date.now()}`, // Usar timestamp para IDs únicos
       type,
@@ -212,7 +252,10 @@ function EditorContent() {
         x: centerX + (Math.random() - 0.5) * 200, 
         y: centerY + (Math.random() - 0.5) * 200 
       },
-      data: { label: `Novo ${type}` },
+      data: { 
+        label: `Novo ${type}`,
+        color: defaultColors[type] || 'blue'
+      },
     }
     setNodes((nds) => [...nds, newNode])
     saveToHistory()

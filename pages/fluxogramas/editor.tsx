@@ -163,16 +163,6 @@ function EditorContent() {
     saveToHistory()
   }, [setNodes, saveToHistory])
 
-  // Função para lidar com mudanças de cor
-  const handleColorChange = useCallback((nodeId: string, newColor: string) => {
-    console.log('🎨 Mudando cor do nó:', nodeId, 'para:', newColor)
-    setNodes((nds) =>
-      nds.map((node) =>
-        node.id === nodeId ? { ...node, data: { ...node.data, color: newColor } } : node
-      )
-    )
-    saveToHistory()
-  }, [setNodes, saveToHistory])
 
   // NodeTypes dinâmico com callbacks - SIMPLIFICADO
   const nodeTypes: NodeTypes = useMemo(() => {
@@ -183,10 +173,6 @@ function EditorContent() {
       onLabelChange: (label: string) => {
         // console.log('🔥 CALLBACK onLabelChange chamado para ID:', id, 'label:', label)
         handleLabelChange(id, label)
-      },
-      onColorChange: (color: string) => {
-        // console.log('🔥 CALLBACK onColorChange chamado para ID:', id, 'color:', color)
-        handleColorChange(id, color)
       }
     })
 
@@ -205,7 +191,7 @@ function EditorContent() {
       cloud: (props) => <CloudNode {...props} {...createCallbacks(props.id)} />,
       loop: (props) => <LoopNode {...props} {...createCallbacks(props.id)} />,
     }
-  }, [handleLabelChange, handleColorChange])
+  }, [handleLabelChange])
 
   const onConnect = useCallback(
     (params: Connection) => {

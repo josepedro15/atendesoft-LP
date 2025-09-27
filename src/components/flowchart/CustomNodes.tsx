@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Handle, Position } from 'reactflow'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Edit2, Check, X, Palette } from 'lucide-react'
+import { Edit2, Check, X } from 'lucide-react'
 
 // Helper function para cores
 const getColors = () => [
@@ -52,19 +52,16 @@ const EditableNode = ({
   selected, 
   children, 
   className = '',
-  onLabelChange,
-  onColorChange 
+  onLabelChange
 }: { 
   data: any; 
   selected: boolean; 
   children: React.ReactNode;
   className?: string;
   onLabelChange?: (label: string) => void;
-  onColorChange?: (color: string) => void;
 }) => {
   const [isEditing, setIsEditing] = useState(false)
   const [editLabel, setEditLabel] = useState(data.label)
-  const [showColorPicker, setShowColorPicker] = useState(false)
 
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[0]
@@ -80,23 +77,6 @@ const EditableNode = ({
   React.useEffect(() => {
     setEditLabel(data.label)
   }, [data.label])
-
-  // Fechar color picker quando clicar fora
-  React.useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (showColorPicker) {
-        const target = event.target as Element
-        if (!target.closest('.color-picker-container')) {
-          setShowColorPicker(false)
-        }
-      }
-    }
-
-    if (showColorPicker) {
-      document.addEventListener('mousedown', handleClickOutside)
-      return () => document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [showColorPicker])
 
   const handleSave = () => {
     // console.log('💾 Salvando label:', editLabel)
@@ -116,16 +96,6 @@ const EditableNode = ({
     setIsEditing(false)
   }
 
-  const handleColorSelect = (color: any) => {
-    // console.log('🎨 Selecionando cor:', color.value)
-    if (onColorChange) {
-      // console.log('📞 Chamando onColorChange com:', color.value)
-      onColorChange(color.value)
-    } else {
-      console.error('❌ onColorChange não está definido!')
-    }
-    setShowColorPicker(false)
-  }
 
   return (
     <div className={`px-4 py-3 shadow-lg rounded-lg border-2 min-w-[140px] transition-all relative group ${currentColor.bg} ${
@@ -133,7 +103,7 @@ const EditableNode = ({
     }`}>
       {children}
       
-      {/* Action Buttons - SEMPRE VISÍVEIS */}
+      {/* Action Button - APENAS EDITAR NOME */}
       <div className="absolute -top-2 -right-2 flex space-x-1 z-50">
         <Button
           size="sm"
@@ -144,40 +114,12 @@ const EditableNode = ({
             // console.log('✏️ Botão de editar clicado')
             setIsEditing(true)
           }}
+          title="Editar nome"
         >
           <Edit2 className="w-3 h-3" />
         </Button>
-        <Button
-          size="sm"
-          variant="ghost"
-          className="w-6 h-6 p-0 bg-white border border-gray-300 shadow-sm hover:bg-gray-50 z-50"
-          onClick={(e) => {
-            e.stopPropagation()
-            // console.log('🎨 Botão de cor clicado')
-            setShowColorPicker(!showColorPicker)
-          }}
-        >
-          <Palette className="w-3 h-3" />
-        </Button>
       </div>
 
-      {/* Color Picker */}
-      {showColorPicker && (
-        <div className="color-picker-container absolute top-8 right-0 bg-white border border-gray-300 rounded-lg shadow-lg p-2 z-50">
-          <div className="grid grid-cols-4 gap-1">
-            {colors.map((color) => (
-              <button
-                key={color.value}
-                className={`w-6 h-6 rounded border-2 ${
-                  currentColor.value === color.value ? 'border-gray-800' : 'border-gray-300'
-                } ${color.bg}`}
-                onClick={() => handleColorSelect(color)}
-                title={color.name}
-              />
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Editable Label */}
       {isEditing ? (
@@ -225,34 +167,32 @@ const EditableNode = ({
 }
 
 // Process Node (Retângulo)
-export const ProcessNode = ({ data, selected, onLabelChange, onColorChange }: { 
+export const ProcessNode = ({ data, selected, onLabelChange }: { 
   data: any; 
   selected: boolean; 
   onLabelChange?: (label: string) => void;
-  onColorChange?: (color: string) => void;
 }) => {
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[0]
   
   return (
-    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange} onColorChange={onColorChange}>
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
       <AllSideHandles color={currentColor.handle} />
     </EditableNode>
   )
 }
 
 // Decision Node (Losango)
-export const DecisionNode = ({ data, selected, onLabelChange, onColorChange }: { 
+export const DecisionNode = ({ data, selected, onLabelChange }: { 
   data: any; 
   selected: boolean; 
   onLabelChange?: (label: string) => void;
-  onColorChange?: (color: string) => void;
 }) => {
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[2] // Default vermelho
   
   return (
-    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange} onColorChange={onColorChange}>
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
       <AllSideHandles color={currentColor.handle} />
       <div 
         className={`w-16 h-16 ${currentColor.shape} flex items-center justify-center`}
@@ -265,17 +205,16 @@ export const DecisionNode = ({ data, selected, onLabelChange, onColorChange }: {
 }
 
 // Start/End Node (Oval)
-export const StartEndNode = ({ data, selected, onLabelChange, onColorChange }: { 
+export const StartEndNode = ({ data, selected, onLabelChange }: { 
   data: any; 
   selected: boolean; 
   onLabelChange?: (label: string) => void;
-  onColorChange?: (color: string) => void;
 }) => {
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[1] // Default verde
   
   return (
-    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange} onColorChange={onColorChange}>
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
       <AllSideHandles color={currentColor.handle} />
       <div className={`w-16 h-12 ${currentColor.shape} rounded-full flex items-center justify-center`}>
         <div className={`w-12 h-8 ${currentColor.inner} rounded-full`}></div>
@@ -285,17 +224,16 @@ export const StartEndNode = ({ data, selected, onLabelChange, onColorChange }: {
 }
 
 // Input/Output Node (Paralelogramo)
-export const InputOutputNode = ({ data, selected, onLabelChange, onColorChange }: { 
+export const InputOutputNode = ({ data, selected, onLabelChange }: { 
   data: any; 
   selected: boolean; 
   onLabelChange?: (label: string) => void;
-  onColorChange?: (color: string) => void;
 }) => {
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[3] // Default amarelo
   
   return (
-    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange} onColorChange={onColorChange}>
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
       <AllSideHandles color={currentColor.handle} />
       <div 
         className={`w-16 h-12 ${currentColor.shape} flex items-center justify-center`}
@@ -308,17 +246,16 @@ export const InputOutputNode = ({ data, selected, onLabelChange, onColorChange }
 }
 
 // Data Node (Cilindro)
-export const DataNode = ({ data, selected, onLabelChange, onColorChange }: { 
+export const DataNode = ({ data, selected, onLabelChange }: { 
   data: any; 
   selected: boolean; 
   onLabelChange?: (label: string) => void;
-  onColorChange?: (color: string) => void;
 }) => {
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[4] // Default roxo
   
   return (
-    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange} onColorChange={onColorChange}>
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
       <AllSideHandles color={currentColor.handle} />
       <div 
         className={`w-16 h-12 ${currentColor.shape} flex items-center justify-center`}
@@ -332,17 +269,16 @@ export const DataNode = ({ data, selected, onLabelChange, onColorChange }: {
 }
 
 // Document Node (Retângulo com dobra)
-export const DocumentNode = ({ data, selected, onLabelChange, onColorChange }: { 
+export const DocumentNode = ({ data, selected, onLabelChange }: { 
   data: any; 
   selected: boolean; 
   onLabelChange?: (label: string) => void;
-  onColorChange?: (color: string) => void;
 }) => {
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[0] // Default azul
   
   return (
-    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange} onColorChange={onColorChange}>
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
       <AllSideHandles color={currentColor.handle} />
       <div className={`w-16 h-12 ${currentColor.shape} relative`}>
         {/* Dobra do documento */}
@@ -353,17 +289,16 @@ export const DocumentNode = ({ data, selected, onLabelChange, onColorChange }: {
 }
 
 // Connector Node (Círculo pequeno)
-export const ConnectorNode = ({ data, selected, onLabelChange, onColorChange }: { 
+export const ConnectorNode = ({ data, selected, onLabelChange }: { 
   data: any; 
   selected: boolean; 
   onLabelChange?: (label: string) => void;
-  onColorChange?: (color: string) => void;
 }) => {
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[7] // Default cinza
   
   return (
-    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange} onColorChange={onColorChange}>
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
       <AllSideHandles color={currentColor.handle} />
       <div className={`w-8 h-8 ${currentColor.shape} rounded-full flex items-center justify-center`}>
         <div className={`w-2 h-2 ${currentColor.handle} rounded-full`}></div>
@@ -373,17 +308,16 @@ export const ConnectorNode = ({ data, selected, onLabelChange, onColorChange }: 
 }
 
 // Database Node (Cilindro)
-export const DatabaseNode = ({ data, selected, onLabelChange, onColorChange }: { 
+export const DatabaseNode = ({ data, selected, onLabelChange }: { 
   data: any; 
   selected: boolean; 
   onLabelChange?: (label: string) => void;
-  onColorChange?: (color: string) => void;
 }) => {
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[4] // Default roxo
   
   return (
-    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange} onColorChange={onColorChange}>
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
       <AllSideHandles color={currentColor.handle} />
       <div className={`w-16 h-12 ${currentColor.shape} rounded-t-lg relative`}>
         <div className={`absolute bottom-0 w-full h-8 ${currentColor.inner} rounded-b-full`}></div>
@@ -393,17 +327,16 @@ export const DatabaseNode = ({ data, selected, onLabelChange, onColorChange }: {
 }
 
 // API Node (Hexágono)
-export const ApiNode = ({ data, selected, onLabelChange, onColorChange }: { 
+export const ApiNode = ({ data, selected, onLabelChange }: { 
   data: any; 
   selected: boolean; 
   onLabelChange?: (label: string) => void;
-  onColorChange?: (color: string) => void;
 }) => {
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[5] // Default laranja
   
   return (
-    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange} onColorChange={onColorChange}>
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
       <AllSideHandles color={currentColor.handle} />
       <div className={`w-16 h-12 ${currentColor.shape} relative`} 
            style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }}>
@@ -413,17 +346,16 @@ export const ApiNode = ({ data, selected, onLabelChange, onColorChange }: {
 }
 
 // Timer Node (Círculo com relógio)
-export const TimerNode = ({ data, selected, onLabelChange, onColorChange }: { 
+export const TimerNode = ({ data, selected, onLabelChange }: { 
   data: any; 
   selected: boolean; 
   onLabelChange?: (label: string) => void;
-  onColorChange?: (color: string) => void;
 }) => {
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[3] // Default amarelo
   
   return (
-    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange} onColorChange={onColorChange}>
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
       <AllSideHandles color={currentColor.handle} />
       <div className={`w-16 h-16 ${currentColor.shape} rounded-full flex items-center justify-center`}>
         <div className={`w-8 h-8 border-2 ${currentColor.handle} rounded-full relative`}>
@@ -436,17 +368,16 @@ export const TimerNode = ({ data, selected, onLabelChange, onColorChange }: {
 }
 
 // User Node (Pessoa)
-export const UserNode = ({ data, selected, onLabelChange, onColorChange }: { 
+export const UserNode = ({ data, selected, onLabelChange }: { 
   data: any; 
   selected: boolean; 
   onLabelChange?: (label: string) => void;
-  onColorChange?: (color: string) => void;
 }) => {
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[1] // Default verde
   
   return (
-    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange} onColorChange={onColorChange}>
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
       <AllSideHandles color={currentColor.handle} />
       <div className={`w-12 h-16 ${currentColor.shape} rounded-full relative`}>
         <div className={`absolute top-2 left-1/2 w-6 h-6 ${currentColor.inner} rounded-full transform -translate-x-1/2`}></div>
@@ -457,17 +388,16 @@ export const UserNode = ({ data, selected, onLabelChange, onColorChange }: {
 }
 
 // Cloud Node (Nuvem)
-export const CloudNode = ({ data, selected, onLabelChange, onColorChange }: { 
+export const CloudNode = ({ data, selected, onLabelChange }: { 
   data: any; 
   selected: boolean; 
   onLabelChange?: (label: string) => void;
-  onColorChange?: (color: string) => void;
 }) => {
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[0] // Default azul
   
   return (
-    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange} onColorChange={onColorChange}>
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
       <AllSideHandles color={currentColor.handle} />
       <div className={`w-16 h-10 ${currentColor.shape} rounded-full relative`}>
         <div className={`absolute -top-2 left-2 w-6 h-6 ${currentColor.shape} rounded-full`}></div>
@@ -478,17 +408,16 @@ export const CloudNode = ({ data, selected, onLabelChange, onColorChange }: {
 }
 
 // Loop Node (Setas circulares)
-export const LoopNode = ({ data, selected, onLabelChange, onColorChange }: { 
+export const LoopNode = ({ data, selected, onLabelChange }: { 
   data: any; 
   selected: boolean; 
   onLabelChange?: (label: string) => void;
-  onColorChange?: (color: string) => void;
 }) => {
   const colors = getColors()
   const currentColor = colors.find(c => c.value === data.color) || colors[0] // Default azul
   
   return (
-    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange} onColorChange={onColorChange}>
+    <EditableNode data={data} selected={selected} onLabelChange={onLabelChange}>
       <AllSideHandles color={currentColor.handle} />
       <div className={`w-12 h-12 ${currentColor.shape} rounded-full flex items-center justify-center`}>
         <div className={`w-8 h-8 border-2 ${currentColor.handle} rounded-full relative`}>

@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useReducer, useCallback, useEffect } from 'react'
 import { FlowchartState, FlowchartActions, NodeData, EdgeData, ExportOptions } from '@/lib/flowchart/types'
-import { debounce, generateId, createNode, createEdge, centerNodes } from '@/lib/flowchart/utils'
+import { generateId, createNode, createEdge, centerNodes } from '@/lib/flowchart/utils'
 import { validateNode, validateEdge } from '@/lib/flowchart/validation'
 
 type FlowchartAction = 
@@ -23,6 +23,7 @@ type FlowchartAction =
   | { type: 'REDO' }
   | { type: 'SET_HAS_UNSAVED_CHANGES'; payload: boolean }
   | { type: 'SET_LAST_SAVED'; payload: Date }
+  | { type: 'SET_CLIPBOARD'; payload: { nodes: NodeData[]; edges: EdgeData[] } }
 
 const initialState: FlowchartState = {
   nodes: [],
@@ -151,6 +152,9 @@ function flowchartReducer(state: FlowchartState, action: FlowchartAction): Flowc
     
     case 'SET_LAST_SAVED':
       return { ...state, lastSaved: action.payload }
+    
+    case 'SET_CLIPBOARD':
+      return { ...state, clipboard: action.payload }
     
     default:
       return state
@@ -300,9 +304,10 @@ export function FlowchartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  const autoSave = useCallback(debounce(() => {
+  const autoSave = useCallback(() => {
+    // Auto-save simples
     save()
-  }, 30000), [save])
+  }, [save])
 
   const exportFlowchart = useCallback(async (options: ExportOptions) => {
     // Implementar export logic

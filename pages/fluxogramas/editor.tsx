@@ -174,23 +174,36 @@ function EditorContent() {
     saveToHistory()
   }, [setNodes, saveToHistory])
 
-  // NodeTypes dinâmico com callbacks
+  // NodeTypes dinâmico com callbacks - SIMPLIFICADO
   const nodeTypes: NodeTypes = useMemo(() => {
     console.log('🔄 Recriando nodeTypes com callbacks:', { handleLabelChange: !!handleLabelChange, handleColorChange: !!handleColorChange })
+    
+    // Função helper para criar callbacks
+    const createCallbacks = (id: string) => ({
+      onLabelChange: (label: string) => {
+        console.log('🔥 CALLBACK onLabelChange chamado para ID:', id, 'label:', label)
+        handleLabelChange(id, label)
+      },
+      onColorChange: (color: string) => {
+        console.log('🔥 CALLBACK onColorChange chamado para ID:', id, 'color:', color)
+        handleColorChange(id, color)
+      }
+    })
+
     return {
-      process: (props) => <ProcessNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-      decision: (props) => <DecisionNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-      startEnd: (props) => <StartEndNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-      inputOutput: (props) => <InputOutputNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-      data: (props) => <DataNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-      document: (props) => <DocumentNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-      connector: (props) => <ConnectorNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-      database: (props) => <DatabaseNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-      api: (props) => <ApiNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-      timer: (props) => <TimerNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-      user: (props) => <UserNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-      cloud: (props) => <CloudNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
-      loop: (props) => <LoopNode {...props} onLabelChange={(label) => handleLabelChange(props.id, label)} onColorChange={(color) => handleColorChange(props.id, color)} />,
+      process: (props) => <ProcessNode {...props} {...createCallbacks(props.id)} />,
+      decision: (props) => <DecisionNode {...props} {...createCallbacks(props.id)} />,
+      startEnd: (props) => <StartEndNode {...props} {...createCallbacks(props.id)} />,
+      inputOutput: (props) => <InputOutputNode {...props} {...createCallbacks(props.id)} />,
+      data: (props) => <DataNode {...props} {...createCallbacks(props.id)} />,
+      document: (props) => <DocumentNode {...props} {...createCallbacks(props.id)} />,
+      connector: (props) => <ConnectorNode {...props} {...createCallbacks(props.id)} />,
+      database: (props) => <DatabaseNode {...props} {...createCallbacks(props.id)} />,
+      api: (props) => <ApiNode {...props} {...createCallbacks(props.id)} />,
+      timer: (props) => <TimerNode {...props} {...createCallbacks(props.id)} />,
+      user: (props) => <UserNode {...props} {...createCallbacks(props.id)} />,
+      cloud: (props) => <CloudNode {...props} {...createCallbacks(props.id)} />,
+      loop: (props) => <LoopNode {...props} {...createCallbacks(props.id)} />,
     }
   }, [handleLabelChange, handleColorChange])
 
@@ -365,6 +378,9 @@ function EditorContent() {
     setError(null)
 
     try {
+      console.log('💾 Salvando fluxograma com nodes:', nodes)
+      console.log('💾 Nodes com cores:', nodes.map(n => ({ id: n.id, label: n.data.label, color: n.data.color })))
+      
       const flowchartData = {
         title: flowchartTitle.trim(),
         data: {

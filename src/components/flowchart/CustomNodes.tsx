@@ -99,6 +99,7 @@ const EditableNode = ({
   const handleSave = () => {
     console.log('💾 Salvando label:', editLabel)
     console.log('🔗 onLabelChange existe?', !!onLabelChange)
+    console.log('📊 Props recebidas:', { onLabelChange, onColorChange })
     if (onLabelChange) {
       console.log('📞 Chamando onLabelChange com:', editLabel)
       onLabelChange(editLabel)
@@ -117,6 +118,7 @@ const EditableNode = ({
   const handleColorSelect = (color: any) => {
     console.log('🎨 Selecionando cor:', color.value)
     console.log('🔗 onColorChange existe?', !!onColorChange)
+    console.log('📊 Props recebidas:', { onLabelChange, onColorChange })
     if (onColorChange) {
       console.log('📞 Chamando onColorChange com:', color.value)
       onColorChange(color.value)

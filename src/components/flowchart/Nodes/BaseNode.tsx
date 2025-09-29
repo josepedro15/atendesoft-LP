@@ -28,12 +28,12 @@ export default function BaseNode({ data, selected }: BaseNodeProps) {
       data.onLabelChange(editLabel.trim())
     }
     setIsEditing(false)
-  }, [data, editLabel])
+  }, [data.onLabelChange, editLabel])
 
   const handleCancel = useCallback(() => {
     setEditLabel(data.label)
     setIsEditing(false)
-  }, [data])
+  }, [data.label])
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {

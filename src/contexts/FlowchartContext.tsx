@@ -156,6 +156,14 @@ function flowchartReducer(state: FlowchartState, action: FlowchartAction): Flowc
     case 'SET_CLIPBOARD':
       return { ...state, clipboard: action.payload }
     
+    case 'UNDO':
+      // TODO: Implement undo logic
+      return state
+    
+    case 'REDO':
+      // TODO: Implement redo logic
+      return state
+    
     default:
       return state
   }
@@ -304,9 +312,9 @@ export function FlowchartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  const autoSave = useCallback(() => {
+  const autoSave = useCallback(async () => {
     // Auto-save simples
-    save()
+    await save()
   }, [save])
 
   const exportFlowchart = useCallback(async (options: ExportOptions) => {

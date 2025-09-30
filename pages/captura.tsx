@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, User, Phone, Building, Briefcase, CheckCircle, Star, Zap, Shield, Clock } from 'lucide-react';
+import { Loader2, User, Phone, Building, Briefcase, Star, Zap, Shield, Clock } from 'lucide-react';
 
 export default function CapturaPage() {
   const [nome, setNome] = useState('');
@@ -16,7 +16,6 @@ export default function CapturaPage() {
   const [cargo, setCargo] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
   const [telefoneValido, setTelefoneValido] = useState(false);
   const router = useRouter();
   const { trackFormStart, trackFormComplete, trackConversion } = useAnalytics();
@@ -92,16 +91,12 @@ export default function CapturaPage() {
         throw supabaseError;
       }
 
-      setSuccess(true);
-      
       // Track successful form completion and conversion
       trackFormComplete('captura_lead', { nome, telefone, empresa, cargo });
       trackConversion('lead_capture', 1);
       
-      // Redirecionar após 2 segundos
-      setTimeout(() => {
-        router.push('/captura/obrigado');
-      }, 2000);
+      // Redirecionar imediatamente sem mostrar modal
+      router.push('/captura/obrigado');
 
     } catch (err) {
       console.error('Erro ao salvar lead:', err);
@@ -111,29 +106,6 @@ export default function CapturaPage() {
     }
   };
 
-  if (success) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-green-400 via-green-500 to-green-600 flex items-center justify-center p-4">
-        <Card className="bg-white/95 backdrop-blur-sm shadow-2xl border-0 max-w-md w-full">
-          <CardContent className="p-8 text-center">
-            <div className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
-              <CheckCircle className="w-12 h-12 text-green-600" />
-            </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              ✅ Dados Recebidos!
-            </h2>
-            <p className="text-gray-600 mb-6">
-              Seus dados foram processados com sucesso. Você será redirecionado em instantes...
-            </p>
-            <div className="flex items-center justify-center space-x-2">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-              <span className="text-sm text-gray-500">Redirecionando...</span>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary via-primary/90 to-primary/80 flex items-center justify-center p-4">

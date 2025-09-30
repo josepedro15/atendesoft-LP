@@ -241,7 +241,7 @@ export default function ObrigadoPage() {
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
                       <Database className="w-6 h-6 mr-2 text-primary" />
-                      Integrações (15+ APIs)
+                      Integrações
                     </h3>
                     <ul className="space-y-3">
                       <li className="flex items-center text-gray-600">
@@ -312,8 +312,8 @@ export default function ObrigadoPage() {
                   <div className="mx-auto w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-white/20 rounded-full flex items-center justify-center mb-3 sm:mb-4">
                     <Zap className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" />
                   </div>
-                  <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3">Pronto para Automatizar?</h3>
-                  <p className="text-white/90 mb-4 sm:mb-6 text-xs sm:text-sm">
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-white">Pronto para Automatizar?</h3>
+                  <p className="text-white mb-4 sm:mb-6 text-xs sm:text-sm">
                     Implemente este sistema na sua operação e tenha conteúdo SEO-otimizado todos os dias.
                   </p>
                   <Button

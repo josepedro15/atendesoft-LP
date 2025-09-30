@@ -25,26 +25,55 @@ const BlogPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://atendesoft.com';
+        // Buscar dados diretamente do Supabase (client-side)
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://vlayangmpcogxoolcksc.supabase.co';
+        const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZsYXlhbmdtcGNvZ3hvb2xja3NjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5NzEwMDIsImV4cCI6MjA2OTU0NzAwMn0.U4jxKlTf_eCX6zochG6wZPxRBvWk90erSNY_IEuYqrY';
         
-        const [postsResponse, keywordsResponse] = await Promise.all([
-          fetch(`${baseUrl}/api/blog/posts?page=1&limit=50&status=published`),
-          fetch(`${baseUrl}/api/blog/keywords?limit=10`)
-        ]);
+        // Buscar posts publicados
+        const postsResponse = await fetch(`${supabaseUrl}/rest/v1/blog_posts?status=eq.published&select=*&order=timestamp.desc`, {
+          headers: {
+            'apikey': supabaseKey,
+            'Authorization': `Bearer ${supabaseKey}`,
+            'Content-Type': 'application/json'
+          }
+        });
 
         if (postsResponse.ok) {
           const postsData = await postsResponse.json();
-          if (postsData.success) {
-            setPosts(postsData.data?.posts || []);
-            setPagination(prev => postsData.data?.pagination || prev);
-          }
+          setPosts(postsData || []);
+          setPagination({
+            page: 1,
+            limit: 50,
+            total: postsData?.length || 0,
+            pages: Math.ceil((postsData?.length || 0) / 50)
+          });
         }
+
+        // Buscar keywords populares
+        const keywordsResponse = await fetch(`${supabaseUrl}/rest/v1/blog_posts?status=eq.published&select=keyword`, {
+          headers: {
+            'apikey': supabaseKey,
+            'Authorization': `Bearer ${supabaseKey}`,
+            'Content-Type': 'application/json'
+          }
+        });
 
         if (keywordsResponse.ok) {
           const keywordsData = await keywordsResponse.json();
-          if (keywordsData.success) {
-            setPopularKeywords(keywordsData.data || []);
-          }
+          // Contar frequência de keywords
+          const keywordCount: Record<string, number> = {};
+          keywordsData?.forEach((post: any) => {
+            if (post.keyword) {
+              keywordCount[post.keyword] = (keywordCount[post.keyword] || 0) + 1;
+            }
+          });
+          
+          const popularKeywords = Object.entries(keywordCount)
+            .map(([keyword, count]) => ({ keyword, count }))
+            .sort((a, b) => b.count - a.count)
+            .slice(0, 10);
+            
+          setPopularKeywords(popularKeywords);
         }
       } catch (error) {
         console.error('Erro ao carregar dados do blog:', error);

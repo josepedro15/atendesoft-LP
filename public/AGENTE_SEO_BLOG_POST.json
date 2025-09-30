@@ -1,0 +1,1106 @@
+{
+  "name": "AGENTE_SEO_BLOG_POST",
+  "nodes": [
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1536,
+        928
+      ],
+      "id": "8aaad828-4329-4d53-b338-2ae744d594a7",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "YPakZlP9rxPVMP1Y",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.perplexity.ai/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_PERPLEXITY_API_KEY_HERE"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"sonar-pro\",\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"{{ $json.output }}\" }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1008,
+        704
+      ],
+      "id": "7d381d91-9555-49e2-90bd-8d4073102175",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Você faz parte de uma equipe que cria posts de blog de nível mundial. Sua tarefa é escolher o tema de cada post. \n\nOs posts são publicados no site da Atendesoft, uma plataforma de atendimento inteligente e automação que combina inteligência artificial, integrações WhatsApp/CRM/ERP e dashboards de análises em tempo real para transformar a forma como as empresas interagem com seus clientes. \n\nA Atendesoft oferece produtos como: \n- Atendimento automático (chatbot com triagem e roteamento inteligente)  \n- Integração inteligente com CRM (pedidos, follow-ups e dados de clientes)  \n- Campanhas em massa no WhatsApp (engajamento estratégico e vendas)  \n- Dashboards em tempo real (métricas de vendas, atendimento e performance)  \n- Agentes de IA personalizados (SDR, suporte, agendamento etc.)  \n\nO público-alvo inclui pequenas e médias empresas, varejo e e-commerce, área da saúde (clínicas e laboratórios), construção/móveis e prestadores de serviço que buscam escalar processos de atendimento e vendas.  \n\nOs posts têm como objetivo principal uma campanha de SEO para posicionar a Atendesoft nos primeiros resultados de busca relacionados aos seus produtos e serviços.  \n\nNesta tarefa, você receberá uma lista com até 5 palavras-chave que foram tendência no Google Notícias nos últimos dias. Sua função é escolher **apenas uma palavra-chave** que será usada como tema do próximo post de blog.  \n\nCada palavra-chave possui dois atributos:  \n1. **query** → a consulta de pesquisa que os usuários estão buscando.  \n2. **value** → percentual de aumento de volume de buscas em relação ao período anterior.  \n\n**Regras obrigatórias:**  \n1. Nunca escolha nenhuma palavra-chave que seja igual ao seguinte termo de referência:  \n{{ $item(\"0\").$node[\"Code\"].json[\"q_unique\"][\"1\"] }}  \n\n2. Nunca selecione nem crie um tema relacionado a **“WhatsApp Web”**.  \n\n3. Se existir pelo menos uma palavra-chave válida (diferente do termo de referência e que não seja sobre WhatsApp Web), escolha a mais relevante para o SEO da Atendesoft, priorizando relevância para os produtos/mercado e usando o valor (tendência) como critério de desempate.  \n\n4. Se todas as palavras-chave forem inválidas (iguais ao termo de referência ou relacionadas a WhatsApp Web), você deve **criar um novo tema original**, que seja relevante para SEO e diretamente alinhado aos produtos e ao público-alvo da Atendesoft.  \n\n**Saída obrigatória:**  \nEscreva **somente a palavra-chave escolhida ou o novo tema criado**, em texto simples, sem aspas, sem pontuação adicional e sem explicações.  \n\nEsta instância:  \nPalavra-chave 1: {{ $json.filtered[0].query }}  \nPalavra-chave 2: {{ $json.filtered[1].query }}  \nPalavra-chave 3: {{ $json.filtered[2].query }}  \nPalavra-chave 4: {{ $json.filtered[3].query }}  \nPalavra-chave 5: {{ $json.filtered[4].query }}\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        608,
+        704
+      ],
+      "id": "b00a67ef-c378-4a68-9b6a-7b00ceab309a",
+      "name": "Escolha do topico"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are part of a team that creates world class blog posts for SEO purposes. \n\nEvery week your team posts one blog post on the most trending news in this week of AI. As the copywriter for the blogs, you are provided with the folling information: \n\n- Query: The topic of this weeks blog post. This is the most trending news in the space.\n\n- Other keywords: This is a list of some high search volume keywords in the AI space. The goal is to include some of these into the blog post naturally. This is only optional and dependant on the natural dependancy of this weeks topic to the blog post. Include any of the keywords in the blog, if you can do so naturally without changing the meaning of the blog post.  \n\n- Research findings: This is research found from very reputable resources in relation to the topic of the post. Your blog post must be based off this research.\n\nGiven the said info, you must write the blog post.\n\nThe blog post must: \n\n- Place the query in the blog title, H1 header and early in the introduction. \n- Include all detail in research findings. When including the research points, make sure to also include their source URL so that the copywriter can use them as hyperlinks. (source url for each statement is given in the research findings next to the text)\n- Be very detailed. \n- Be using tone similar to that of a reporter, invoking curiosity and excitement and thrill in the readers.\n- Flow naturally and make sense. \n- Be at minimum 1500 to 2000 words long. \n- Be suitable for a year 5 reading level. \n- Make sure to create the entire blog post draft in your first output. Don't stop or cut it short. \n- Your output must be the blog post and nothing else.\n- **IMPORTANT: Always write the entire blog post in Brazilian Portuguese. Do not use Spanish or English.**\n\nHere are the details of your next blog post project: \n\nQuery: \n{{ $item(\"0\").$node[\"Escolha do topico\"].json[\"output\"] }}\n\nDetailed Research: \n{{ $json.research }}\n\nWrite the blog post.\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1408,
+        704
+      ],
+      "id": "cc7c4dde-0376-48a1-9843-c843b49a4897",
+      "name": "Copywriter"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are part of a team that creats world class blog posts. \n\nYou are in charge of internal linking between blog posts. \n\nFor each new blog post that comes across your desk, your job is to look through previously posted blogs and make atleast 5 internal links. \n\nTo choose the best internal linking opportunities you must: \n\n- Read the previous blog post summaries and look through their keywords. If there is a match where the previous blog post is highly relevant, then this is an internal linking opportunity. \n\n- Do not link if it is not highly relevant. Only make a link if it makes sense and adds value for the reader. \n\nOnce you've found the best linking opportunities, you must update the blog post with the internal links. To do this you must: \n\n- Add the link of the previous blog post at the relevant section of the new blog post. Drop the URL at the place which makes most sense. Later we will hyperlink the URL to the word in the blog post which it is placed next to. So your placing is very important. \n\nMake sure to not delete any existing URLs or change anything about the blog post provided to you. You must only add new internal linking URLs and output the revised blog post. \n\nYour output must be the blog post given to you plus the new urls. Don't remove any info. \n\nDon't return the previous blog posts. Only return the current blog post with the internal links added.\n\nCurrent blog Post: \n{{ $item(\"0\").$node[\"Copywriter\"].json[\"output\"] }}\n\nPrevious Blog Posts: \n{{ $json['previous-posts'].toJsonString().split() }}\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        2224,
+        704
+      ],
+      "id": "a2ddaa8b-cdba-4340-89e4-fd0d45c0013d",
+      "name": "Linka a posts antigos"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=DO NOT OUTPUT ANYTHING OTHER THAN THE CODE. I want you to follow the layout of the template as a guide to generate the HTML code for a blog post that matches the AtendeSoft website identity. Here are the rules to follow:\n\nThe blog post should have a title, estimated reading time, key takeaways, table of contents, body, and FAQ in this order.\nMake it engaging by using italics, dot points, quotes, bold, spaces, and sometimes new lines. Never use emojis.\nThe blog post will have some URLs referenced next to certain keyphrases to show where the info came from. You must hyperlink the keyphrase with the provided URL so that the reader can click on the referenced URL. It is critical you get this right.\nWrap the entire content in a container <div> with inline CSS that matches the AtendeSoft design system:\n- Background: white or light gray (#f8fafc)\n- Text color: dark gray (#1f2937) for main content\n- Primary blue: #3b82f6 (AtendeSoft brand blue)\n- Accent blue: #1d4ed8 (darker blue for links)\n- Font: Inter or system fonts (font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif)\n- Line height: 1.7 for better readability\nEnsure that all non-heading text elements (e.g., paragraphs, list items) have an inline style that sets their font size to 16px and color to #374151 (gray-700) using !important to override theme styles.\nHyperlinks, points in the table of contents, and FAQ questions must be styled in the primary blue (#3b82f6) with hover effects.\nAll headings and subheadings should have a subtle underline implemented via a bottom border in the primary blue (#3b82f6) with appropriate padding.\nUse a clean, modern card-based layout with subtle shadows and rounded corners.\nPlace a double break (<br><br>) between each section to improve readability.\nInclude a hero section with gradient background matching the AtendeSoft brand.\nAdd a sidebar with related content and call-to-action elements.\nDo not output any extra text or mention code tags like HTML''' around the output; just output the HTML code.\nBlog post: \n\n{{ $json.output }}\n\nHere's an example of a well formatted output that matches AtendeSoft's design:\n\n<div style=\"background: #ffffff; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; max-width: 1200px; margin: 0 auto; padding: 0;\">\n<style>\np, .wp-block-paragraph, ul.wp-block-list, li { \n  color: #374151 !important; \n  font-size: 16px !important; \n  line-height: 1.7 !important;\n}\na { \n  color: #3b82f6 !important; \n  text-decoration: none !important;\n}\na:hover { \n  color: #1d4ed8 !important; \n  text-decoration: underline !important;\n}\nh1, h2, h3, h4, h5, h6 {\n  color: #1f2937 !important;\n  border-bottom: 2px solid #3b82f6 !important;\n  padding-bottom: 8px !important;\n  margin-bottom: 16px !important;\n}\n.key-takeaway {\n  background: linear-gradient(135deg, #3b82f6, #1d4ed8);\n  color: white;\n  padding: 20px;\n  border-radius: 12px;\n  margin: 20px 0;\n}\n.toc-container {\n  background: #f8fafc;\n  border: 1px solid #e5e7eb;\n  border-radius: 12px;\n  padding: 24px;\n  margin: 24px 0;\n}\n.faq-item {\n  background: #f9fafb;\n  border-left: 4px solid #3b82f6;\n  padding: 16px 20px;\n  margin: 12px 0;\n  border-radius: 8px;\n}\n</style>\n\n<!-- Hero Section -->\n<div style=\"background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; padding: 60px 20px; text-align: center; border-radius: 16px; margin-bottom: 32px;\">\n  <h1 id=\"h-main-title\" style=\"color: white !important; border: none !important; font-size: 2.5rem; font-weight: 700; margin-bottom: 16px;\">[TITLE]</h1>\n  <p style=\"color: rgba(255,255,255,0.9) !important; font-size: 18px !important; margin: 0;\">[SUBTITLE OR DESCRIPTION]</p>\n</div>\n\n<!-- Reading Time -->\n<div style=\"background: #f8fafc; border-radius: 8px; padding: 12px 16px; margin-bottom: 24px; display: inline-block;\">\n  <span style=\"color: #6b7280 !important; font-size: 14px !important;\">⏱️ Tempo estimado de leitura: [X] minutos</span>\n</div>\n\n<!-- Key Takeaways -->\n<div class=\"key-takeaway\">\n  <h2 style=\"color: white !important; border: none !important; margin-bottom: 16px;\">🎯 Principais Pontos</h2>\n  <ul style=\"color: white !important; font-size: 16px !important;\">\n    <li style=\"margin-bottom: 8px;\">[Key takeaway 1]</li>\n    <li style=\"margin-bottom: 8px;\">[Key takeaway 2]</li>\n    <li style=\"margin-bottom: 8px;\">[Key takeaway 3]</li>\n  </ul>\n</div>\n\n<!-- Table of Contents -->\n<div class=\"toc-container\">\n  <h2 style=\"color: #1f2937 !important; border-bottom: 2px solid #3b82f6 !important; padding-bottom: 8px !important; margin-bottom: 16px;\">📋 Índice</h2>\n  <ul style=\"list-style: none; padding: 0;\">\n    <li style=\"margin-bottom: 8px;\"><a href=\"#h-main-title\" style=\"color: #3b82f6 !important; text-decoration: none !important;\">1. [Section 1]</a></li>\n    <li style=\"margin-bottom: 8px;\"><a href=\"#h-section-2\" style=\"color: #3b82f6 !important; text-decoration: none !important;\">2. [Section 2]</a></li>\n    <li style=\"margin-bottom: 8px;\"><a href=\"#h-section-3\" style=\"color: #3b82f6 !important; text-decoration: none !important;\">3. [Section 3]</a></li>\n  </ul>\n</div>\n\n<!-- Main Content -->\n<div style=\"background: white; border-radius: 12px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin: 24px 0;\">\n  <p style=\"color: #374151 !important; font-size: 16px !important; line-height: 1.7 !important; margin-bottom: 20px;\">[Main content paragraphs]</p>\n  \n  <h2 id=\"h-section-2\" style=\"color: #1f2937 !important; border-bottom: 2px solid #3b82f6 !important; padding-bottom: 8px !important; margin: 32px 0 16px 0;\">[Section Title]</h2>\n  <p style=\"color: #374151 !important; font-size: 16px !important; line-height: 1.7 !important; margin-bottom: 20px;\">[Section content]</p>\n</div>\n\n<!-- FAQ Section -->\n<div style=\"background: #f8fafc; border-radius: 12px; padding: 24px; margin: 32px 0;\">\n  <h2 style=\"color: #1f2937 !important; border-bottom: 2px solid #3b82f6 !important; padding-bottom: 8px !important; margin-bottom: 20px;\">❓ Perguntas Frequentes</h2>\n  \n  <div class=\"faq-item\">\n    <h3 style=\"color: #3b82f6 !important; border: none !important; margin-bottom: 8px; font-size: 18px;\">[FAQ Question 1]</h3>\n    <p style=\"color: #374151 !important; font-size: 16px !important; margin: 0;\">[FAQ Answer 1]</p>\n  </div>\n  \n  <div class=\"faq-item\">\n    <h3 style=\"color: #3b82f6 !important; border: none !important; margin-bottom: 8px; font-size: 18px;\">[FAQ Question 2]</h3>\n    <p style=\"color: #374151 !important; font-size: 16px !important; margin: 0;\">[FAQ Answer 2]</p>\n  </div>\n</div>\n\n<!-- CTA Section -->\n<div style=\"background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; padding: 32px; border-radius: 12px; text-align: center; margin: 32px 0;\">\n  <h3 style=\"color: white !important; border: none !important; margin-bottom: 16px;\">🚀 Pronto para automatizar seu negócio?</h3>\n  <p style=\"color: rgba(255,255,255,0.9) !important; font-size: 16px !important; margin-bottom: 20px;\">Descubra como a AtendeSoft pode transformar seu atendimento ao cliente.</p>\n  <a href=\"https://atendesoft.com\" style=\"background: white; color: #3b82f6; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-block;\">Falar com Especialista</a>\n</div>\n\n</div>\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        592,
+        1120
+      ],
+      "id": "c7adb739-2172-49e7-8da8-87bc28abd6d1",
+      "name": "Cria o HTML",
+      "credentials": {
+        "openAiApi": {
+          "id": "YPakZlP9rxPVMP1Y",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Create a slug for the following blog post: \n{{ $item(\"0\").$node[\"Linka a posts antigos\"].json[\"output\"] }}\n\nA slug in a blog post is the part of the URL that comes after the domain name and identifies a specific page. It is typically a short, descriptive phrase that summarizes the content of the post, making it easier for users and search engines to understand what the page is about. For example, in the URL www.example.com/intelligent-agents, the slug is intelligent-agents. A good slug is concise, contains relevant keywords, and avoids unnecessary words to improve readability and SEO. \n\nThe slug must be 4 or 5 words max and must include the primary keyword of the blog post which is {{ $item(\"0\").$node[\"Escolha do topico\"].json[\"output\"] }}\n\nYour output must be the slug and nothing else so that I can copy and paste your output and put it at the end of my blog post URL to post it right away. ",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        912,
+        1120
+      ],
+      "id": "e9d2292d-d56c-41c4-b2e5-f44edec877c0",
+      "name": "Gera o url"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Extract the blog post title from the following blog post: \n{{ $item(\"0\").$node[\"Linka a posts antigos\"].json[\"output\"] }}\n\n\n\nThe blog post title must include the primary keyword '{{ $item(\"0\").$node[\"Escolha do topico\"].json[\"output\"] }}' and must inform the users right away of what they can expect from reading the blog post. \n\n- Don't put the output in \"\". The output should just text with no markdown or formatting. \n\nYour output must only be the blog post title and nothing else. ",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1232,
+        1120
+      ],
+      "id": "d9dd3933-4152-452c-a234-589992d6ba20",
+      "name": "Titulo"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Create a good meta description for the following blog post: \n\n{{ $item(\"0\").$node[\"Linka a posts antigos\"].json[\"output\"] }}\n\nA good meta description for a blog post that is SEO-optimized should:\n- Be Concise: Stick to 150-160 characters to ensure the full description displays in search results. \n- Include Keywords: Incorporate primary keywords naturally to improve visibility and relevance to search queries.\n\nPrimary keyword = {{ $item(\"0\").$node[\"Escolha do topico\"].json[\"output\"] }}\n\n\n- Provide Value: Clearly describe what the reader will learn or gain by clicking the link. \n\n- Be Engaging: Use persuasive language, such as action verbs or a question, to encourage clicks. \n\n- Align with Content: Ensure the description accurately reflects the blog post to meet user expectations and reduce bounce rates. \n\nYour output must only be the meta description and nothing else. \n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1536,
+        1120
+      ],
+      "id": "538b38a3-0c23-4c23-a124-41fa3acb9fa3",
+      "name": "Meta description"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code (v2) — filtra queries com extracted_value > 30 a partir do Trends1\nconst top = ($node[\"Trends1\"].json?.related_queries?.top) ?? [];\n\nconst filtered = top\n  .filter(it => Number(it?.extracted_value) > 30)\n  .map(it => ({\n    query: String(it?.query ?? \"\").trim(),\n    extracted_value: Number(it?.extracted_value ?? 0)\n  }));\n\n// monta CSV e também devolve estrutura completa se quiser reaproveitar\nconst resultString = filtered.map(it => it.query).join(', ');\n\nreturn [{\n  json: {\n    filtered,\n    result: resultString,\n    count: filtered.length,\n    // opcional: o TOP absoluto pelo maior score\n    top_query: filtered.sort((a,b) => b.extracted_value - a.extracted_value)[0]?.query ?? null,\n    top_score: filtered.sort((a,b) => b.extracted_value - a.extracted_value)[0]?.extracted_value ?? null\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1856,
+        448
+      ],
+      "id": "bf8b1d53-69f5-43f7-ae9e-61a937163204",
+      "name": "Filtra pesquisa com maior volume"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "23b8e8c4-9191-415a-9661-1b60d413528a",
+              "name": "research",
+              "value": "={{ $json.choices[0].message.content.replaceAll(\"[1]\", \" - source: \" +$json.citations[0]).replaceAll(\"[2]\",\" - source:\" +$json.citations[1]).replaceAll(\"[3]\",\" - source: \" +$json.citations[2]).replaceAll(\"[4]\",\" - source: \"+$json.citations[3]).replaceAll(\"[5]\",\" - source: \"+$json.citations[4]).replaceAll(\"[6]\",\" - source: \"+$json.citations[5]).replaceAll(\"[7]\",\" - source: \"+$json.citations[6]).replaceAll(\"[8]\",\" - source: \"+$json.citations[7]).replaceAll(\"[9]\",\" - source: \"+$json.citations[8]).replaceAll(\"[10]\",\" - source: \"+$json.citations[9]) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1184,
+        704
+      ],
+      "id": "32a4aea8-09ab-427c-8a7a-f073dbaed408",
+      "name": "Fix Links"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1mlqaPSag-EUD-W1QptwAK4aLxLerVsvbdnAdGg0o_FE",
+          "mode": "list",
+          "cachedResultName": "post antigos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1mlqaPSag-EUD-W1QptwAK4aLxLerVsvbdnAdGg0o_FE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1mlqaPSag-EUD-W1QptwAK4aLxLerVsvbdnAdGg0o_FE/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1856,
+        704
+      ],
+      "id": "7aa330d7-cda1-4c59-81a4-8569faac9ebd",
+      "name": "Pesquisa posts antigos",
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "b2yvlgbkwAlcEhrk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "previous-posts",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2048,
+        704
+      ],
+      "id": "fa507fed-84f4-4833-a4f0-670f15ce76c4",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search?engine=google_images",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $item(\"0\").$node[\"Escolha do topico\"].json[\"output\"] }}"
+            },
+            {
+              "name": "gl",
+              "value": "us"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1856,
+        1120
+      ],
+      "id": "532ba135-a05a-4875-9214-3412f770c659",
+      "name": "Pesquisa imagem",
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "ovhIvdeh9dv8GXTE",
+          "name": "Serp"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1mlqaPSag-EUD-W1QptwAK4aLxLerVsvbdnAdGg0o_FE",
+          "mode": "list",
+          "cachedResultName": "post antigos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1mlqaPSag-EUD-W1QptwAK4aLxLerVsvbdnAdGg0o_FE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1mlqaPSag-EUD-W1QptwAK4aLxLerVsvbdnAdGg0o_FE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Blog Title": "={{ $item(\"0\").$node[\"Titulo\"].json[\"output\"] }}",
+            "Keywords": "={{ $item(\"0\").$node[\"Escolha do topico\"].json[\"output\"] }}",
+            "Summary": "={{ $item(\"0\").$node[\"Meta description\"].json[\"output\"] }}",
+            "URL": "={{ $item(\"0\").$node[\"Gera o url\"].json[\"output\"] }}",
+            "imagem": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"image-url\"] }}",
+            "q": "={{ $item(\"0\").$node[\"determina parametro de busca\"].json[\"output\"] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "q",
+              "displayName": "q",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Blog Title",
+              "displayName": "Blog Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Keywords",
+              "displayName": "Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "imagem",
+              "displayName": "imagem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2256,
+        1120
+      ],
+      "id": "80ae2469-9ada-4464-9855-2b79516bf259",
+      "name": "Insere post novo",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "b2yvlgbkwAlcEhrk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Choosing Blog Topic\n\n\n",
+        "height": 240,
+        "width": 340,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        560,
+        624
+      ],
+      "typeVersion": 1,
+      "id": "37a180a6-551a-419d-b881-21a23e30be25",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Research\n\n\n",
+        "height": 240,
+        "width": 460,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        912,
+        624
+      ],
+      "typeVersion": 1,
+      "id": "cb31ba1d-4002-4394-897b-a4dffdbce8b5",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Write Post\n\n\n",
+        "height": 240,
+        "width": 360,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1376,
+        624
+      ],
+      "typeVersion": 1,
+      "id": "edbbbb63-7c4f-4c32-9ba1-bae7f474ebdc",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Internal Links\n\n\n",
+        "height": 240,
+        "width": 800,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1760,
+        624
+      ],
+      "typeVersion": 1,
+      "id": "01343e5a-d0d9-4435-8bc1-09f773a27039",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Prepare to Post\n\n\n",
+        "height": 240,
+        "width": 1220,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        560,
+        1056
+      ],
+      "typeVersion": 1,
+      "id": "d95805a2-0010-45f2-9d0a-53280e70844a",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "## Find Cover Image\n\n\n",
+        "height": 224,
+        "width": 352,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1824,
+        1056
+      ],
+      "typeVersion": 1,
+      "id": "9c5c92cd-7f4c-48dc-b3d4-d627a15740ee",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "## Add to Other Blogs\n\n\n",
+        "height": 240
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2192,
+        1056
+      ],
+      "typeVersion": 1,
+      "id": "89c081ab-1209-4dff-b515-408fe1925832",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1f0541df-05ab-4e3d-a5d8-3904579fc8a9",
+              "name": "image-url",
+              "value": "={{ $json.images_results[1].original }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2048,
+        1120
+      ],
+      "id": "6b527923-936f-4840-ad04-25609db76ca8",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "tableId": "blog_posts",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "timestamp",
+              "fieldValue": "={{ $item(\"0\").$node[\"Trends1\"].json[\"search_metadata\"][\"created_at\"] }}"
+            },
+            {
+              "fieldId": "title",
+              "fieldValue": "={{ $item(\"0\").$node[\"Titulo\"].json[\"output\"] }}"
+            },
+            {
+              "fieldId": "keyword",
+              "fieldValue": "={{ $item(\"0\").$node[\"Escolha do topico\"].json[\"output\"] }}"
+            },
+            {
+              "fieldId": "summary",
+              "fieldValue": "={{ $item(\"0\").$node[\"Meta description\"].json[\"output\"] }}"
+            },
+            {
+              "fieldId": "url",
+              "fieldValue": "={{ $item(\"0\").$node[\"Gera o url\"].json[\"output\"] }}"
+            },
+            {
+              "fieldId": "image",
+              "fieldValue": "={{ $item(\"0\").$node[\"Edit Fields\"].json[\"image-url\"] }}"
+            },
+            {
+              "fieldId": "content",
+              "fieldValue": "={{ $item(\"0\").$node[\"Cria o HTML\"].json[\"message\"][\"content\"] }}"
+            },
+            {
+              "fieldId": "status",
+              "fieldValue": "published"
+            },
+            {
+              "fieldId": "content",
+              "fieldValue": "={{ $item(\"0\").$node[\"Cria o HTML\"].json[\"message\"][\"content\"] }}"
+            },
+            {
+              "fieldId": "created_at",
+              "fieldValue": "={{ $item(\"0\").$node[\"Trends1\"].json[\"search_metadata\"][\"created_at\"] }}"
+            },
+            {
+              "fieldId": "updated_at",
+              "fieldValue": "={{ $item(\"0\").$node[\"Trends1\"].json[\"search_metadata\"][\"processed_at\"] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        592,
+        1360
+      ],
+      "id": "0afff30e-00db-49e0-88f4-d8204e71ea96",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "1YSL86LllETuEqVf",
+          "name": "IA teste"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1mlqaPSag-EUD-W1QptwAK4aLxLerVsvbdnAdGg0o_FE",
+          "mode": "list",
+          "cachedResultName": "post antigos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1mlqaPSag-EUD-W1QptwAK4aLxLerVsvbdnAdGg0o_FE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1mlqaPSag-EUD-W1QptwAK4aLxLerVsvbdnAdGg0o_FE/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        800,
+        448
+      ],
+      "id": "e096638f-79e1-4d8f-8d60-b421b26d6f11",
+      "name": "Pesquisa posts antigos1",
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "b2yvlgbkwAlcEhrk",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Você é estrategista de conteúdo da AtendeSoft (https://atendesoft.com).\nGere APENAS UM termo de busca para o campo \"q\" do Google Trends, alinhado aos eixos temáticos da marca:\nIA (inteligência artificial), automações, chatbots e VENDAS NO WHATSAPP.\n\nRegras:\n- Compare com o último termo usado: \"{{ $item(\"0\").$node[\"Code\"].json[\"q_unique\"] }}\" e NÃO repita nem use variações óbvias (singular/plural, ordem invertida, preposições triviais, sinônimos rasos).\n- O termo deve refletir claramente o universo de IA/automação/chatbots/vendas no WhatsApp. Sempre que fizer sentido, inclua “whatsapp”.\n- 2 palavras, minúsculas, sem acentos nem pontuação.\n- Foco Brasil (não escreva “brasil” no termo).\n- Saída em pt-BR.\n\nFORMATO DE SAÍDA:\nnovo termo\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1232,
+        448
+      ],
+      "id": "bd0e3767-50c0-491d-b805-8947a633536e",
+      "name": "determina parametro de busca"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code (v2) — agrega todos os \"q\" do node anterior\n\n// Pega todos os itens de entrada\nconst items = $input.all();\n\n// Função de normalização (lowercase, sem acentos, trim, espaços únicos)\nconst normalize = (s) => (s ?? \"\")\n  .toString()\n  .normalize('NFD').replace(/[\\u0300-\\u036f]/g, '')\n  .toLowerCase()\n  .replace(/\\s+/g, ' ')\n  .trim();\n\n// Coleta todos os \"q\" existentes\nconst qAll = [];\nfor (const it of items) {\n  // Pode vir em it.json.q\n  if (it?.json?.q != null) qAll.push(String(it.json.q));\n\n  // (Opcional) Se o item for um objeto grande e tiver um array dentro, varra\n  // Ajuste se você realmente precisar:\n  // if (Array.isArray(it.json?.rows)) {\n  //   for (const row of it.json.rows) {\n  //     if (row?.q != null) qAll.push(String(row.q));\n  //   }\n  // }\n}\n\n// Normaliza e remove vazios\nconst qNorm = qAll.map(normalize).filter(Boolean);\n\n// Remove duplicados preservando a primeira ocorrência\nconst qUnique = Array.from(new Set(qNorm));\n\n// Também mantenha a lista original (sem normalizar) correspondente aos únicos\n// (caso queira exibir exatamente como veio o primeiro)\nconst seen = new Set();\nconst qUniqueOriginal = [];\nfor (const raw of qAll) {\n  const n = normalize(raw);\n  if (!n) continue;\n  if (!seen.has(n)) {\n    seen.add(n);\n    qUniqueOriginal.push(raw);\n  }\n}\n\n// Saídas úteis\nconst qCsv = qUnique.join(', ');\nconst uniqueCount = qUnique.length;\n\nreturn [\n  {\n    json: {\n      // Todos \"q\" como vieram\n      q_all_raw: qAll,\n      // Únicos normalizados (bom para usar diretamente)\n      q_unique: qUnique,\n      // Únicos como vieram originalmente (caso queira preservar maiúsculas/acentos do primeiro)\n      q_unique_original: qUniqueOriginal,\n      // Únicos em CSV\n      q_csv: qCsv,\n      q_unique_count: uniqueCount\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        992,
+        448
+      ],
+      "id": "04fe14e1-6094-40fe-bd18-96f7b47bf0b6",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search?engine=google_trends",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $item(\"0\").$node[\"determina parametro de busca\"].json[\"output\"] }}"
+            },
+            {
+              "name": "geo",
+              "value": "BR"
+            },
+            {
+              "name": "hl",
+              "value": "pt-BR"
+            },
+            {
+              "name": "data_type",
+              "value": "RELATED_QUERIES"
+            },
+            {
+              "name": "date",
+              "value": "=today 3-m"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1568,
+        448
+      ],
+      "id": "1c004332-3c06-4168-af4b-fe4419d214a3",
+      "name": "Trends1",
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "mrzLoWyBk2X7CJ7R",
+          "name": "api_key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "multiagent",
+        "remoteJid": "5531994959512@s.whatsapp.net",
+        "messageText": "={{ $item(\"0\").$node[\"resume para o usuario\"].json[\"output\"] }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        1088,
+        1360
+      ],
+      "id": "388bf65b-20e9-4850-a835-4d4469bea43d",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "v3LtZh33Mm3AXsTO",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 15 * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        576,
+        448
+      ],
+      "id": "acce89c9-89d2-48ac-af01-64f11b5f389e",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Você é um assistente de comunicação da AtendeSoft.\nSua missão é avisar o usuário que a postagem diária foi concluída.\n\nInstruções:\n- Personalize a mensagem com o nome do usuário: José Pedro\n- Informe o tema principal da postagem: {{ $item(\"0\").$node[\"Titulo\"].json[\"output\"] }}\n- Apresente um resumo breve e envolvente do conteúdo: {{ $item(\"0\").$node[\"Copywriter\"].json[\"output\"] }}\n- Tom de voz: profissional, simpático e motivador.\n- Escreva em português do Brasil.\n- Formate em **Markdown compatível com WhatsApp** (usar **negrito**, _itálico_, listas com -, quebras de linha reais).\n- Retorne apenas o texto final pronto para envio no WhatsApp, sem JSON, sem aspas.\n\nFormato de saída esperado:\n\nOlá, <usuario>!  \nA postagem diária já foi concluída.  \n\n**Tema de hoje:** <Tema>  \n\n<resumo>  \n\n_Aqui está o link da postagem www.atendesoft.com/blog/{{ $item(\"0\").$node[\"Gera o url\"].json[\"output\"] }}_\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        768,
+        1360
+      ],
+      "id": "db9ab652-49a4-4234-b1e8-443c89b4e41e",
+      "name": "resume para o usuario"
+    }
+  ],
+  "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2025-09-26T15:00:00.049-03:00",
+          "Readable date": "September 26th 2025, 3:00:00 pm",
+          "Readable time": "3:00:00 pm",
+          "Day of week": "Friday",
+          "Year": "2025",
+          "Month": "September",
+          "Day of month": "26",
+          "Hour": "15",
+          "Minute": "00",
+          "Second": "00",
+          "Timezone": "America/Sao_Paulo (UTC-03:00)"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Escolha do topico",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Copywriter",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Linka a posts antigos",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Gera o url",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Titulo",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Meta description",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "determina parametro de busca",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "resume para o usuario",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Fix Links",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escolha do topico": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Copywriter": {
+      "main": [
+        [
+          {
+            "node": "Pesquisa posts antigos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Linka a posts antigos": {
+      "main": [
+        [
+          {
+            "node": "Cria o HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cria o HTML": {
+      "main": [
+        [
+          {
+            "node": "Gera o url",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gera o url": {
+      "main": [
+        [
+          {
+            "node": "Titulo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Titulo": {
+      "main": [
+        [
+          {
+            "node": "Meta description",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meta description": {
+      "main": [
+        [
+          {
+            "node": "Pesquisa imagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtra pesquisa com maior volume": {
+      "main": [
+        [
+          {
+            "node": "Escolha do topico",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fix Links": {
+      "main": [
+        [
+          {
+            "node": "Copywriter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pesquisa posts antigos": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Linka a posts antigos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pesquisa imagem": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Insere post novo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insere post novo": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pesquisa posts antigos1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "determina parametro de busca": {
+      "main": [
+        [
+          {
+            "node": "Trends1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "determina parametro de busca",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trends1": {
+      "main": [
+        [
+          {
+            "node": "Filtra pesquisa com maior volume",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "resume para o usuario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Pesquisa posts antigos1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar texto": {
+      "main": [
+        []
+      ]
+    },
+    "resume para o usuario": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ce7eb1ef-83ca-478c-9703-9e5c5f90d46c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "27e203b8d0ac73891032fa9f58c8cd38e53bbb56abd519cce7d9751638aae6d0"
+  },
+  "id": "Xt2vK6UCLwYFO1GT",
+  "tags": [
+    {
+      "createdAt": "2025-09-24T13:28:39.338Z",
+      "updatedAt": "2025-09-24T13:28:39.338Z",
+      "id": "mQC6x9hI2d8bntmQ",
+      "name": "marketing-automation"
+    }
+  ]
+}

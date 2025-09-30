@@ -2,7 +2,7 @@
 const nextConfig = {
   // Configuração para GitHub Pages
   output: 'export',
-  trailingSlash: true,
+  trailingSlash: false,
   
   // Otimizações de performance
   compress: true,

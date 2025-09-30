@@ -96,7 +96,7 @@ export default function CapturaPage() {
       trackConversion('lead_capture', 1);
       
       // Redirecionar imediatamente sem mostrar modal
-      router.push('/captura/obrigado?v=' + Date.now());
+             router.push('/agente-seo?v=' + Date.now());
 
     } catch (err) {
       console.error('Erro ao salvar lead:', err);

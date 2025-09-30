@@ -28,7 +28,7 @@ export default function BaseNode({ data, selected }: BaseNodeProps) {
       data.onLabelChange(editLabel.trim())
     }
     setIsEditing(false)
-  }, [data.onLabelChange, editLabel])
+  }, [data, editLabel])
 
   const handleCancel = useCallback(() => {
     setEditLabel(data.label)

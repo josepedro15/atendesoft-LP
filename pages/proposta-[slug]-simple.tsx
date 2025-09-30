@@ -1,29 +1,29 @@
-// Versão simplificada para testar a rota dinâmica
-import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 
 interface SimplePageProps {
-  slug: string;
+  // Removido getServerSideProps - agora usa client-side rendering
 }
 
-export default function SimplePage({ slug }: SimplePageProps) {
+export default function SimplePage() {
+  const router = useRouter();
+  const { slug } = router.query;
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center">
       <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Proposta: {slug}</h1>
-        <p className="text-lg">Esta é uma versão simplificada para testar a rota dinâmica.</p>
+        <h1 className="text-2xl font-bold text-foreground mb-4">
+          Página Simples
+        </h1>
+        <p className="text-muted-foreground mb-6">
+          Slug: {slug || 'Nenhum slug fornecido'}
+        </p>
+        <button 
+          onClick={() => router.push('/')}
+          className="btn-primary"
+        >
+          Voltar ao Início
+        </button>
       </div>
     </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { slug } = context.params!;
-  
-  console.log('Slug recebido:', slug);
-  
-  return {
-    props: {
-      slug: slug as string
-    }
-  };
-};

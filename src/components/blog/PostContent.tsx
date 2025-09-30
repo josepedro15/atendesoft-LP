@@ -1,16 +1,17 @@
 import { useEffect, useMemo } from 'react';
+import { BlogPost } from '@/types/blog';
 import PostImageCard from './PostImageCard';
 import { renderProcessedContent } from '@/hooks/use-processed-content';
 
 interface PostContentProps {
-  content: string;
+  post: BlogPost;
 }
 
-const PostContent = ({ content }: PostContentProps) => {
+const PostContent = ({ post }: PostContentProps) => {
   // Processar o conteúdo para aplicar containment às imagens
   const processedContent = useMemo(() => {
-    return renderProcessedContent(content, content);
-  }, [content]);
+    return renderProcessedContent(post.content, post.content);
+  }, [post.content]);
 
   useEffect(() => {
     // Adicionar estilos customizados para o conteúdo do post

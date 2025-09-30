@@ -1,7 +1,5 @@
-import { useState } from 'react';
-import { GetServerSideProps } from 'next';
+import { useState, useEffect } from 'react';
 import { BlogPost, BlogFilters, KeywordStats } from '@/types/blog';
-import { fetchPosts, fetchPopularKeywords } from '@/lib/blog';
 import BlogHero from '@/components/blog/BlogHero';
 import BlogCard from '@/components/blog/BlogCard';
 import BlogSidebar from '@/components/blog/BlogSidebar';
@@ -10,25 +8,64 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 interface BlogPageProps {
-  initialPosts: BlogPost[];
-  initialPagination: {
-    page: number;
-    limit: number;
-    total: number;
-    pages: number;
-  };
-  popularKeywords: KeywordStats[];
-  filters: BlogFilters;
+  // Removido getServerSideProps - agora usa client-side rendering
 }
 
-const BlogPage = ({ 
-  initialPosts, 
-  initialPagination, 
-  popularKeywords, 
-  filters 
-}: BlogPageProps) => {
-  const [posts] = useState<BlogPost[]>(initialPosts);
-  const [pagination] = useState(initialPagination);
+const BlogPage = () => {
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [popularKeywords, setPopularKeywords] = useState<KeywordStats[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 50,
+    total: 0,
+    pages: 0
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://atendesoft.com';
+        
+        const [postsResponse, keywordsResponse] = await Promise.all([
+          fetch(`${baseUrl}/api/blog/posts?page=1&limit=50&status=published`),
+          fetch(`${baseUrl}/api/blog/keywords?limit=10`)
+        ]);
+
+        if (postsResponse.ok) {
+          const postsData = await postsResponse.json();
+          if (postsData.success) {
+            setPosts(postsData.data?.posts || []);
+            setPagination(prev => postsData.data?.pagination || prev);
+          }
+        }
+
+        if (keywordsResponse.ok) {
+          const keywordsData = await keywordsResponse.json();
+          if (keywordsData.success) {
+            setPopularKeywords(keywordsData.data || []);
+          }
+        }
+      } catch (error) {
+        console.error('Erro ao carregar dados do blog:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Carregando blog...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -87,79 +124,6 @@ const BlogPage = ({
       </div>
     </>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  try {
-    console.log('getServerSideProps - Iniciando busca de posts...');
-
-    // Buscar posts diretamente da API
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://atendesoft.com';
-    const apiUrl = `${baseUrl}/api/blog/posts?page=1&limit=50&status=published`;
-    
-    console.log('getServerSideProps - URL da API:', apiUrl);
-
-    const [postsResponse, keywordsResponse] = await Promise.all([
-      fetch(apiUrl),
-      fetch(`${baseUrl}/api/blog/keywords?limit=10`)
-    ]);
-
-    console.log('getServerSideProps - Status posts:', postsResponse.status);
-    console.log('getServerSideProps - Status keywords:', keywordsResponse.status);
-
-    if (!postsResponse.ok) {
-      throw new Error(`Erro na API de posts: ${postsResponse.status}`);
-    }
-
-    if (!keywordsResponse.ok) {
-      throw new Error(`Erro na API de keywords: ${keywordsResponse.status}`);
-    }
-
-    const postsData = await postsResponse.json();
-    const keywordsData = await keywordsResponse.json();
-
-    console.log('getServerSideProps - Posts data:', postsData);
-    console.log('getServerSideProps - Keywords data:', keywordsData);
-
-    if (!postsData.success) {
-      throw new Error('API retornou success: false');
-    }
-
-    const posts = postsData.data?.posts || [];
-    const pagination = postsData.data?.pagination || {
-      page: 1,
-      limit: 50,
-      total: posts.length,
-      pages: 1
-    };
-
-    console.log('getServerSideProps - Posts encontrados:', posts.length);
-    console.log('getServerSideProps - Pagination:', pagination);
-
-    return {
-      props: {
-        initialPosts: posts,
-        initialPagination: pagination,
-        popularKeywords: keywordsData.data || [],
-        filters: { page: 1, limit: 50, status: 'published' }
-      }
-    };
-  } catch (error) {
-    console.error('getServerSideProps - Erro geral:', error);
-    return {
-      props: {
-        initialPosts: [],
-        initialPagination: {
-          page: 1,
-          limit: 50,
-          total: 0,
-          pages: 0
-        },
-        popularKeywords: [],
-        filters: { page: 1, limit: 50, status: 'published' }
-      }
-    };
-  }
 };
 
 export default BlogPage;

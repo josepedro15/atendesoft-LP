@@ -25,7 +25,7 @@ export default function ConteudoNode({ data, selected }: ConteudoNodeProps) {
       data.onLabelChange(editLabel.trim())
     }
     setIsEditing(false)
-  }, [data.onLabelChange, editLabel])
+  }, [data, editLabel])
 
   const handleCancel = useCallback(() => {
     setEditLabel(data.label || 'Digite o texto...')

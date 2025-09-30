@@ -1,5 +1,4 @@
-import { GetServerSideProps } from 'next';
-import { supabase } from '@/lib/supabase';
+import { GetStaticProps } from 'next';
 
 interface SitemapUrl {
   loc: string;
@@ -13,7 +12,7 @@ const Sitemap = () => {
   return null;
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+export const getStaticProps: GetStaticProps = async () => {
   try {
     // URLs estáticas do site
     const staticUrls: SitemapUrl[] = [
@@ -79,29 +78,9 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
       }
     ];
 
-    // Buscar posts do blog
-    let blogUrls: SitemapUrl[] = [];
-    try {
-      const { data: posts, error } = await supabase
-        .from('blog_posts')
-        .select('url, updated_at, timestamp')
-        .eq('status', 'published')
-        .order('timestamp', { ascending: false });
-
-      if (!error && posts) {
-        blogUrls = posts.map(post => ({
-          loc: `https://atendesoft.com/blog/${post.url}`,
-          lastmod: new Date(post.updated_at || post.timestamp).toISOString().split('T')[0],
-          changefreq: 'weekly' as const,
-          priority: 0.7
-        }));
-      }
-    } catch (error) {
-      console.error('Erro ao buscar posts para sitemap:', error);
-    }
-
-    // Combinar todas as URLs
-    const allUrls = [...staticUrls, ...blogUrls];
+    // Para export estático, não podemos buscar dados dinâmicos do Supabase
+    // Usar apenas URLs estáticas
+    const allUrls = [...staticUrls];
 
     // Gerar XML do sitemap
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -114,14 +93,10 @@ ${allUrls.map(url => `  <url>
   </url>`).join('\n')}
 </urlset>`;
 
-    // Configurar headers para XML
-    res.setHeader('Content-Type', 'text/xml');
-    res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600'); // Cache por 1 hora
-    res.write(sitemap);
-    res.end();
-
     return {
-      props: {}
+      props: {
+        sitemap
+      }
     };
   } catch (error) {
     console.error('Erro ao gerar sitemap:', error);
@@ -143,12 +118,10 @@ ${allUrls.map(url => `  <url>
   </url>
 </urlset>`;
 
-    res.setHeader('Content-Type', 'text/xml');
-    res.write(basicSitemap);
-    res.end();
-
     return {
-      props: {}
+      props: {
+        sitemap: basicSitemap
+      }
     };
   }
 };

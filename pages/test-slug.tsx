@@ -1,5 +1,5 @@
 // Página de teste para verificar se rotas dinâmicas funcionam
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 
 interface TestPageProps {
   message: string;
@@ -16,7 +16,7 @@ export default function TestPage({ message }: TestPageProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       message: 'Rota dinâmica funcionando!'

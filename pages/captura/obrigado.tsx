@@ -25,14 +25,14 @@ export default function ObrigadoPage() {
   const handleDownload = () => {
     // Criar link de download para o arquivo
     const link = document.createElement('a');
-    link.href = '/fluxo-n8n.zip';
-    link.download = 'fluxo-n8n.zip';
+    link.href = '/AGENTE_SEO_BLOG_POST.json';
+    link.download = 'AGENTE_SEO_BLOG_POST.json';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     
     // Track download event
-    trackDownload('fluxo-n8n.zip', 'zip');
+    trackDownload('AGENTE_SEO_BLOG_POST.json', 'json');
     trackConversion('file_download', 1);
     
     setShowSuccess(true);
@@ -51,11 +51,11 @@ export default function ObrigadoPage() {
               <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 lg:w-14 lg:h-14 text-white" />
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 px-2">
-              🚀 Sistema de Agentes N8N
+              🤖 Agente SEO para Blog
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
               <span className="text-green-600 font-semibold">Sucesso!</span> Seus dados foram recebidos. 
-              Agora você tem acesso ao sistema completo de automação de blog.
+              Agora você tem acesso ao agente completo para criação automática de posts com SEO otimizado.
             </p>
           </div>
         </div>
@@ -75,10 +75,10 @@ export default function ObrigadoPage() {
                     <Download className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" />
                   </div>
                   <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4 px-2">
-                    Baixe o Workflow Completo
+                    Baixe o Agente SEO para Blog
                   </h2>
                   <p className="text-base sm:text-lg text-gray-600 mb-4 sm:mb-6 max-w-2xl mx-auto px-2">
-                    Arquivo ZIP contendo o workflow N8N completo, documentação detalhada e instruções de implementação.
+                    Arquivo JSON contendo o agente completo para criação automática de posts de blog com SEO otimizado.
                   </p>
                   
                   <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4 mb-4 sm:mb-6">
@@ -97,7 +97,7 @@ export default function ObrigadoPage() {
                     className="w-full sm:w-auto bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
                     <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                    Baixar Fluxo N8N Completo
+                    Baixar Agente SEO Blog
                   </Button>
 
                   {showSuccess && (
@@ -120,7 +120,7 @@ export default function ObrigadoPage() {
                   Guia Rápido de Implementação
                 </CardTitle>
                 <CardDescription className="text-base sm:text-lg text-gray-600 text-center max-w-3xl mx-auto px-2">
-                  Siga estes passos para implementar o sistema em menos de 30 minutos
+                  Siga estes passos para implementar o agente SEO em menos de 30 minutos
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-4 sm:p-6">
@@ -129,16 +129,16 @@ export default function ObrigadoPage() {
                     <div className="flex items-start space-x-3 p-3 sm:p-4 bg-blue-50 rounded-lg border border-blue-200">
                       <div className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold">1</div>
                       <div>
-                        <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Instalar N8N</h3>
-                        <p className="text-xs sm:text-sm text-gray-600">Baixe e instale o N8N no seu servidor</p>
+                        <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Configurar Ambiente</h3>
+                        <p className="text-xs sm:text-sm text-gray-600">Configure seu ambiente de desenvolvimento</p>
                       </div>
                     </div>
 
                     <div className="flex items-start space-x-3 p-3 sm:p-4 bg-green-50 rounded-lg border border-green-200">
                       <div className="w-6 h-6 sm:w-8 sm:h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-xs sm:text-sm font-bold">2</div>
                       <div>
-                        <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Importar Workflow</h3>
-                        <p className="text-xs sm:text-sm text-gray-600">Importe o arquivo JSON no N8N</p>
+                        <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Importar Agente</h3>
+                        <p className="text-xs sm:text-sm text-gray-600">Importe o arquivo JSON do agente</p>
                       </div>
                     </div>
 

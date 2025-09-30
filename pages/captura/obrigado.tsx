@@ -51,7 +51,7 @@ export default function ObrigadoPage() {
               <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 lg:w-14 lg:h-14 text-white" />
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 px-2">
-              🤖 Agente SEO para Blog
+              🤖 Agente SEO
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
               <span className="text-green-600 font-semibold">Sucesso!</span> Seus dados foram recebidos. 
@@ -75,7 +75,7 @@ export default function ObrigadoPage() {
                     <Download className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" />
                   </div>
                   <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4 px-2">
-                    Baixe o Agente SEO para Blog
+                    Baixe o Agente SEO
                   </h2>
                   <p className="text-base sm:text-lg text-gray-600 mb-4 sm:mb-6 max-w-2xl mx-auto px-2">
                     Arquivo JSON contendo o agente completo para criação automática de posts de blog com SEO otimizado.
@@ -97,7 +97,7 @@ export default function ObrigadoPage() {
                     className="w-full sm:w-auto bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
                     <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                    Baixar Agente SEO Blog
+                    Baixar Agente SEO
                   </Button>
 
                   {showSuccess && (

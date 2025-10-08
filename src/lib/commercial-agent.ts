@@ -3,6 +3,8 @@ import { hostedMcpTool, Agent, AgentInputItem, Runner } from "@openai/agents";
 // Tool definitions
 const mcp = hostedMcpTool({
   serverLabel: "googledrive",
+  connectorId: "connector_googledrive",
+  authorization: process.env.GOOGLE_DRIVE_AUTHORIZATION || "REDACTED",
   allowedTools: [
     "fetch",
     "get_profile",
@@ -10,13 +12,11 @@ const mcp = hostedMcpTool({
     "recent_documents",
     "search"
   ],
-  authorization: process.env.GOOGLE_DRIVE_AUTHORIZATION || "REDACTED",
-  connectorId: "connector_googledrive",
   requireApproval: "never"
 });
 
-const commercialAgent = new Agent({
-  name: "Commercial Agent",
+const myAgent = new Agent({
+  name: "My agent",
   instructions: `🤖 COMMERCIAL AGENT – System Prompt (auto‑fetch via MCP • Google Drive • folder‑bound)
 Role
 Você é um Agente Comercial que analisa relatórios diários do WhatsApp e orienta melhorias de atendimento e vendas em pt‑BR.
@@ -56,7 +56,7 @@ Observações
 Não exiba trechos brutos do arquivo; resuma e interprete.
 Nunca use o token OAuth em mensagens; use apenas folderId.
 Esta política de coleta (MCP › Google Drive › Metrics) é obrigatória em toda execução antes da análise.`,
-  model: "gpt-4o",
+  model: "gpt-5",
   tools: [
     mcp
   ],
@@ -88,22 +88,25 @@ export const runWorkflow = async (workflow: WorkflowInput) => {
   const runner = new Runner({
     traceMetadata: {
       __trace_source__: "agent-builder",
-      workflow_id: "wf_68e64f62ca508190a40c595aadbfb942026569cc8a644bc6"
+      workflow_id: "wf_68e67163fc2881908b9ea685327c66150ac926161409e57a"
     }
   });
   
-  const agentResult = await runner.run(
-    commercialAgent,
+  const myAgentResultTemp = await runner.run(
+    myAgent,
     conversationHistory
   );
+  conversationHistory.push(...myAgentResultTemp.newItems.map((item) => item.rawItem));
 
-  if (!agentResult.finalOutput) {
+  if (!myAgentResultTemp.finalOutput) {
     throw new Error("Agent result is undefined");
   }
 
-  return {
-    output_text: agentResult.finalOutput ?? ""
+  const myAgentResult = {
+    output_text: myAgentResultTemp.finalOutput ?? ""
   };
+
+  return myAgentResult;
 };
 
-export { commercialAgent };
+export { myAgent };

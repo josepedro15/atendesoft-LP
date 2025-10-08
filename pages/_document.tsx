@@ -34,6 +34,12 @@ export default function Document() {
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
         
+        {/* ChatKit Script */}
+        <Script
+          src="https://cdn.openai.com/chatkit/v1/index.js"
+          strategy="afterInteractive"
+        />
+        
       </Head>
       <body>
         <Main />

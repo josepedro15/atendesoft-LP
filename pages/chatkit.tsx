@@ -1,126 +1,144 @@
-import { useState, useEffect } from 'react';
-import { ChatInterface, Message, QuickActions } from '@/components/ChatInterface';
-import { Bot, TrendingUp, Clock, Users, MessageSquare } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
-import { toast } from 'sonner';
+import type { ChatKitOptions } from "@openai/chatkit";
+
+// Declare the custom element type
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'openai-chatkit': any;
+    }
+  }
+}
 
 export default function ChatKitPage() {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const { user, loading } = useAuth();
   const router = useRouter();
+  const chatKitRef = useRef<any>(null);
 
-  // Redirect to login if not authenticated
   useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
-    }
-  }, [user, loading, router]);
-
-  const sendMessage = async (messageText: string) => {
-    if (!messageText.trim() || isLoading) return;
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: messageText.trim(),
-      timestamp: new Date(),
+    // Check if user is authenticated
+    const checkAuth = async () => {
+      try {
+        const token = localStorage.getItem('auth_token');
+        if (!token) {
+          router.push('/login');
+          return;
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        router.push('/login');
+      }
     };
 
-    setMessages(prev => [...prev, userMessage]);
-    setIsLoading(true);
+    checkAuth();
+  }, [router]);
 
-    try {
-      const response = await fetch('/api/chat/agent', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: messageText.trim(),
-        }),
-      });
+  useEffect(() => {
+    // Wait for the custom element to be defined
+    const setupChatKit = () => {
+      if (chatKitRef.current && typeof chatKitRef.current.setOptions === 'function') {
+        const options: ChatKitOptions = {
+          api: {
+            url: '/api/chat/agent',
+            domainKey: 'atendesoft-commercial-agent'
+          },
+          theme: {
+            colorScheme: 'light',
+            radius: 'pill',
+            density: 'spacious',
+            typography: {
+              baseSize: 16,
+              fontFamily: '"OpenAI Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif',
+              fontFamilyMono: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace',
+              fontSources: [
+                {
+                  family: 'OpenAI Sans',
+                  src: 'https://cdn.openai.com/common/fonts/openai-sans/v2/OpenAISans-Regular.woff2',
+                  weight: 400,
+                  style: 'normal',
+                  display: 'swap'
+                }
+              ]
+            }
+          },
+          composer: {
+            attachments: {
+              enabled: true,
+              maxCount: 5,
+              maxSize: 10485760
+            },
+            tools: [
+              {
+                id: 'analyze_reports',
+                label: 'Analisar Relatórios',
+                shortLabel: 'Relatórios',
+                placeholderOverride: 'Analisar relatórios do WhatsApp',
+                icon: 'chart',
+                pinned: true
+              },
+              {
+                id: 'metrics',
+                label: 'Métricas',
+                shortLabel: 'Métricas',
+                placeholderOverride: 'Ver métricas de atendimento',
+                icon: 'analytics',
+                pinned: false
+              }
+            ],
+          },
+          startScreen: {
+            greeting: 'Olá! Sou seu Agente Comercial especializado em análise de relatórios WhatsApp. Como posso ajudar você hoje?',
+            prompts: [
+              {
+                icon: 'chart',
+                label: 'Como está o atendimento hoje?',
+                prompt: 'Como está o atendimento hoje?'
+              },
+              {
+                icon: 'analytics',
+                label: 'Mostre as métricas principais',
+                prompt: 'Mostre as métricas principais do atendimento'
+              },
+              {
+                icon: 'user',
+                label: 'Quantos leads temos pendentes?',
+                prompt: 'Quantos leads temos pendentes para follow-up?'
+              },
+              {
+                icon: 'calendar',
+                label: 'Qual o TMR atual?',
+                prompt: 'Qual é o tempo médio de resposta atual?'
+              },
+              {
+                icon: 'circle-question',
+                label: 'Dicas de melhoria',
+                prompt: 'Quais são suas recomendações para melhorar o atendimento?'
+              }
+            ],
+          },
+          locale: 'pt-BR'
+        };
 
-      if (!response.ok) {
-        throw new Error('Erro ao enviar mensagem');
+        chatKitRef.current.setOptions(options);
+      } else {
+        // Retry after a short delay
+        setTimeout(setupChatKit, 100);
       }
+    };
 
-      const data = await response.json();
-      
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: data.response || 'Desculpe, não consegui processar sua mensagem.',
-        timestamp: new Date(),
-      };
-
-      setMessages(prev => [...prev, assistantMessage]);
-    } catch (error) {
-      console.error('Erro ao enviar mensagem:', error);
-      toast.error('Erro ao enviar mensagem. Tente novamente.');
-      
-      const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: 'Desculpe, ocorreu um erro ao processar sua mensagem. Tente novamente.',
-        timestamp: new Date(),
-      };
-      
-      setMessages(prev => [...prev, errorMessage]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return null; // Will redirect to login
-  }
-
-  const emptyState = (
-    <div className="flex flex-col items-center justify-center h-full text-center">
-      <Bot className="h-16 w-16 text-blue-600 mb-4" />
-      <h3 className="text-lg font-semibold mb-2">
-        Bem-vindo ao Agente Comercial
-      </h3>
-      <p className="text-muted-foreground max-w-md mb-6">
-        Este agente analisa automaticamente relatórios do Google Drive e fornece insights sobre 
-        seu atendimento WhatsApp. Faça uma pergunta ou solicite uma análise do dia.
-      </p>
-      <QuickActions onAction={sendMessage} />
-    </div>
-  );
+    setupChatKit();
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Agente Comercial
-          </h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Análise inteligente de relatórios WhatsApp com insights acionáveis
-          </p>
-        </div>
-        
-        <ChatInterface
-          messages={messages}
-          isLoading={isLoading}
-          onSendMessage={sendMessage}
-          title="Agente Comercial - Análise de Relatórios WhatsApp"
-          description="Analise relatórios diários e receba orientações para melhorar atendimento e vendas"
-          placeholder="Digite sua mensagem..."
-          emptyState={emptyState}
-        />
-      </div>
+    <div className="min-h-screen">
+      <openai-chatkit 
+        ref={chatKitRef}
+        style={{ 
+          width: '100%', 
+          height: '100vh',
+          display: 'block'
+        }}
+      />
     </div>
   );
 }

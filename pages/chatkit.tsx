@@ -129,8 +129,17 @@ export default function ChatKitPage() {
 
   useEffect(() => {
     if (user && chatKitRef.current) {
-      // Set options for the ChatKit web component
-      chatKitRef.current.setOptions(options);
+      // Wait for the web component to be defined
+      const initChatKit = () => {
+        if (chatKitRef.current && typeof chatKitRef.current.setOptions === 'function') {
+          chatKitRef.current.setOptions(options);
+        } else {
+          // Retry after a short delay
+          setTimeout(initChatKit, 100);
+        }
+      };
+      
+      initChatKit();
     }
   }, [user]);
 

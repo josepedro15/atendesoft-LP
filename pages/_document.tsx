@@ -38,12 +38,6 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
-        {/* ChatKit Web Component */}
-        <Script 
-          type="module" 
-          src="https://cdn.openai.com/chatkit/v1/index.js"
-          strategy="afterInteractive"
-        />
       </body>
     </Html>
   )

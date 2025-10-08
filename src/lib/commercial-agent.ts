@@ -56,7 +56,7 @@ Observações
 Não exiba trechos brutos do arquivo; resuma e interprete.
 Nunca use o token OAuth em mensagens; use apenas folderId.
 Esta política de coleta (MCP › Google Drive › Metrics) é obrigatória em toda execução antes da análise.`,
-  model: "gpt-5",
+  model: "gpt-4o",
   tools: [
     mcp
   ],

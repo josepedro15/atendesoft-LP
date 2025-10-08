@@ -27,10 +27,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Try to run the commercial agent workflow
     try {
+      console.log('Attempting to run commercial agent...');
       const result = await runWorkflow({
         input_as_text: message
       });
 
+      console.log('Agent result:', result);
       res.status(200).json({
         response: result.output_text,
         timestamp: new Date().toISOString()
@@ -41,15 +43,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       
       // Fallback response if agent fails
       res.status(200).json({
-        response: `Olá! Recebi sua mensagem: "${message}". 
+        response: `🔧 **Sistema em Manutenção**
 
-O sistema de chat está funcionando! Estou analisando seus relatórios do WhatsApp através do Google Drive.
+Olá! Recebi sua mensagem: "${message}".
 
-Por enquanto, posso responder perguntas gerais sobre atendimento:
-• Como melhorar o tempo de resposta
-• Estratégias para follow-ups  
-• Scripts de atendimento
-• Métricas importantes
+O agente comercial está sendo configurado. Por enquanto, posso responder perguntas gerais sobre atendimento WhatsApp:
+
+**📊 Métricas Importantes:**
+• Tempo médio de resposta (TMR)
+• Taxa de conversão de leads
+• Follow-ups pendentes
+• Satisfação do cliente
+
+**💡 Estratégias de Melhoria:**
+• Resposta automática em até 5 minutos
+• Scripts personalizados por tipo de cliente
+• Segmentação de leads por interesse
+• Análise de horários de maior engajamento
+
+**🚀 Próximos Passos:**
+1. Configure as variáveis de ambiente
+2. Teste a conexão com Google Drive
+3. Valide as credenciais da OpenAI
 
 O que você gostaria de saber sobre atendimento WhatsApp?`,
         timestamp: new Date().toISOString(),

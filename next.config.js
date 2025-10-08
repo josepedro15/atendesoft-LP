@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Configuração para GitHub Pages
-  output: 'export',
+  // Configuração para GitHub Pages (comentado para permitir API routes)
+  // output: 'export',
   trailingSlash: false,
   
   // Otimizações de performance
